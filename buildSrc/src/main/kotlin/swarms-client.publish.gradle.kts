@@ -27,9 +27,9 @@ configure<PublishingExtension> {
                 }
 
                 scm {
-                    connection.set("scm:git:git://github.com/stainless-sdks/swarms-java.git")
-                    developerConnection.set("scm:git:git://github.com/stainless-sdks/swarms-java.git")
-                    url.set("https://github.com/stainless-sdks/swarms-java")
+                    connection.set("scm:git:git://github.com/The-Swarm-Corporation/swarms-java.git")
+                    developerConnection.set("scm:git:git://github.com/The-Swarm-Corporation/swarms-java.git")
+                    url.set("https://github.com/The-Swarm-Corporation/swarms-java")
                 }
 
                 versionMapping {
