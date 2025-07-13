@@ -39,6 +39,7 @@ internal class BatchRunParamsTest {
                     )
                     .description("description")
                     .img("img")
+                    .addImg("string")
                     .maxLoops(0L)
                     .messagesOfUnnamedSchemaWithArrayParent1s(
                         listOf(
@@ -90,6 +91,7 @@ internal class BatchRunParamsTest {
                         )
                         .description("description")
                         .img("img")
+                        .addImg("string")
                         .maxLoops(0L)
                         .messagesOfUnnamedSchemaWithArrayParent1s(
                             listOf(
@@ -138,6 +140,7 @@ internal class BatchRunParamsTest {
                     )
                     .description("description")
                     .img("img")
+                    .addImg("string")
                     .maxLoops(0L)
                     .messagesOfUnnamedSchemaWithArrayParent1s(
                         listOf(

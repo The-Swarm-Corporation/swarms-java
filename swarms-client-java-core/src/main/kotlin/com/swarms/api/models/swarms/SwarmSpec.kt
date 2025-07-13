@@ -36,6 +36,7 @@ private constructor(
     private val agents: JsonField<List<AgentSpec>>,
     private val description: JsonField<String>,
     private val img: JsonField<String>,
+    private val imgs: JsonField<List<String>>,
     private val maxLoops: JsonField<Long>,
     private val messages: JsonField<Messages>,
     private val name: JsonField<String>,
@@ -59,6 +60,7 @@ private constructor(
         @ExcludeMissing
         description: JsonField<String> = JsonMissing.of(),
         @JsonProperty("img") @ExcludeMissing img: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("imgs") @ExcludeMissing imgs: JsonField<List<String>> = JsonMissing.of(),
         @JsonProperty("max_loops") @ExcludeMissing maxLoops: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("messages") @ExcludeMissing messages: JsonField<Messages> = JsonMissing.of(),
         @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
@@ -82,6 +84,7 @@ private constructor(
         agents,
         description,
         img,
+        imgs,
         maxLoops,
         messages,
         name,
@@ -119,6 +122,14 @@ private constructor(
      *   the server responded with an unexpected value).
      */
     fun img(): Optional<String> = img.getOptional("img")
+
+    /**
+     * A list of image URLs that may be associated with the swarm's task or representation.
+     *
+     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
+     *   the server responded with an unexpected value).
+     */
+    fun imgs(): Optional<List<String>> = imgs.getOptional("imgs")
 
     /**
      * The maximum number of execution loops allowed for the swarm, enabling repeated processing if
@@ -235,6 +246,13 @@ private constructor(
     @JsonProperty("img") @ExcludeMissing fun _img(): JsonField<String> = img
 
     /**
+     * Returns the raw JSON value of [imgs].
+     *
+     * Unlike [imgs], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("imgs") @ExcludeMissing fun _imgs(): JsonField<List<String>> = imgs
+
+    /**
      * Returns the raw JSON value of [maxLoops].
      *
      * Unlike [maxLoops], this method doesn't throw if the JSON field has an unexpected type.
@@ -341,6 +359,7 @@ private constructor(
         private var agents: JsonField<MutableList<AgentSpec>>? = null
         private var description: JsonField<String> = JsonMissing.of()
         private var img: JsonField<String> = JsonMissing.of()
+        private var imgs: JsonField<MutableList<String>>? = null
         private var maxLoops: JsonField<Long> = JsonMissing.of()
         private var messages: JsonField<Messages> = JsonMissing.of()
         private var name: JsonField<String> = JsonMissing.of()
@@ -359,6 +378,7 @@ private constructor(
             agents = swarmSpec.agents.map { it.toMutableList() }
             description = swarmSpec.description
             img = swarmSpec.img
+            imgs = swarmSpec.imgs.map { it.toMutableList() }
             maxLoops = swarmSpec.maxLoops
             messages = swarmSpec.messages
             name = swarmSpec.name
@@ -433,6 +453,32 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun img(img: JsonField<String>) = apply { this.img = img }
+
+        /** A list of image URLs that may be associated with the swarm's task or representation. */
+        fun imgs(imgs: List<String>?) = imgs(JsonField.ofNullable(imgs))
+
+        /** Alias for calling [Builder.imgs] with `imgs.orElse(null)`. */
+        fun imgs(imgs: Optional<List<String>>) = imgs(imgs.getOrNull())
+
+        /**
+         * Sets [Builder.imgs] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.imgs] with a well-typed `List<String>` value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun imgs(imgs: JsonField<List<String>>) = apply {
+            this.imgs = imgs.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [String] to [imgs].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addImg(img: String) = apply {
+            imgs = (imgs ?: JsonField.of(mutableListOf())).also { checkKnown("imgs", it).add(img) }
+        }
 
         /**
          * The maximum number of execution loops allowed for the swarm, enabling repeated processing
@@ -691,6 +737,7 @@ private constructor(
                 (agents ?: JsonMissing.of()).map { it.toImmutable() },
                 description,
                 img,
+                (imgs ?: JsonMissing.of()).map { it.toImmutable() },
                 maxLoops,
                 messages,
                 name,
@@ -716,6 +763,7 @@ private constructor(
         agents().ifPresent { it.forEach { it.validate() } }
         description()
         img()
+        imgs()
         maxLoops()
         messages().ifPresent { it.validate() }
         name()
@@ -748,6 +796,7 @@ private constructor(
         (agents.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (description.asKnown().isPresent) 1 else 0) +
             (if (img.asKnown().isPresent) 1 else 0) +
+            (imgs.asKnown().getOrNull()?.size ?: 0) +
             (if (maxLoops.asKnown().isPresent) 1 else 0) +
             (messages.asKnown().getOrNull()?.validity() ?: 0) +
             (if (name.asKnown().isPresent) 1 else 0) +
@@ -1382,15 +1431,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is SwarmSpec && agents == other.agents && description == other.description && img == other.img && maxLoops == other.maxLoops && messages == other.messages && name == other.name && rearrangeFlow == other.rearrangeFlow && returnHistory == other.returnHistory && rules == other.rules && serviceTier == other.serviceTier && stream == other.stream && swarmType == other.swarmType && task == other.task && tasks == other.tasks && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is SwarmSpec && agents == other.agents && description == other.description && img == other.img && imgs == other.imgs && maxLoops == other.maxLoops && messages == other.messages && name == other.name && rearrangeFlow == other.rearrangeFlow && returnHistory == other.returnHistory && rules == other.rules && serviceTier == other.serviceTier && stream == other.stream && swarmType == other.swarmType && task == other.task && tasks == other.tasks && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(agents, description, img, maxLoops, messages, name, rearrangeFlow, returnHistory, rules, serviceTier, stream, swarmType, task, tasks, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(agents, description, img, imgs, maxLoops, messages, name, rearrangeFlow, returnHistory, rules, serviceTier, stream, swarmType, task, tasks, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "SwarmSpec{agents=$agents, description=$description, img=$img, maxLoops=$maxLoops, messages=$messages, name=$name, rearrangeFlow=$rearrangeFlow, returnHistory=$returnHistory, rules=$rules, serviceTier=$serviceTier, stream=$stream, swarmType=$swarmType, task=$task, tasks=$tasks, additionalProperties=$additionalProperties}"
+        "SwarmSpec{agents=$agents, description=$description, img=$img, imgs=$imgs, maxLoops=$maxLoops, messages=$messages, name=$name, rearrangeFlow=$rearrangeFlow, returnHistory=$returnHistory, rules=$rules, serviceTier=$serviceTier, stream=$stream, swarmType=$swarmType, task=$task, tasks=$tasks, additionalProperties=$additionalProperties}"
 }
