@@ -40,7 +40,6 @@ internal class SwarmSpecTest {
                 )
                 .description("description")
                 .img("img")
-                .addImg("string")
                 .maxLoops(0L)
                 .messagesOfUnnamedSchemaWithArrayParent1s(
                     listOf(
@@ -83,7 +82,6 @@ internal class SwarmSpecTest {
             )
         assertThat(swarmSpec.description()).contains("description")
         assertThat(swarmSpec.img()).contains("img")
-        assertThat(swarmSpec.imgs().getOrNull()).containsExactly("string")
         assertThat(swarmSpec.maxLoops()).contains(0L)
         assertThat(swarmSpec.messages())
             .contains(
@@ -134,7 +132,6 @@ internal class SwarmSpecTest {
                 )
                 .description("description")
                 .img("img")
-                .addImg("string")
                 .maxLoops(0L)
                 .messagesOfUnnamedSchemaWithArrayParent1s(
                     listOf(
