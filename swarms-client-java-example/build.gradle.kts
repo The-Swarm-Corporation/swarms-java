@@ -17,5 +17,12 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 application {
-    mainClass = "com.swarms.api.example.Main"
+    // Use `./gradlew :swarms-client-java-example:run` to run `Main`
+    // Use `./gradlew :swarms-client-java-example:run -Dexample=Something` to run `SomethingExample`
+    mainClass = "com.swarms.api.example.${
+        if (project.hasProperty("example"))
+            "${project.property("example")}Example"
+        else
+            "Main"
+    }"
 }
