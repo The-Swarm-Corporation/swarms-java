@@ -3,13 +3,13 @@
 package com.swarms.api.services.blocking
 
 import com.swarms.api.core.ClientOptions
-import com.swarms.api.core.JsonValue
 import com.swarms.api.core.RequestOptions
+import com.swarms.api.core.handlers.errorBodyHandler
 import com.swarms.api.core.handlers.errorHandler
 import com.swarms.api.core.handlers.jsonHandler
-import com.swarms.api.core.handlers.withErrorHandler
 import com.swarms.api.core.http.HttpMethod
 import com.swarms.api.core.http.HttpRequest
+import com.swarms.api.core.http.HttpResponse
 import com.swarms.api.core.http.HttpResponse.Handler
 import com.swarms.api.core.http.HttpResponseFor
 import com.swarms.api.core.http.json
@@ -62,7 +62,8 @@ class SwarmServiceImpl internal constructor(private val clientOptions: ClientOpt
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         SwarmService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val batch: BatchService.WithRawResponse by lazy {
             BatchServiceImpl.WithRawResponseImpl(clientOptions)
@@ -79,7 +80,6 @@ class SwarmServiceImpl internal constructor(private val clientOptions: ClientOpt
 
         private val checkAvailableHandler: Handler<SwarmCheckAvailableResponse> =
             jsonHandler<SwarmCheckAvailableResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun checkAvailable(
             params: SwarmCheckAvailableParams,
@@ -94,7 +94,7 @@ class SwarmServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { checkAvailableHandler.handle(it) }
                     .also {
@@ -107,7 +107,6 @@ class SwarmServiceImpl internal constructor(private val clientOptions: ClientOpt
 
         private val getLogsHandler: Handler<SwarmGetLogsResponse> =
             jsonHandler<SwarmGetLogsResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun getLogs(
             params: SwarmGetLogsParams,
@@ -122,7 +121,7 @@ class SwarmServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { getLogsHandler.handle(it) }
                     .also {
@@ -134,7 +133,7 @@ class SwarmServiceImpl internal constructor(private val clientOptions: ClientOpt
         }
 
         private val runHandler: Handler<SwarmRunResponse> =
-            jsonHandler<SwarmRunResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<SwarmRunResponse>(clientOptions.jsonMapper)
 
         override fun run(
             params: SwarmRunParams,
@@ -150,7 +149,7 @@ class SwarmServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { runHandler.handle(it) }
                     .also {

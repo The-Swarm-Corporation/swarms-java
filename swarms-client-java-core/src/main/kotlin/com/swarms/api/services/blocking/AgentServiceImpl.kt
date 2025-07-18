@@ -3,13 +3,13 @@
 package com.swarms.api.services.blocking
 
 import com.swarms.api.core.ClientOptions
-import com.swarms.api.core.JsonValue
 import com.swarms.api.core.RequestOptions
+import com.swarms.api.core.handlers.errorBodyHandler
 import com.swarms.api.core.handlers.errorHandler
 import com.swarms.api.core.handlers.jsonHandler
-import com.swarms.api.core.handlers.withErrorHandler
 import com.swarms.api.core.http.HttpMethod
 import com.swarms.api.core.http.HttpRequest
+import com.swarms.api.core.http.HttpResponse
 import com.swarms.api.core.http.HttpResponse.Handler
 import com.swarms.api.core.http.HttpResponseFor
 import com.swarms.api.core.http.json
@@ -44,7 +44,8 @@ class AgentServiceImpl internal constructor(private val clientOptions: ClientOpt
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         AgentService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val batch: BatchService.WithRawResponse by lazy {
             BatchServiceImpl.WithRawResponseImpl(clientOptions)
@@ -60,7 +61,7 @@ class AgentServiceImpl internal constructor(private val clientOptions: ClientOpt
         override fun batch(): BatchService.WithRawResponse = batch
 
         private val runHandler: Handler<AgentRunResponse> =
-            jsonHandler<AgentRunResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<AgentRunResponse>(clientOptions.jsonMapper)
 
         override fun run(
             params: AgentRunParams,
@@ -76,7 +77,7 @@ class AgentServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { runHandler.handle(it) }
                     .also {

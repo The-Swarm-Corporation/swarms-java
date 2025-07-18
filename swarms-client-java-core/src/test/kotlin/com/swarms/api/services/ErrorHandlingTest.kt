@@ -78,8 +78,44 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
+    fun clientGetRoot400WithRawResponse() {
+        val swarmsClientClient = client.withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(400).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<BadRequestException> { swarmsClientClient.getRoot() }
+
+        assertThat(e.statusCode()).isEqualTo(400)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
     fun clientGetRoot401() {
         val swarmsClientClient = client
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(401).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<UnauthorizedException> { swarmsClientClient.getRoot() }
+
+        assertThat(e.statusCode()).isEqualTo(401)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun clientGetRoot401WithRawResponse() {
+        val swarmsClientClient = client.withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -114,8 +150,44 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
+    fun clientGetRoot403WithRawResponse() {
+        val swarmsClientClient = client.withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(403).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<PermissionDeniedException> { swarmsClientClient.getRoot() }
+
+        assertThat(e.statusCode()).isEqualTo(403)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
     fun clientGetRoot404() {
         val swarmsClientClient = client
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(404).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<NotFoundException> { swarmsClientClient.getRoot() }
+
+        assertThat(e.statusCode()).isEqualTo(404)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun clientGetRoot404WithRawResponse() {
+        val swarmsClientClient = client.withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -150,8 +222,44 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
+    fun clientGetRoot422WithRawResponse() {
+        val swarmsClientClient = client.withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(422).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<UnprocessableEntityException> { swarmsClientClient.getRoot() }
+
+        assertThat(e.statusCode()).isEqualTo(422)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
     fun clientGetRoot429() {
         val swarmsClientClient = client
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(429).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<RateLimitException> { swarmsClientClient.getRoot() }
+
+        assertThat(e.statusCode()).isEqualTo(429)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun clientGetRoot429WithRawResponse() {
+        val swarmsClientClient = client.withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -186,8 +294,44 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
+    fun clientGetRoot500WithRawResponse() {
+        val swarmsClientClient = client.withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(500).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<InternalServerException> { swarmsClientClient.getRoot() }
+
+        assertThat(e.statusCode()).isEqualTo(500)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
     fun clientGetRoot999() {
         val swarmsClientClient = client
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(999).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e = assertThrows<UnexpectedStatusCodeException> { swarmsClientClient.getRoot() }
+
+        assertThat(e.statusCode()).isEqualTo(999)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun clientGetRoot999WithRawResponse() {
+        val swarmsClientClient = client.withRawResponse()
         stubFor(
             get(anyUrl())
                 .willReturn(

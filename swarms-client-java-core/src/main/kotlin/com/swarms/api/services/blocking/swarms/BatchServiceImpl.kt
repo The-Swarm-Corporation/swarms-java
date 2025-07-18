@@ -3,13 +3,13 @@
 package com.swarms.api.services.blocking.swarms
 
 import com.swarms.api.core.ClientOptions
-import com.swarms.api.core.JsonValue
 import com.swarms.api.core.RequestOptions
+import com.swarms.api.core.handlers.errorBodyHandler
 import com.swarms.api.core.handlers.errorHandler
 import com.swarms.api.core.handlers.jsonHandler
-import com.swarms.api.core.handlers.withErrorHandler
 import com.swarms.api.core.http.HttpMethod
 import com.swarms.api.core.http.HttpRequest
+import com.swarms.api.core.http.HttpResponse
 import com.swarms.api.core.http.HttpResponse.Handler
 import com.swarms.api.core.http.HttpResponseFor
 import com.swarms.api.core.http.json
@@ -41,7 +41,8 @@ class BatchServiceImpl internal constructor(private val clientOptions: ClientOpt
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         BatchService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -52,7 +53,6 @@ class BatchServiceImpl internal constructor(private val clientOptions: ClientOpt
 
         private val runHandler: Handler<List<BatchRunResponse>> =
             jsonHandler<List<BatchRunResponse>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun run(
             params: BatchRunParams,
@@ -68,7 +68,7 @@ class BatchServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { runHandler.handle(it) }
                     .also {
