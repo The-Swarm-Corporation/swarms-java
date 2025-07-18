@@ -35,6 +35,7 @@ private constructor(
     private val history: JsonField<History>,
     private val img: JsonField<String>,
     private val imgs: JsonField<List<String>>,
+    private val stream: JsonField<Boolean>,
     private val task: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -47,8 +48,9 @@ private constructor(
         @JsonProperty("history") @ExcludeMissing history: JsonField<History> = JsonMissing.of(),
         @JsonProperty("img") @ExcludeMissing img: JsonField<String> = JsonMissing.of(),
         @JsonProperty("imgs") @ExcludeMissing imgs: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("stream") @ExcludeMissing stream: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("task") @ExcludeMissing task: JsonField<String> = JsonMissing.of(),
-    ) : this(agentConfig, history, img, imgs, task, mutableMapOf())
+    ) : this(agentConfig, history, img, imgs, stream, task, mutableMapOf())
 
     /**
      * The configuration of the agent to be completed.
@@ -82,6 +84,14 @@ private constructor(
      *   the server responded with an unexpected value).
      */
     fun imgs(): Optional<List<String>> = imgs.getOptional("imgs")
+
+    /**
+     * A flag indicating whether the agent should stream its output.
+     *
+     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
+     *   the server responded with an unexpected value).
+     */
+    fun stream(): Optional<Boolean> = stream.getOptional("stream")
 
     /**
      * The task to be completed by the agent.
@@ -122,6 +132,13 @@ private constructor(
     @JsonProperty("imgs") @ExcludeMissing fun _imgs(): JsonField<List<String>> = imgs
 
     /**
+     * Returns the raw JSON value of [stream].
+     *
+     * Unlike [stream], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("stream") @ExcludeMissing fun _stream(): JsonField<Boolean> = stream
+
+    /**
      * Returns the raw JSON value of [task].
      *
      * Unlike [task], this method doesn't throw if the JSON field has an unexpected type.
@@ -153,6 +170,7 @@ private constructor(
         private var history: JsonField<History> = JsonMissing.of()
         private var img: JsonField<String> = JsonMissing.of()
         private var imgs: JsonField<MutableList<String>>? = null
+        private var stream: JsonField<Boolean> = JsonMissing.of()
         private var task: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -162,6 +180,7 @@ private constructor(
             history = agentCompletion.history
             img = agentCompletion.img
             imgs = agentCompletion.imgs.map { it.toMutableList() }
+            stream = agentCompletion.stream
             task = agentCompletion.task
             additionalProperties = agentCompletion.additionalProperties.toMutableMap()
         }
@@ -252,6 +271,27 @@ private constructor(
             imgs = (imgs ?: JsonField.of(mutableListOf())).also { checkKnown("imgs", it).add(img) }
         }
 
+        /** A flag indicating whether the agent should stream its output. */
+        fun stream(stream: Boolean?) = stream(JsonField.ofNullable(stream))
+
+        /**
+         * Alias for [Builder.stream].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun stream(stream: Boolean) = stream(stream as Boolean?)
+
+        /** Alias for calling [Builder.stream] with `stream.orElse(null)`. */
+        fun stream(stream: Optional<Boolean>) = stream(stream.getOrNull())
+
+        /**
+         * Sets [Builder.stream] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.stream] with a well-typed [Boolean] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun stream(stream: JsonField<Boolean>) = apply { this.stream = stream }
+
         /** The task to be completed by the agent. */
         fun task(task: String?) = task(JsonField.ofNullable(task))
 
@@ -296,6 +336,7 @@ private constructor(
                 history,
                 img,
                 (imgs ?: JsonMissing.of()).map { it.toImmutable() },
+                stream,
                 task,
                 additionalProperties.toMutableMap(),
             )
@@ -312,6 +353,7 @@ private constructor(
         history().ifPresent { it.validate() }
         img()
         imgs()
+        stream()
         task()
         validated = true
     }
@@ -335,6 +377,7 @@ private constructor(
             (history.asKnown().getOrNull()?.validity() ?: 0) +
             (if (img.asKnown().isPresent) 1 else 0) +
             (imgs.asKnown().getOrNull()?.size ?: 0) +
+            (if (stream.asKnown().isPresent) 1 else 0) +
             (if (task.asKnown().isPresent) 1 else 0)
 
     /**
@@ -752,15 +795,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AgentCompletion && agentConfig == other.agentConfig && history == other.history && img == other.img && imgs == other.imgs && task == other.task && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is AgentCompletion && agentConfig == other.agentConfig && history == other.history && img == other.img && imgs == other.imgs && stream == other.stream && task == other.task && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(agentConfig, history, img, imgs, task, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(agentConfig, history, img, imgs, stream, task, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "AgentCompletion{agentConfig=$agentConfig, history=$history, img=$img, imgs=$imgs, task=$task, additionalProperties=$additionalProperties}"
+        "AgentCompletion{agentConfig=$agentConfig, history=$history, img=$img, imgs=$imgs, stream=$stream, task=$task, additionalProperties=$additionalProperties}"
 }
