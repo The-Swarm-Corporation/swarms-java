@@ -57,6 +57,7 @@ internal class AgentServiceTest {
                             )
                             .img("img")
                             .addImg("string")
+                            .stream(true)
                             .task("task")
                             .build()
                     )

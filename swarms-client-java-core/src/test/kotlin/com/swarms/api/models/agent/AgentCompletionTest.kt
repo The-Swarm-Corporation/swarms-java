@@ -44,6 +44,7 @@ internal class AgentCompletionTest {
                 )
                 .img("img")
                 .addImg("string")
+                .stream(true)
                 .task("task")
                 .build()
 
@@ -78,6 +79,7 @@ internal class AgentCompletionTest {
             )
         assertThat(agentCompletion.img()).contains("img")
         assertThat(agentCompletion.imgs().getOrNull()).containsExactly("string")
+        assertThat(agentCompletion.stream()).contains(true)
         assertThat(agentCompletion.task()).contains("task")
     }
 
@@ -114,6 +116,7 @@ internal class AgentCompletionTest {
                 )
                 .img("img")
                 .addImg("string")
+                .stream(true)
                 .task("task")
                 .build()
 
