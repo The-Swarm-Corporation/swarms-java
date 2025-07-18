@@ -3,13 +3,13 @@
 package com.swarms.api.services.async
 
 import com.swarms.api.core.ClientOptions
-import com.swarms.api.core.JsonValue
 import com.swarms.api.core.RequestOptions
+import com.swarms.api.core.handlers.errorBodyHandler
 import com.swarms.api.core.handlers.errorHandler
 import com.swarms.api.core.handlers.jsonHandler
-import com.swarms.api.core.handlers.withErrorHandler
 import com.swarms.api.core.http.HttpMethod
 import com.swarms.api.core.http.HttpRequest
+import com.swarms.api.core.http.HttpResponse
 import com.swarms.api.core.http.HttpResponse.Handler
 import com.swarms.api.core.http.HttpResponseFor
 import com.swarms.api.core.http.json
@@ -48,7 +48,8 @@ class AgentServiceAsyncImpl internal constructor(private val clientOptions: Clie
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         AgentServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val batch: BatchServiceAsync.WithRawResponse by lazy {
             BatchServiceAsyncImpl.WithRawResponseImpl(clientOptions)
@@ -64,7 +65,7 @@ class AgentServiceAsyncImpl internal constructor(private val clientOptions: Clie
         override fun batch(): BatchServiceAsync.WithRawResponse = batch
 
         private val runHandler: Handler<AgentRunResponse> =
-            jsonHandler<AgentRunResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<AgentRunResponse>(clientOptions.jsonMapper)
 
         override fun run(
             params: AgentRunParams,
@@ -82,7 +83,7 @@ class AgentServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { runHandler.handle(it) }
                             .also {

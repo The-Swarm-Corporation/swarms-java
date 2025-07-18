@@ -3,14 +3,14 @@
 package com.swarms.api.client
 
 import com.swarms.api.core.ClientOptions
-import com.swarms.api.core.JsonValue
 import com.swarms.api.core.RequestOptions
 import com.swarms.api.core.getPackageVersion
+import com.swarms.api.core.handlers.errorBodyHandler
 import com.swarms.api.core.handlers.errorHandler
 import com.swarms.api.core.handlers.jsonHandler
-import com.swarms.api.core.handlers.withErrorHandler
 import com.swarms.api.core.http.HttpMethod
 import com.swarms.api.core.http.HttpRequest
+import com.swarms.api.core.http.HttpResponse
 import com.swarms.api.core.http.HttpResponse.Handler
 import com.swarms.api.core.http.HttpResponseFor
 import com.swarms.api.core.http.parseable
@@ -87,7 +87,8 @@ class SwarmsClientClientImpl(private val clientOptions: ClientOptions) : SwarmsC
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         SwarmsClientClient.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val health: HealthService.WithRawResponse by lazy {
             HealthServiceImpl.WithRawResponseImpl(clientOptions)
@@ -128,7 +129,6 @@ class SwarmsClientClientImpl(private val clientOptions: ClientOptions) : SwarmsC
 
         private val getRootHandler: Handler<ClientGetRootResponse> =
             jsonHandler<ClientGetRootResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun getRoot(
             params: ClientGetRootParams,
@@ -143,7 +143,7 @@ class SwarmsClientClientImpl(private val clientOptions: ClientOptions) : SwarmsC
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { getRootHandler.handle(it) }
                     .also {

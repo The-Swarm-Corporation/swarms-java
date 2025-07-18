@@ -3,13 +3,13 @@
 package com.swarms.api.services.async
 
 import com.swarms.api.core.ClientOptions
-import com.swarms.api.core.JsonValue
 import com.swarms.api.core.RequestOptions
+import com.swarms.api.core.handlers.errorBodyHandler
 import com.swarms.api.core.handlers.errorHandler
 import com.swarms.api.core.handlers.jsonHandler
-import com.swarms.api.core.handlers.withErrorHandler
 import com.swarms.api.core.http.HttpMethod
 import com.swarms.api.core.http.HttpRequest
+import com.swarms.api.core.http.HttpResponse
 import com.swarms.api.core.http.HttpResponse.Handler
 import com.swarms.api.core.http.HttpResponseFor
 import com.swarms.api.core.http.json
@@ -66,7 +66,8 @@ class SwarmServiceAsyncImpl internal constructor(private val clientOptions: Clie
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         SwarmServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val batch: BatchServiceAsync.WithRawResponse by lazy {
             BatchServiceAsyncImpl.WithRawResponseImpl(clientOptions)
@@ -83,7 +84,6 @@ class SwarmServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val checkAvailableHandler: Handler<SwarmCheckAvailableResponse> =
             jsonHandler<SwarmCheckAvailableResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun checkAvailable(
             params: SwarmCheckAvailableParams,
@@ -100,7 +100,7 @@ class SwarmServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { checkAvailableHandler.handle(it) }
                             .also {
@@ -114,7 +114,6 @@ class SwarmServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val getLogsHandler: Handler<SwarmGetLogsResponse> =
             jsonHandler<SwarmGetLogsResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun getLogs(
             params: SwarmGetLogsParams,
@@ -131,7 +130,7 @@ class SwarmServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { getLogsHandler.handle(it) }
                             .also {
@@ -144,7 +143,7 @@ class SwarmServiceAsyncImpl internal constructor(private val clientOptions: Clie
         }
 
         private val runHandler: Handler<SwarmRunResponse> =
-            jsonHandler<SwarmRunResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<SwarmRunResponse>(clientOptions.jsonMapper)
 
         override fun run(
             params: SwarmRunParams,
@@ -162,7 +161,7 @@ class SwarmServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { runHandler.handle(it) }
                             .also {
