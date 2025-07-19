@@ -1214,6 +1214,8 @@ private constructor(
 
             @JvmField val INTERACTIVE_GROUP_CHAT = of("InteractiveGroupChat")
 
+            @JvmField val HEAVY_SWARM = of("HeavySwarm")
+
             @JvmStatic fun of(value: String) = SwarmType(JsonField.of(value))
         }
 
@@ -1234,6 +1236,7 @@ private constructor(
             DEEP_RESEARCH_SWARM,
             COUNCIL_AS_A_JUDGE,
             INTERACTIVE_GROUP_CHAT,
+            HEAVY_SWARM,
         }
 
         /**
@@ -1261,6 +1264,7 @@ private constructor(
             DEEP_RESEARCH_SWARM,
             COUNCIL_AS_A_JUDGE,
             INTERACTIVE_GROUP_CHAT,
+            HEAVY_SWARM,
             /**
              * An enum member indicating that [SwarmType] was instantiated with an unknown value.
              */
@@ -1291,6 +1295,7 @@ private constructor(
                 DEEP_RESEARCH_SWARM -> Value.DEEP_RESEARCH_SWARM
                 COUNCIL_AS_A_JUDGE -> Value.COUNCIL_AS_A_JUDGE
                 INTERACTIVE_GROUP_CHAT -> Value.INTERACTIVE_GROUP_CHAT
+                HEAVY_SWARM -> Value.HEAVY_SWARM
                 else -> Value._UNKNOWN
             }
 
@@ -1320,6 +1325,7 @@ private constructor(
                 DEEP_RESEARCH_SWARM -> Known.DEEP_RESEARCH_SWARM
                 COUNCIL_AS_A_JUDGE -> Known.COUNCIL_AS_A_JUDGE
                 INTERACTIVE_GROUP_CHAT -> Known.INTERACTIVE_GROUP_CHAT
+                HEAVY_SWARM -> Known.HEAVY_SWARM
                 else -> throw SwarmsClientInvalidDataException("Unknown SwarmType: $value")
             }
 
