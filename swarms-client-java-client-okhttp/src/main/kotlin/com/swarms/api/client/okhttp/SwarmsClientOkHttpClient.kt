@@ -9,6 +9,7 @@ import com.swarms.api.core.ClientOptions
 import com.swarms.api.core.Timeout
 import com.swarms.api.core.http.Headers
 import com.swarms.api.core.http.QueryParams
+import com.swarms.api.core.jsonMapper
 import java.net.Proxy
 import java.time.Clock
 import java.time.Duration
@@ -29,10 +30,9 @@ class SwarmsClientOkHttpClient private constructor() {
     class Builder internal constructor() {
 
         private var clientOptions: ClientOptions.Builder = ClientOptions.builder()
-        private var timeout: Timeout = Timeout.default()
         private var proxy: Proxy? = null
 
-        fun baseUrl(baseUrl: String) = apply { clientOptions.baseUrl(baseUrl) }
+        fun proxy(proxy: Proxy) = apply { this.proxy = proxy }
 
         /**
          * Whether to throw an exception if any of the Jackson versions detected at runtime are
@@ -48,6 +48,33 @@ class SwarmsClientOkHttpClient private constructor() {
         fun jsonMapper(jsonMapper: JsonMapper) = apply { clientOptions.jsonMapper(jsonMapper) }
 
         fun clock(clock: Clock) = apply { clientOptions.clock(clock) }
+
+        fun baseUrl(baseUrl: String?) = apply { clientOptions.baseUrl(baseUrl) }
+
+        /** Alias for calling [Builder.baseUrl] with `baseUrl.orElse(null)`. */
+        fun baseUrl(baseUrl: Optional<String>) = baseUrl(baseUrl.getOrNull())
+
+        fun responseValidation(responseValidation: Boolean) = apply {
+            clientOptions.responseValidation(responseValidation)
+        }
+
+        fun timeout(timeout: Timeout) = apply { clientOptions.timeout(timeout) }
+
+        /**
+         * Sets the maximum time allowed for a complete HTTP call, not including retries.
+         *
+         * See [Timeout.request] for more details.
+         *
+         * For fine-grained control, pass a [Timeout] object.
+         */
+        fun timeout(timeout: Duration) = apply { clientOptions.timeout(timeout) }
+
+        fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
+
+        fun apiKey(apiKey: String?) = apply { clientOptions.apiKey(apiKey) }
+
+        /** Alias for calling [Builder.apiKey] with `apiKey.orElse(null)`. */
+        fun apiKey(apiKey: Optional<String>) = apiKey(apiKey.getOrNull())
 
         fun headers(headers: Headers) = apply { clientOptions.headers(headers) }
 
@@ -129,33 +156,6 @@ class SwarmsClientOkHttpClient private constructor() {
             clientOptions.removeAllQueryParams(keys)
         }
 
-        fun timeout(timeout: Timeout) = apply {
-            clientOptions.timeout(timeout)
-            this.timeout = timeout
-        }
-
-        /**
-         * Sets the maximum time allowed for a complete HTTP call, not including retries.
-         *
-         * See [Timeout.request] for more details.
-         *
-         * For fine-grained control, pass a [Timeout] object.
-         */
-        fun timeout(timeout: Duration) = timeout(Timeout.builder().request(timeout).build())
-
-        fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
-
-        fun proxy(proxy: Proxy) = apply { this.proxy = proxy }
-
-        fun responseValidation(responseValidation: Boolean) = apply {
-            clientOptions.responseValidation(responseValidation)
-        }
-
-        fun apiKey(apiKey: String?) = apply { clientOptions.apiKey(apiKey) }
-
-        /** Alias for calling [Builder.apiKey] with `apiKey.orElse(null)`. */
-        fun apiKey(apiKey: Optional<String>) = apiKey(apiKey.getOrNull())
-
         fun fromEnv() = apply { clientOptions.fromEnv() }
 
         /**
@@ -166,7 +166,9 @@ class SwarmsClientOkHttpClient private constructor() {
         fun build(): SwarmsClientClient =
             SwarmsClientClientImpl(
                 clientOptions
-                    .httpClient(OkHttpClient.builder().timeout(timeout).proxy(proxy).build())
+                    .httpClient(
+                        OkHttpClient.builder().timeout(clientOptions.timeout()).proxy(proxy).build()
+                    )
                     .build()
             )
     }
