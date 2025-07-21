@@ -12,6 +12,7 @@ import com.swarms.api.services.blocking.AgentService
 import com.swarms.api.services.blocking.ClientService
 import com.swarms.api.services.blocking.HealthService
 import com.swarms.api.services.blocking.ModelService
+import com.swarms.api.services.blocking.ReasoningAgentService
 import com.swarms.api.services.blocking.SwarmService
 import java.util.function.Consumer
 
@@ -58,6 +59,8 @@ interface SwarmsClientClient {
     fun models(): ModelService
 
     fun swarms(): SwarmService
+
+    fun reasoningAgents(): ReasoningAgentService
 
     fun client(): ClientService
 
@@ -112,6 +115,8 @@ interface SwarmsClientClient {
         fun models(): ModelService.WithRawResponse
 
         fun swarms(): SwarmService.WithRawResponse
+
+        fun reasoningAgents(): ReasoningAgentService.WithRawResponse
 
         fun client(): ClientService.WithRawResponse
 

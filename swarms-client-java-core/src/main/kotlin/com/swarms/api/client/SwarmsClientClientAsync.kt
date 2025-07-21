@@ -11,6 +11,7 @@ import com.swarms.api.services.async.AgentServiceAsync
 import com.swarms.api.services.async.ClientServiceAsync
 import com.swarms.api.services.async.HealthServiceAsync
 import com.swarms.api.services.async.ModelServiceAsync
+import com.swarms.api.services.async.ReasoningAgentServiceAsync
 import com.swarms.api.services.async.SwarmServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -58,6 +59,8 @@ interface SwarmsClientClientAsync {
     fun models(): ModelServiceAsync
 
     fun swarms(): SwarmServiceAsync
+
+    fun reasoningAgents(): ReasoningAgentServiceAsync
 
     fun client(): ClientServiceAsync
 
@@ -114,6 +117,8 @@ interface SwarmsClientClientAsync {
         fun models(): ModelServiceAsync.WithRawResponse
 
         fun swarms(): SwarmServiceAsync.WithRawResponse
+
+        fun reasoningAgents(): ReasoningAgentServiceAsync.WithRawResponse
 
         fun client(): ClientServiceAsync.WithRawResponse
 
