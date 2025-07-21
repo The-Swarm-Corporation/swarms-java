@@ -25,6 +25,8 @@ import com.swarms.api.services.blocking.HealthService
 import com.swarms.api.services.blocking.HealthServiceImpl
 import com.swarms.api.services.blocking.ModelService
 import com.swarms.api.services.blocking.ModelServiceImpl
+import com.swarms.api.services.blocking.ReasoningAgentService
+import com.swarms.api.services.blocking.ReasoningAgentServiceImpl
 import com.swarms.api.services.blocking.SwarmService
 import com.swarms.api.services.blocking.SwarmServiceImpl
 import java.util.function.Consumer
@@ -56,6 +58,10 @@ class SwarmsClientClientImpl(private val clientOptions: ClientOptions) : SwarmsC
 
     private val swarms: SwarmService by lazy { SwarmServiceImpl(clientOptionsWithUserAgent) }
 
+    private val reasoningAgents: ReasoningAgentService by lazy {
+        ReasoningAgentServiceImpl(clientOptionsWithUserAgent)
+    }
+
     private val client: ClientService by lazy { ClientServiceImpl(clientOptionsWithUserAgent) }
 
     override fun async(): SwarmsClientClientAsync = async
@@ -72,6 +78,8 @@ class SwarmsClientClientImpl(private val clientOptions: ClientOptions) : SwarmsC
     override fun models(): ModelService = models
 
     override fun swarms(): SwarmService = swarms
+
+    override fun reasoningAgents(): ReasoningAgentService = reasoningAgents
 
     override fun client(): ClientService = client
 
@@ -106,6 +114,10 @@ class SwarmsClientClientImpl(private val clientOptions: ClientOptions) : SwarmsC
             SwarmServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val reasoningAgents: ReasoningAgentService.WithRawResponse by lazy {
+            ReasoningAgentServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val client: ClientService.WithRawResponse by lazy {
             ClientServiceImpl.WithRawResponseImpl(clientOptions)
         }
@@ -124,6 +136,8 @@ class SwarmsClientClientImpl(private val clientOptions: ClientOptions) : SwarmsC
         override fun models(): ModelService.WithRawResponse = models
 
         override fun swarms(): SwarmService.WithRawResponse = swarms
+
+        override fun reasoningAgents(): ReasoningAgentService.WithRawResponse = reasoningAgents
 
         override fun client(): ClientService.WithRawResponse = client
 
