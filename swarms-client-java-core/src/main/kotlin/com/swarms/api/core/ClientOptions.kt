@@ -224,8 +224,10 @@ private constructor(
         fun timeout(): Timeout = timeout
 
         fun fromEnv() = apply {
-            System.getenv("SWARMS_CLIENT_BASE_URL")?.let { baseUrl(it) }
-            System.getenv("SWARMS_API_KEY")?.let { apiKey(it) }
+            (System.getProperty("swarmsclient.baseUrl") ?: System.getenv("SWARMS_CLIENT_BASE_URL"))
+                ?.let { baseUrl(it) }
+            (System.getProperty("swarmsclient.swarmsApiKey") ?: System.getenv("SWARMS_API_KEY"))
+                ?.let { apiKey(it) }
         }
 
         /**
