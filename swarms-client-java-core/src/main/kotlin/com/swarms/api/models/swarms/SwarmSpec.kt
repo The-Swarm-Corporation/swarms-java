@@ -35,6 +35,9 @@ class SwarmSpec
 private constructor(
     private val agents: JsonField<List<AgentSpec>>,
     private val description: JsonField<String>,
+    private val heavySwarmLoopsPerAgent: JsonField<Long>,
+    private val heavySwarmQuestionAgentModelName: JsonField<String>,
+    private val heavySwarmWorkerModelName: JsonField<String>,
     private val img: JsonField<String>,
     private val maxLoops: JsonField<Long>,
     private val messages: JsonField<Messages>,
@@ -58,6 +61,15 @@ private constructor(
         @JsonProperty("description")
         @ExcludeMissing
         description: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("heavy_swarm_loops_per_agent")
+        @ExcludeMissing
+        heavySwarmLoopsPerAgent: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("heavy_swarm_question_agent_model_name")
+        @ExcludeMissing
+        heavySwarmQuestionAgentModelName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("heavy_swarm_worker_model_name")
+        @ExcludeMissing
+        heavySwarmWorkerModelName: JsonField<String> = JsonMissing.of(),
         @JsonProperty("img") @ExcludeMissing img: JsonField<String> = JsonMissing.of(),
         @JsonProperty("max_loops") @ExcludeMissing maxLoops: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("messages") @ExcludeMissing messages: JsonField<Messages> = JsonMissing.of(),
@@ -81,6 +93,9 @@ private constructor(
     ) : this(
         agents,
         description,
+        heavySwarmLoopsPerAgent,
+        heavySwarmQuestionAgentModelName,
+        heavySwarmWorkerModelName,
         img,
         maxLoops,
         messages,
@@ -111,6 +126,33 @@ private constructor(
      *   the server responded with an unexpected value).
      */
     fun description(): Optional<String> = description.getOptional("description")
+
+    /**
+     * The number of loops to run per agent in the heavy swarm.
+     *
+     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
+     *   the server responded with an unexpected value).
+     */
+    fun heavySwarmLoopsPerAgent(): Optional<Long> =
+        heavySwarmLoopsPerAgent.getOptional("heavy_swarm_loops_per_agent")
+
+    /**
+     * The model name to use for the question agent in the heavy swarm.
+     *
+     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
+     *   the server responded with an unexpected value).
+     */
+    fun heavySwarmQuestionAgentModelName(): Optional<String> =
+        heavySwarmQuestionAgentModelName.getOptional("heavy_swarm_question_agent_model_name")
+
+    /**
+     * The model name to use for the worker agent in the heavy swarm.
+     *
+     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
+     *   the server responded with an unexpected value).
+     */
+    fun heavySwarmWorkerModelName(): Optional<String> =
+        heavySwarmWorkerModelName.getOptional("heavy_swarm_worker_model_name")
 
     /**
      * An optional image URL that may be associated with the swarm's task or representation.
@@ -228,6 +270,36 @@ private constructor(
     @JsonProperty("description") @ExcludeMissing fun _description(): JsonField<String> = description
 
     /**
+     * Returns the raw JSON value of [heavySwarmLoopsPerAgent].
+     *
+     * Unlike [heavySwarmLoopsPerAgent], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    @JsonProperty("heavy_swarm_loops_per_agent")
+    @ExcludeMissing
+    fun _heavySwarmLoopsPerAgent(): JsonField<Long> = heavySwarmLoopsPerAgent
+
+    /**
+     * Returns the raw JSON value of [heavySwarmQuestionAgentModelName].
+     *
+     * Unlike [heavySwarmQuestionAgentModelName], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    @JsonProperty("heavy_swarm_question_agent_model_name")
+    @ExcludeMissing
+    fun _heavySwarmQuestionAgentModelName(): JsonField<String> = heavySwarmQuestionAgentModelName
+
+    /**
+     * Returns the raw JSON value of [heavySwarmWorkerModelName].
+     *
+     * Unlike [heavySwarmWorkerModelName], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    @JsonProperty("heavy_swarm_worker_model_name")
+    @ExcludeMissing
+    fun _heavySwarmWorkerModelName(): JsonField<String> = heavySwarmWorkerModelName
+
+    /**
      * Returns the raw JSON value of [img].
      *
      * Unlike [img], this method doesn't throw if the JSON field has an unexpected type.
@@ -340,6 +412,9 @@ private constructor(
 
         private var agents: JsonField<MutableList<AgentSpec>>? = null
         private var description: JsonField<String> = JsonMissing.of()
+        private var heavySwarmLoopsPerAgent: JsonField<Long> = JsonMissing.of()
+        private var heavySwarmQuestionAgentModelName: JsonField<String> = JsonMissing.of()
+        private var heavySwarmWorkerModelName: JsonField<String> = JsonMissing.of()
         private var img: JsonField<String> = JsonMissing.of()
         private var maxLoops: JsonField<Long> = JsonMissing.of()
         private var messages: JsonField<Messages> = JsonMissing.of()
@@ -358,6 +433,9 @@ private constructor(
         internal fun from(swarmSpec: SwarmSpec) = apply {
             agents = swarmSpec.agents.map { it.toMutableList() }
             description = swarmSpec.description
+            heavySwarmLoopsPerAgent = swarmSpec.heavySwarmLoopsPerAgent
+            heavySwarmQuestionAgentModelName = swarmSpec.heavySwarmQuestionAgentModelName
+            heavySwarmWorkerModelName = swarmSpec.heavySwarmWorkerModelName
             img = swarmSpec.img
             maxLoops = swarmSpec.maxLoops
             messages = swarmSpec.messages
@@ -419,6 +497,81 @@ private constructor(
          * value.
          */
         fun description(description: JsonField<String>) = apply { this.description = description }
+
+        /** The number of loops to run per agent in the heavy swarm. */
+        fun heavySwarmLoopsPerAgent(heavySwarmLoopsPerAgent: Long?) =
+            heavySwarmLoopsPerAgent(JsonField.ofNullable(heavySwarmLoopsPerAgent))
+
+        /**
+         * Alias for [Builder.heavySwarmLoopsPerAgent].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun heavySwarmLoopsPerAgent(heavySwarmLoopsPerAgent: Long) =
+            heavySwarmLoopsPerAgent(heavySwarmLoopsPerAgent as Long?)
+
+        /**
+         * Alias for calling [Builder.heavySwarmLoopsPerAgent] with
+         * `heavySwarmLoopsPerAgent.orElse(null)`.
+         */
+        fun heavySwarmLoopsPerAgent(heavySwarmLoopsPerAgent: Optional<Long>) =
+            heavySwarmLoopsPerAgent(heavySwarmLoopsPerAgent.getOrNull())
+
+        /**
+         * Sets [Builder.heavySwarmLoopsPerAgent] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.heavySwarmLoopsPerAgent] with a well-typed [Long] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun heavySwarmLoopsPerAgent(heavySwarmLoopsPerAgent: JsonField<Long>) = apply {
+            this.heavySwarmLoopsPerAgent = heavySwarmLoopsPerAgent
+        }
+
+        /** The model name to use for the question agent in the heavy swarm. */
+        fun heavySwarmQuestionAgentModelName(heavySwarmQuestionAgentModelName: String?) =
+            heavySwarmQuestionAgentModelName(JsonField.ofNullable(heavySwarmQuestionAgentModelName))
+
+        /**
+         * Alias for calling [Builder.heavySwarmQuestionAgentModelName] with
+         * `heavySwarmQuestionAgentModelName.orElse(null)`.
+         */
+        fun heavySwarmQuestionAgentModelName(heavySwarmQuestionAgentModelName: Optional<String>) =
+            heavySwarmQuestionAgentModelName(heavySwarmQuestionAgentModelName.getOrNull())
+
+        /**
+         * Sets [Builder.heavySwarmQuestionAgentModelName] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.heavySwarmQuestionAgentModelName] with a well-typed
+         * [String] value instead. This method is primarily for setting the field to an undocumented
+         * or not yet supported value.
+         */
+        fun heavySwarmQuestionAgentModelName(heavySwarmQuestionAgentModelName: JsonField<String>) =
+            apply {
+                this.heavySwarmQuestionAgentModelName = heavySwarmQuestionAgentModelName
+            }
+
+        /** The model name to use for the worker agent in the heavy swarm. */
+        fun heavySwarmWorkerModelName(heavySwarmWorkerModelName: String?) =
+            heavySwarmWorkerModelName(JsonField.ofNullable(heavySwarmWorkerModelName))
+
+        /**
+         * Alias for calling [Builder.heavySwarmWorkerModelName] with
+         * `heavySwarmWorkerModelName.orElse(null)`.
+         */
+        fun heavySwarmWorkerModelName(heavySwarmWorkerModelName: Optional<String>) =
+            heavySwarmWorkerModelName(heavySwarmWorkerModelName.getOrNull())
+
+        /**
+         * Sets [Builder.heavySwarmWorkerModelName] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.heavySwarmWorkerModelName] with a well-typed [String]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun heavySwarmWorkerModelName(heavySwarmWorkerModelName: JsonField<String>) = apply {
+            this.heavySwarmWorkerModelName = heavySwarmWorkerModelName
+        }
 
         /** An optional image URL that may be associated with the swarm's task or representation. */
         fun img(img: String?) = img(JsonField.ofNullable(img))
@@ -690,6 +843,9 @@ private constructor(
             SwarmSpec(
                 (agents ?: JsonMissing.of()).map { it.toImmutable() },
                 description,
+                heavySwarmLoopsPerAgent,
+                heavySwarmQuestionAgentModelName,
+                heavySwarmWorkerModelName,
                 img,
                 maxLoops,
                 messages,
@@ -715,6 +871,9 @@ private constructor(
 
         agents().ifPresent { it.forEach { it.validate() } }
         description()
+        heavySwarmLoopsPerAgent()
+        heavySwarmQuestionAgentModelName()
+        heavySwarmWorkerModelName()
         img()
         maxLoops()
         messages().ifPresent { it.validate() }
@@ -747,6 +906,9 @@ private constructor(
     internal fun validity(): Int =
         (agents.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (description.asKnown().isPresent) 1 else 0) +
+            (if (heavySwarmLoopsPerAgent.asKnown().isPresent) 1 else 0) +
+            (if (heavySwarmQuestionAgentModelName.asKnown().isPresent) 1 else 0) +
+            (if (heavySwarmWorkerModelName.asKnown().isPresent) 1 else 0) +
             (if (img.asKnown().isPresent) 1 else 0) +
             (if (maxLoops.asKnown().isPresent) 1 else 0) +
             (messages.asKnown().getOrNull()?.validity() ?: 0) +
@@ -1388,15 +1550,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is SwarmSpec && agents == other.agents && description == other.description && img == other.img && maxLoops == other.maxLoops && messages == other.messages && name == other.name && rearrangeFlow == other.rearrangeFlow && returnHistory == other.returnHistory && rules == other.rules && serviceTier == other.serviceTier && stream == other.stream && swarmType == other.swarmType && task == other.task && tasks == other.tasks && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is SwarmSpec && agents == other.agents && description == other.description && heavySwarmLoopsPerAgent == other.heavySwarmLoopsPerAgent && heavySwarmQuestionAgentModelName == other.heavySwarmQuestionAgentModelName && heavySwarmWorkerModelName == other.heavySwarmWorkerModelName && img == other.img && maxLoops == other.maxLoops && messages == other.messages && name == other.name && rearrangeFlow == other.rearrangeFlow && returnHistory == other.returnHistory && rules == other.rules && serviceTier == other.serviceTier && stream == other.stream && swarmType == other.swarmType && task == other.task && tasks == other.tasks && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(agents, description, img, maxLoops, messages, name, rearrangeFlow, returnHistory, rules, serviceTier, stream, swarmType, task, tasks, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(agents, description, heavySwarmLoopsPerAgent, heavySwarmQuestionAgentModelName, heavySwarmWorkerModelName, img, maxLoops, messages, name, rearrangeFlow, returnHistory, rules, serviceTier, stream, swarmType, task, tasks, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "SwarmSpec{agents=$agents, description=$description, img=$img, maxLoops=$maxLoops, messages=$messages, name=$name, rearrangeFlow=$rearrangeFlow, returnHistory=$returnHistory, rules=$rules, serviceTier=$serviceTier, stream=$stream, swarmType=$swarmType, task=$task, tasks=$tasks, additionalProperties=$additionalProperties}"
+        "SwarmSpec{agents=$agents, description=$description, heavySwarmLoopsPerAgent=$heavySwarmLoopsPerAgent, heavySwarmQuestionAgentModelName=$heavySwarmQuestionAgentModelName, heavySwarmWorkerModelName=$heavySwarmWorkerModelName, img=$img, maxLoops=$maxLoops, messages=$messages, name=$name, rearrangeFlow=$rearrangeFlow, returnHistory=$returnHistory, rules=$rules, serviceTier=$serviceTier, stream=$stream, swarmType=$swarmType, task=$task, tasks=$tasks, additionalProperties=$additionalProperties}"
 }

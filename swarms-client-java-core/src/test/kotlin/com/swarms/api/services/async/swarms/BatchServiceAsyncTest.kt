@@ -51,6 +51,11 @@ internal class BatchServiceAsyncTest {
                                     .build()
                             )
                             .description("description")
+                            .heavySwarmLoopsPerAgent(0L)
+                            .heavySwarmQuestionAgentModelName(
+                                "heavy_swarm_question_agent_model_name"
+                            )
+                            .heavySwarmWorkerModelName("heavy_swarm_worker_model_name")
                             .img("img")
                             .maxLoops(0L)
                             .messagesOfUnnamedSchemaWithArrayParent1s(
