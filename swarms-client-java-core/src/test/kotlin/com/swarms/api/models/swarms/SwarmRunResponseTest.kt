@@ -15,38 +15,7 @@ internal class SwarmRunResponseTest {
     @Test
     fun create() {
         val swarmRunResponse =
-            SwarmRunResponse.builder()
-                .id("id")
-                .description("description")
-                .executionTime(0.0)
-                .numberOfAgents(0L)
-                .output(JsonValue.from(mapOf<String, Any>()))
-                .serviceTier("service_tier")
-                .status("status")
-                .swarmName("swarm_name")
-                .swarmType("swarm_type")
-                .usage(
-                    SwarmRunResponse.Usage.builder()
-                        .putAdditionalProperty("foo", JsonValue.from("bar"))
-                        .build()
-                )
-                .build()
-
-        assertThat(swarmRunResponse.id()).contains("id")
-        assertThat(swarmRunResponse.description()).contains("description")
-        assertThat(swarmRunResponse.executionTime()).contains(0.0)
-        assertThat(swarmRunResponse.numberOfAgents()).contains(0L)
-        assertThat(swarmRunResponse._output()).isEqualTo(JsonValue.from(mapOf<String, Any>()))
-        assertThat(swarmRunResponse.serviceTier()).contains("service_tier")
-        assertThat(swarmRunResponse.status()).contains("status")
-        assertThat(swarmRunResponse.swarmName()).contains("swarm_name")
-        assertThat(swarmRunResponse.swarmType()).contains("swarm_type")
-        assertThat(swarmRunResponse.usage())
-            .contains(
-                SwarmRunResponse.Usage.builder()
-                    .putAdditionalProperty("foo", JsonValue.from("bar"))
-                    .build()
-            )
+            SwarmRunResponse.builder().putAdditionalProperty("foo", JsonValue.from("bar")).build()
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -54,22 +23,7 @@ internal class SwarmRunResponseTest {
     fun roundtrip() {
         val jsonMapper = jsonMapper()
         val swarmRunResponse =
-            SwarmRunResponse.builder()
-                .id("id")
-                .description("description")
-                .executionTime(0.0)
-                .numberOfAgents(0L)
-                .output(JsonValue.from(mapOf<String, Any>()))
-                .serviceTier("service_tier")
-                .status("status")
-                .swarmName("swarm_name")
-                .swarmType("swarm_type")
-                .usage(
-                    SwarmRunResponse.Usage.builder()
-                        .putAdditionalProperty("foo", JsonValue.from("bar"))
-                        .build()
-                )
-                .build()
+            SwarmRunResponse.builder().putAdditionalProperty("foo", JsonValue.from("bar")).build()
 
         val roundtrippedSwarmRunResponse =
             jsonMapper.readValue(

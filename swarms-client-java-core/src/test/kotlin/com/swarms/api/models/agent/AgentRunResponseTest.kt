@@ -15,34 +15,7 @@ internal class AgentRunResponseTest {
     @Test
     fun create() {
         val agentRunResponse =
-            AgentRunResponse.builder()
-                .id("id")
-                .description("description")
-                .name("name")
-                .outputs(JsonValue.from(mapOf<String, Any>()))
-                .success(true)
-                .temperature(0.0)
-                .timestamp("timestamp")
-                .usage(
-                    AgentRunResponse.Usage.builder()
-                        .putAdditionalProperty("foo", JsonValue.from("bar"))
-                        .build()
-                )
-                .build()
-
-        assertThat(agentRunResponse.id()).contains("id")
-        assertThat(agentRunResponse.description()).contains("description")
-        assertThat(agentRunResponse.name()).contains("name")
-        assertThat(agentRunResponse._outputs()).isEqualTo(JsonValue.from(mapOf<String, Any>()))
-        assertThat(agentRunResponse.success()).contains(true)
-        assertThat(agentRunResponse.temperature()).contains(0.0)
-        assertThat(agentRunResponse.timestamp()).contains("timestamp")
-        assertThat(agentRunResponse.usage())
-            .contains(
-                AgentRunResponse.Usage.builder()
-                    .putAdditionalProperty("foo", JsonValue.from("bar"))
-                    .build()
-            )
+            AgentRunResponse.builder().putAdditionalProperty("foo", JsonValue.from("bar")).build()
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -50,20 +23,7 @@ internal class AgentRunResponseTest {
     fun roundtrip() {
         val jsonMapper = jsonMapper()
         val agentRunResponse =
-            AgentRunResponse.builder()
-                .id("id")
-                .description("description")
-                .name("name")
-                .outputs(JsonValue.from(mapOf<String, Any>()))
-                .success(true)
-                .temperature(0.0)
-                .timestamp("timestamp")
-                .usage(
-                    AgentRunResponse.Usage.builder()
-                        .putAdditionalProperty("foo", JsonValue.from("bar"))
-                        .build()
-                )
-                .build()
+            AgentRunResponse.builder().putAdditionalProperty("foo", JsonValue.from("bar")).build()
 
         val roundtrippedAgentRunResponse =
             jsonMapper.readValue(
