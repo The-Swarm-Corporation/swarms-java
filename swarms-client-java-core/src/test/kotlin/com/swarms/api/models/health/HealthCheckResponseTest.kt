@@ -13,14 +13,16 @@ internal class HealthCheckResponseTest {
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
-        val healthCheckResponse = HealthCheckResponse.builder().build()
+        val healthCheckResponse = HealthCheckResponse.builder().status("status").build()
+
+        assertThat(healthCheckResponse.status()).contains("status")
     }
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val healthCheckResponse = HealthCheckResponse.builder().build()
+        val healthCheckResponse = HealthCheckResponse.builder().status("status").build()
 
         val roundtrippedHealthCheckResponse =
             jsonMapper.readValue(
