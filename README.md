@@ -456,7 +456,7 @@ To access undocumented response properties, call the `_additionalProperties()` m
 import com.swarms.api.core.JsonValue;
 import java.util.Map;
 
-Map<String, JsonValue> additionalProperties = client.getRoot(params)._additionalProperties();
+Map<String, JsonValue> additionalProperties = client.health().check(params)._additionalProperties();
 JsonValue secretPropertyValue = additionalProperties.get("secretProperty");
 
 String result = secretPropertyValue.accept(new JsonValue.Visitor<>() {
@@ -486,7 +486,7 @@ To access a property's raw JSON value, which may be undocumented, call its `_` p
 import com.swarms.api.core.JsonField;
 import java.util.Optional;
 
-JsonField<Object> field = client.getRoot(params)._field();
+JsonField<Object> field = client.health().check(params)._field();
 
 if (field.isMissing()) {
   // The property is absent from the JSON response
@@ -511,9 +511,9 @@ By default, the SDK will not throw an exception in this case. It will throw [`Sw
 If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 
 ```java
-import com.swarms.api.models.ClientGetRootResponse;
+import com.swarms.api.models.health.HealthCheckResponse;
 
-ClientGetRootResponse response = client.getRoot(params).validate();
+HealthCheckResponse response = client.health().check(params).validate();
 ```
 
 Or configure the method call to validate the response using the `responseValidation` method:
