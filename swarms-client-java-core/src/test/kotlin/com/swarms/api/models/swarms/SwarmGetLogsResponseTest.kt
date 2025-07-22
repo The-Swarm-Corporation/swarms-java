@@ -16,16 +16,8 @@ internal class SwarmGetLogsResponseTest {
     fun create() {
         val swarmGetLogsResponse =
             SwarmGetLogsResponse.builder()
-                .count(0L)
-                .logs(JsonValue.from(mapOf<String, Any>()))
-                .status("status")
-                .timestamp("timestamp")
+                .putAdditionalProperty("foo", JsonValue.from("bar"))
                 .build()
-
-        assertThat(swarmGetLogsResponse.count()).contains(0L)
-        assertThat(swarmGetLogsResponse._logs()).isEqualTo(JsonValue.from(mapOf<String, Any>()))
-        assertThat(swarmGetLogsResponse.status()).contains("status")
-        assertThat(swarmGetLogsResponse.timestamp()).contains("timestamp")
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -34,10 +26,7 @@ internal class SwarmGetLogsResponseTest {
         val jsonMapper = jsonMapper()
         val swarmGetLogsResponse =
             SwarmGetLogsResponse.builder()
-                .count(0L)
-                .logs(JsonValue.from(mapOf<String, Any>()))
-                .status("status")
-                .timestamp("timestamp")
+                .putAdditionalProperty("foo", JsonValue.from("bar"))
                 .build()
 
         val roundtrippedSwarmGetLogsResponse =

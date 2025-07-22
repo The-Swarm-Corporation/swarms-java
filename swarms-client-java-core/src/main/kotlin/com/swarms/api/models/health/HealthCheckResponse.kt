@@ -5,39 +5,16 @@ package com.swarms.api.models.health
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.swarms.api.core.ExcludeMissing
-import com.swarms.api.core.JsonField
-import com.swarms.api.core.JsonMissing
 import com.swarms.api.core.JsonValue
 import com.swarms.api.errors.SwarmsClientInvalidDataException
 import java.util.Collections
 import java.util.Objects
-import java.util.Optional
 
 class HealthCheckResponse
-private constructor(
-    private val status: JsonField<String>,
-    private val additionalProperties: MutableMap<String, JsonValue>,
-) {
+private constructor(private val additionalProperties: MutableMap<String, JsonValue>) {
 
-    @JsonCreator
-    private constructor(
-        @JsonProperty("status") @ExcludeMissing status: JsonField<String> = JsonMissing.of()
-    ) : this(status, mutableMapOf())
-
-    /**
-     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
-     *   the server responded with an unexpected value).
-     */
-    fun status(): Optional<String> = status.getOptional("status")
-
-    /**
-     * Returns the raw JSON value of [status].
-     *
-     * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<String> = status
+    @JsonCreator private constructor() : this(mutableMapOf())
 
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -60,24 +37,12 @@ private constructor(
     /** A builder for [HealthCheckResponse]. */
     class Builder internal constructor() {
 
-        private var status: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(healthCheckResponse: HealthCheckResponse) = apply {
-            status = healthCheckResponse.status
             additionalProperties = healthCheckResponse.additionalProperties.toMutableMap()
         }
-
-        fun status(status: String) = status(JsonField.of(status))
-
-        /**
-         * Sets [Builder.status] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.status] with a well-typed [String] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
-         */
-        fun status(status: JsonField<String>) = apply { this.status = status }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -103,8 +68,7 @@ private constructor(
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          */
-        fun build(): HealthCheckResponse =
-            HealthCheckResponse(status, additionalProperties.toMutableMap())
+        fun build(): HealthCheckResponse = HealthCheckResponse(additionalProperties.toMutableMap())
     }
 
     private var validated: Boolean = false
@@ -114,7 +78,6 @@ private constructor(
             return@apply
         }
 
-        status()
         validated = true
     }
 
@@ -131,22 +94,21 @@ private constructor(
      *
      * Used for best match union deserialization.
      */
-    @JvmSynthetic internal fun validity(): Int = (if (status.asKnown().isPresent) 1 else 0)
+    @JvmSynthetic internal fun validity(): Int = 0
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
         }
 
-        return /* spotless:off */ other is HealthCheckResponse && status == other.status && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is HealthCheckResponse && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(status, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
-    override fun toString() =
-        "HealthCheckResponse{status=$status, additionalProperties=$additionalProperties}"
+    override fun toString() = "HealthCheckResponse{additionalProperties=$additionalProperties}"
 }

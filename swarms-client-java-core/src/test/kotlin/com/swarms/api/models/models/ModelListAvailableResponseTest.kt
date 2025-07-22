@@ -16,13 +16,8 @@ internal class ModelListAvailableResponseTest {
     fun create() {
         val modelListAvailableResponse =
             ModelListAvailableResponse.builder()
-                .models(JsonValue.from(mapOf<String, Any>()))
-                .success(true)
+                .putAdditionalProperty("foo", JsonValue.from("bar"))
                 .build()
-
-        assertThat(modelListAvailableResponse._models())
-            .isEqualTo(JsonValue.from(mapOf<String, Any>()))
-        assertThat(modelListAvailableResponse.success()).contains(true)
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -31,8 +26,7 @@ internal class ModelListAvailableResponseTest {
         val jsonMapper = jsonMapper()
         val modelListAvailableResponse =
             ModelListAvailableResponse.builder()
-                .models(JsonValue.from(mapOf<String, Any>()))
-                .success(true)
+                .putAdditionalProperty("foo", JsonValue.from("bar"))
                 .build()
 
         val roundtrippedModelListAvailableResponse =

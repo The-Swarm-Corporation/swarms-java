@@ -16,13 +16,8 @@ internal class SwarmCheckAvailableResponseTest {
     fun create() {
         val swarmCheckAvailableResponse =
             SwarmCheckAvailableResponse.builder()
-                .success(true)
-                .swarmTypes(JsonValue.from(mapOf<String, Any>()))
+                .putAdditionalProperty("foo", JsonValue.from("bar"))
                 .build()
-
-        assertThat(swarmCheckAvailableResponse.success()).contains(true)
-        assertThat(swarmCheckAvailableResponse._swarmTypes())
-            .isEqualTo(JsonValue.from(mapOf<String, Any>()))
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -31,8 +26,7 @@ internal class SwarmCheckAvailableResponseTest {
         val jsonMapper = jsonMapper()
         val swarmCheckAvailableResponse =
             SwarmCheckAvailableResponse.builder()
-                .success(true)
-                .swarmTypes(JsonValue.from(mapOf<String, Any>()))
+                .putAdditionalProperty("foo", JsonValue.from("bar"))
                 .build()
 
         val roundtrippedSwarmCheckAvailableResponse =
