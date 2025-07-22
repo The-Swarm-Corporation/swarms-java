@@ -51,7 +51,8 @@ import com.swarms.api.client.okhttp.SwarmsClientOkHttpClient;
 import com.swarms.api.models.ClientGetRootParams;
 import com.swarms.api.models.ClientGetRootResponse;
 
-// Configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
+// Configures using the `swarmsclient.swarmsApiKey` and `swarmsclient.baseUrl` system properties
+// Or configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
 SwarmsClientClient client = SwarmsClientOkHttpClient.fromEnv();
 
 ClientGetRootResponse response = client.getRoot();
@@ -59,13 +60,14 @@ ClientGetRootResponse response = client.getRoot();
 
 ## Client configuration
 
-Configure the client using environment variables:
+Configure the client using system properties or environment variables:
 
 ```java
 import com.swarms.api.client.SwarmsClientClient;
 import com.swarms.api.client.okhttp.SwarmsClientOkHttpClient;
 
-// Configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
+// Configures using the `swarmsclient.swarmsApiKey` and `swarmsclient.baseUrl` system properties
+// Or configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
 SwarmsClientClient client = SwarmsClientOkHttpClient.fromEnv();
 ```
 
@@ -87,7 +89,8 @@ import com.swarms.api.client.SwarmsClientClient;
 import com.swarms.api.client.okhttp.SwarmsClientOkHttpClient;
 
 SwarmsClientClient client = SwarmsClientOkHttpClient.builder()
-    // Configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
+    // Configures using the `swarmsclient.swarmsApiKey` and `swarmsclient.baseUrl` system properties
+    Or configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
     .fromEnv()
     .apiKey("My API Key")
     .build();
@@ -95,10 +98,12 @@ SwarmsClientClient client = SwarmsClientOkHttpClient.builder()
 
 See this table for the available options:
 
-| Setter    | Environment variable     | Required | Default value                                        |
-| --------- | ------------------------ | -------- | ---------------------------------------------------- |
-| `apiKey`  | `SWARMS_API_KEY`         | false    | -                                                    |
-| `baseUrl` | `SWARMS_CLIENT_BASE_URL` | true     | `"https://swarms-api-285321057562.us-east1.run.app"` |
+| Setter    | System property             | Environment variable     | Required | Default value                                        |
+| --------- | --------------------------- | ------------------------ | -------- | ---------------------------------------------------- |
+| `apiKey`  | `swarmsclient.swarmsApiKey` | `SWARMS_API_KEY`         | false    | -                                                    |
+| `baseUrl` | `swarmsclient.baseUrl`      | `SWARMS_CLIENT_BASE_URL` | true     | `"https://swarms-api-285321057562.us-east1.run.app"` |
+
+System properties take precedence over environment variables.
 
 > [!TIP]
 > Don't create more than one client in the same application. Each client has a connection pool and
@@ -144,7 +149,8 @@ import com.swarms.api.models.ClientGetRootParams;
 import com.swarms.api.models.ClientGetRootResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
+// Configures using the `swarmsclient.swarmsApiKey` and `swarmsclient.baseUrl` system properties
+// Or configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
 SwarmsClientClient client = SwarmsClientOkHttpClient.fromEnv();
 
 CompletableFuture<ClientGetRootResponse> response = client.async().getRoot();
@@ -159,7 +165,8 @@ import com.swarms.api.models.ClientGetRootParams;
 import com.swarms.api.models.ClientGetRootResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
+// Configures using the `swarmsclient.swarmsApiKey` and `swarmsclient.baseUrl` system properties
+// Or configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
 SwarmsClientClientAsync client = SwarmsClientOkHttpClientAsync.fromEnv();
 
 CompletableFuture<ClientGetRootResponse> response = client.getRoot();
