@@ -90,7 +90,7 @@ import com.swarms.api.client.okhttp.SwarmsClientOkHttpClient;
 
 SwarmsClientClient client = SwarmsClientOkHttpClient.builder()
     // Configures using the `swarmsclient.swarmsApiKey` and `swarmsclient.baseUrl` system properties
-    Or configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
+    // Or configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
     .fromEnv()
     .apiKey("My API Key")
     .build();
