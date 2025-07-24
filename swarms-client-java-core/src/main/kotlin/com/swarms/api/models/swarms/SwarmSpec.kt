@@ -1032,7 +1032,10 @@ private constructor(
             @JvmStatic
             fun ofUnnamedSchemaWithArrayParent1s(
                 unnamedSchemaWithArrayParent1s: List<UnnamedSchemaWithArrayParent1>
-            ) = Messages(unnamedSchemaWithArrayParent1s = unnamedSchemaWithArrayParent1s)
+            ) =
+                Messages(
+                    unnamedSchemaWithArrayParent1s = unnamedSchemaWithArrayParent1s.toImmutable()
+                )
 
             @JvmStatic
             fun ofUnionMember1(unionMember1: UnionMember1) = Messages(unionMember1 = unionMember1)

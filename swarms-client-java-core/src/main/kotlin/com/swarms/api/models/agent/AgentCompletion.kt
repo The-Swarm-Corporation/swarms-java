@@ -496,7 +496,10 @@ private constructor(
             @JvmStatic
             fun ofUnnamedSchemaWithArrayParent0s(
                 unnamedSchemaWithArrayParent0s: List<UnnamedSchemaWithArrayParent0>
-            ) = History(unnamedSchemaWithArrayParent0s = unnamedSchemaWithArrayParent0s)
+            ) =
+                History(
+                    unnamedSchemaWithArrayParent0s = unnamedSchemaWithArrayParent0s.toImmutable()
+                )
         }
 
         /**
