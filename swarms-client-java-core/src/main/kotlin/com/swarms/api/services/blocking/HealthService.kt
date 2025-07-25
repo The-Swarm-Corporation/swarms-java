@@ -27,17 +27,17 @@ interface HealthService {
     /** Health */
     fun check(): HealthCheckResponse = check(HealthCheckParams.none())
 
-    /** @see [check] */
+    /** @see check */
     fun check(
         params: HealthCheckParams = HealthCheckParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): HealthCheckResponse
 
-    /** @see [check] */
+    /** @see check */
     fun check(params: HealthCheckParams = HealthCheckParams.none()): HealthCheckResponse =
         check(params, RequestOptions.none())
 
-    /** @see [check] */
+    /** @see check */
     fun check(requestOptions: RequestOptions): HealthCheckResponse =
         check(HealthCheckParams.none(), requestOptions)
 
@@ -58,20 +58,20 @@ interface HealthService {
         @MustBeClosed
         fun check(): HttpResponseFor<HealthCheckResponse> = check(HealthCheckParams.none())
 
-        /** @see [check] */
+        /** @see check */
         @MustBeClosed
         fun check(
             params: HealthCheckParams = HealthCheckParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<HealthCheckResponse>
 
-        /** @see [check] */
+        /** @see check */
         @MustBeClosed
         fun check(
             params: HealthCheckParams = HealthCheckParams.none()
         ): HttpResponseFor<HealthCheckResponse> = check(params, RequestOptions.none())
 
-        /** @see [check] */
+        /** @see check */
         @MustBeClosed
         fun check(requestOptions: RequestOptions): HttpResponseFor<HealthCheckResponse> =
             check(HealthCheckParams.none(), requestOptions)

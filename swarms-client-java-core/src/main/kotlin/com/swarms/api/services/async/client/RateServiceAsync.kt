@@ -28,18 +28,18 @@ interface RateServiceAsync {
     fun getLimits(): CompletableFuture<RateGetLimitsResponse> =
         getLimits(RateGetLimitsParams.none())
 
-    /** @see [getLimits] */
+    /** @see getLimits */
     fun getLimits(
         params: RateGetLimitsParams = RateGetLimitsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<RateGetLimitsResponse>
 
-    /** @see [getLimits] */
+    /** @see getLimits */
     fun getLimits(
         params: RateGetLimitsParams = RateGetLimitsParams.none()
     ): CompletableFuture<RateGetLimitsResponse> = getLimits(params, RequestOptions.none())
 
-    /** @see [getLimits] */
+    /** @see getLimits */
     fun getLimits(requestOptions: RequestOptions): CompletableFuture<RateGetLimitsResponse> =
         getLimits(RateGetLimitsParams.none(), requestOptions)
 
@@ -60,19 +60,19 @@ interface RateServiceAsync {
         fun getLimits(): CompletableFuture<HttpResponseFor<RateGetLimitsResponse>> =
             getLimits(RateGetLimitsParams.none())
 
-        /** @see [getLimits] */
+        /** @see getLimits */
         fun getLimits(
             params: RateGetLimitsParams = RateGetLimitsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<RateGetLimitsResponse>>
 
-        /** @see [getLimits] */
+        /** @see getLimits */
         fun getLimits(
             params: RateGetLimitsParams = RateGetLimitsParams.none()
         ): CompletableFuture<HttpResponseFor<RateGetLimitsResponse>> =
             getLimits(params, RequestOptions.none())
 
-        /** @see [getLimits] */
+        /** @see getLimits */
         fun getLimits(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<RateGetLimitsResponse>> =

@@ -27,18 +27,18 @@ interface ModelService {
     /** Get all available models. */
     fun listAvailable(): ModelListAvailableResponse = listAvailable(ModelListAvailableParams.none())
 
-    /** @see [listAvailable] */
+    /** @see listAvailable */
     fun listAvailable(
         params: ModelListAvailableParams = ModelListAvailableParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ModelListAvailableResponse
 
-    /** @see [listAvailable] */
+    /** @see listAvailable */
     fun listAvailable(
         params: ModelListAvailableParams = ModelListAvailableParams.none()
     ): ModelListAvailableResponse = listAvailable(params, RequestOptions.none())
 
-    /** @see [listAvailable] */
+    /** @see listAvailable */
     fun listAvailable(requestOptions: RequestOptions): ModelListAvailableResponse =
         listAvailable(ModelListAvailableParams.none(), requestOptions)
 
@@ -60,21 +60,21 @@ interface ModelService {
         fun listAvailable(): HttpResponseFor<ModelListAvailableResponse> =
             listAvailable(ModelListAvailableParams.none())
 
-        /** @see [listAvailable] */
+        /** @see listAvailable */
         @MustBeClosed
         fun listAvailable(
             params: ModelListAvailableParams = ModelListAvailableParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ModelListAvailableResponse>
 
-        /** @see [listAvailable] */
+        /** @see listAvailable */
         @MustBeClosed
         fun listAvailable(
             params: ModelListAvailableParams = ModelListAvailableParams.none()
         ): HttpResponseFor<ModelListAvailableResponse> =
             listAvailable(params, RequestOptions.none())
 
-        /** @see [listAvailable] */
+        /** @see listAvailable */
         @MustBeClosed
         fun listAvailable(
             requestOptions: RequestOptions

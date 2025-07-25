@@ -67,18 +67,18 @@ interface SwarmsClientClientAsync {
     /** Root */
     fun getRoot(): CompletableFuture<ClientGetRootResponse> = getRoot(ClientGetRootParams.none())
 
-    /** @see [getRoot] */
+    /** @see getRoot */
     fun getRoot(
         params: ClientGetRootParams = ClientGetRootParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ClientGetRootResponse>
 
-    /** @see [getRoot] */
+    /** @see getRoot */
     fun getRoot(
         params: ClientGetRootParams = ClientGetRootParams.none()
     ): CompletableFuture<ClientGetRootResponse> = getRoot(params, RequestOptions.none())
 
-    /** @see [getRoot] */
+    /** @see getRoot */
     fun getRoot(requestOptions: RequestOptions): CompletableFuture<ClientGetRootResponse> =
         getRoot(ClientGetRootParams.none(), requestOptions)
 
@@ -129,19 +129,19 @@ interface SwarmsClientClientAsync {
         fun getRoot(): CompletableFuture<HttpResponseFor<ClientGetRootResponse>> =
             getRoot(ClientGetRootParams.none())
 
-        /** @see [getRoot] */
+        /** @see getRoot */
         fun getRoot(
             params: ClientGetRootParams = ClientGetRootParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ClientGetRootResponse>>
 
-        /** @see [getRoot] */
+        /** @see getRoot */
         fun getRoot(
             params: ClientGetRootParams = ClientGetRootParams.none()
         ): CompletableFuture<HttpResponseFor<ClientGetRootResponse>> =
             getRoot(params, RequestOptions.none())
 
-        /** @see [getRoot] */
+        /** @see getRoot */
         fun getRoot(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ClientGetRootResponse>> =

@@ -35,19 +35,19 @@ interface SwarmServiceAsync {
     fun checkAvailable(): CompletableFuture<SwarmCheckAvailableResponse> =
         checkAvailable(SwarmCheckAvailableParams.none())
 
-    /** @see [checkAvailable] */
+    /** @see checkAvailable */
     fun checkAvailable(
         params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<SwarmCheckAvailableResponse>
 
-    /** @see [checkAvailable] */
+    /** @see checkAvailable */
     fun checkAvailable(
         params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none()
     ): CompletableFuture<SwarmCheckAvailableResponse> =
         checkAvailable(params, RequestOptions.none())
 
-    /** @see [checkAvailable] */
+    /** @see checkAvailable */
     fun checkAvailable(
         requestOptions: RequestOptions
     ): CompletableFuture<SwarmCheckAvailableResponse> =
@@ -59,18 +59,18 @@ interface SwarmServiceAsync {
      */
     fun getLogs(): CompletableFuture<SwarmGetLogsResponse> = getLogs(SwarmGetLogsParams.none())
 
-    /** @see [getLogs] */
+    /** @see getLogs */
     fun getLogs(
         params: SwarmGetLogsParams = SwarmGetLogsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<SwarmGetLogsResponse>
 
-    /** @see [getLogs] */
+    /** @see getLogs */
     fun getLogs(
         params: SwarmGetLogsParams = SwarmGetLogsParams.none()
     ): CompletableFuture<SwarmGetLogsResponse> = getLogs(params, RequestOptions.none())
 
-    /** @see [getLogs] */
+    /** @see getLogs */
     fun getLogs(requestOptions: RequestOptions): CompletableFuture<SwarmGetLogsResponse> =
         getLogs(SwarmGetLogsParams.none(), requestOptions)
 
@@ -78,7 +78,7 @@ interface SwarmServiceAsync {
     fun run(params: SwarmRunParams): CompletableFuture<SwarmRunResponse> =
         run(params, RequestOptions.none())
 
-    /** @see [run] */
+    /** @see run */
     fun run(
         params: SwarmRunParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -105,19 +105,19 @@ interface SwarmServiceAsync {
         fun checkAvailable(): CompletableFuture<HttpResponseFor<SwarmCheckAvailableResponse>> =
             checkAvailable(SwarmCheckAvailableParams.none())
 
-        /** @see [checkAvailable] */
+        /** @see checkAvailable */
         fun checkAvailable(
             params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<SwarmCheckAvailableResponse>>
 
-        /** @see [checkAvailable] */
+        /** @see checkAvailable */
         fun checkAvailable(
             params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none()
         ): CompletableFuture<HttpResponseFor<SwarmCheckAvailableResponse>> =
             checkAvailable(params, RequestOptions.none())
 
-        /** @see [checkAvailable] */
+        /** @see checkAvailable */
         fun checkAvailable(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<SwarmCheckAvailableResponse>> =
@@ -130,19 +130,19 @@ interface SwarmServiceAsync {
         fun getLogs(): CompletableFuture<HttpResponseFor<SwarmGetLogsResponse>> =
             getLogs(SwarmGetLogsParams.none())
 
-        /** @see [getLogs] */
+        /** @see getLogs */
         fun getLogs(
             params: SwarmGetLogsParams = SwarmGetLogsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<SwarmGetLogsResponse>>
 
-        /** @see [getLogs] */
+        /** @see getLogs */
         fun getLogs(
             params: SwarmGetLogsParams = SwarmGetLogsParams.none()
         ): CompletableFuture<HttpResponseFor<SwarmGetLogsResponse>> =
             getLogs(params, RequestOptions.none())
 
-        /** @see [getLogs] */
+        /** @see getLogs */
         fun getLogs(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<SwarmGetLogsResponse>> =
@@ -155,7 +155,7 @@ interface SwarmServiceAsync {
         fun run(params: SwarmRunParams): CompletableFuture<HttpResponseFor<SwarmRunResponse>> =
             run(params, RequestOptions.none())
 
-        /** @see [run] */
+        /** @see run */
         fun run(
             params: SwarmRunParams,
             requestOptions: RequestOptions = RequestOptions.none(),
