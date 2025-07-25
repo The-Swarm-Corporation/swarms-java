@@ -31,7 +31,7 @@ interface AgentServiceAsync {
     fun run(params: AgentRunParams): CompletableFuture<AgentRunResponse> =
         run(params, RequestOptions.none())
 
-    /** @see [run] */
+    /** @see run */
     fun run(
         params: AgentRunParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -58,7 +58,7 @@ interface AgentServiceAsync {
         fun run(params: AgentRunParams): CompletableFuture<HttpResponseFor<AgentRunResponse>> =
             run(params, RequestOptions.none())
 
-        /** @see [run] */
+        /** @see run */
         fun run(
             params: AgentRunParams,
             requestOptions: RequestOptions = RequestOptions.none(),

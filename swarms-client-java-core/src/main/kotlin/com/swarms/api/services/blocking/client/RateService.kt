@@ -27,17 +27,17 @@ interface RateService {
     /** Get the rate limits and current usage for the user associated with the provided API key. */
     fun getLimits(): RateGetLimitsResponse = getLimits(RateGetLimitsParams.none())
 
-    /** @see [getLimits] */
+    /** @see getLimits */
     fun getLimits(
         params: RateGetLimitsParams = RateGetLimitsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RateGetLimitsResponse
 
-    /** @see [getLimits] */
+    /** @see getLimits */
     fun getLimits(params: RateGetLimitsParams = RateGetLimitsParams.none()): RateGetLimitsResponse =
         getLimits(params, RequestOptions.none())
 
-    /** @see [getLimits] */
+    /** @see getLimits */
     fun getLimits(requestOptions: RequestOptions): RateGetLimitsResponse =
         getLimits(RateGetLimitsParams.none(), requestOptions)
 
@@ -59,20 +59,20 @@ interface RateService {
         fun getLimits(): HttpResponseFor<RateGetLimitsResponse> =
             getLimits(RateGetLimitsParams.none())
 
-        /** @see [getLimits] */
+        /** @see getLimits */
         @MustBeClosed
         fun getLimits(
             params: RateGetLimitsParams = RateGetLimitsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<RateGetLimitsResponse>
 
-        /** @see [getLimits] */
+        /** @see getLimits */
         @MustBeClosed
         fun getLimits(
             params: RateGetLimitsParams = RateGetLimitsParams.none()
         ): HttpResponseFor<RateGetLimitsResponse> = getLimits(params, RequestOptions.none())
 
-        /** @see [getLimits] */
+        /** @see getLimits */
         @MustBeClosed
         fun getLimits(requestOptions: RequestOptions): HttpResponseFor<RateGetLimitsResponse> =
             getLimits(RateGetLimitsParams.none(), requestOptions)

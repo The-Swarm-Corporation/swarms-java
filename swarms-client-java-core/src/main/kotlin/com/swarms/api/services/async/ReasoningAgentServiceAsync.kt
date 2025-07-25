@@ -30,19 +30,19 @@ interface ReasoningAgentServiceAsync {
     fun createCompletion(): CompletableFuture<ReasoningAgentCreateCompletionResponse> =
         createCompletion(ReasoningAgentCreateCompletionParams.none())
 
-    /** @see [createCompletion] */
+    /** @see createCompletion */
     fun createCompletion(
         params: ReasoningAgentCreateCompletionParams = ReasoningAgentCreateCompletionParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ReasoningAgentCreateCompletionResponse>
 
-    /** @see [createCompletion] */
+    /** @see createCompletion */
     fun createCompletion(
         params: ReasoningAgentCreateCompletionParams = ReasoningAgentCreateCompletionParams.none()
     ): CompletableFuture<ReasoningAgentCreateCompletionResponse> =
         createCompletion(params, RequestOptions.none())
 
-    /** @see [createCompletion] */
+    /** @see createCompletion */
     fun createCompletion(
         requestOptions: RequestOptions
     ): CompletableFuture<ReasoningAgentCreateCompletionResponse> =
@@ -52,18 +52,18 @@ interface ReasoningAgentServiceAsync {
     fun listTypes(): CompletableFuture<ReasoningAgentListTypesResponse> =
         listTypes(ReasoningAgentListTypesParams.none())
 
-    /** @see [listTypes] */
+    /** @see listTypes */
     fun listTypes(
         params: ReasoningAgentListTypesParams = ReasoningAgentListTypesParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ReasoningAgentListTypesResponse>
 
-    /** @see [listTypes] */
+    /** @see listTypes */
     fun listTypes(
         params: ReasoningAgentListTypesParams = ReasoningAgentListTypesParams.none()
     ): CompletableFuture<ReasoningAgentListTypesResponse> = listTypes(params, RequestOptions.none())
 
-    /** @see [listTypes] */
+    /** @see listTypes */
     fun listTypes(
         requestOptions: RequestOptions
     ): CompletableFuture<ReasoningAgentListTypesResponse> =
@@ -92,21 +92,21 @@ interface ReasoningAgentServiceAsync {
             CompletableFuture<HttpResponseFor<ReasoningAgentCreateCompletionResponse>> =
             createCompletion(ReasoningAgentCreateCompletionParams.none())
 
-        /** @see [createCompletion] */
+        /** @see createCompletion */
         fun createCompletion(
             params: ReasoningAgentCreateCompletionParams =
                 ReasoningAgentCreateCompletionParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ReasoningAgentCreateCompletionResponse>>
 
-        /** @see [createCompletion] */
+        /** @see createCompletion */
         fun createCompletion(
             params: ReasoningAgentCreateCompletionParams =
                 ReasoningAgentCreateCompletionParams.none()
         ): CompletableFuture<HttpResponseFor<ReasoningAgentCreateCompletionResponse>> =
             createCompletion(params, RequestOptions.none())
 
-        /** @see [createCompletion] */
+        /** @see createCompletion */
         fun createCompletion(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ReasoningAgentCreateCompletionResponse>> =
@@ -119,19 +119,19 @@ interface ReasoningAgentServiceAsync {
         fun listTypes(): CompletableFuture<HttpResponseFor<ReasoningAgentListTypesResponse>> =
             listTypes(ReasoningAgentListTypesParams.none())
 
-        /** @see [listTypes] */
+        /** @see listTypes */
         fun listTypes(
             params: ReasoningAgentListTypesParams = ReasoningAgentListTypesParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ReasoningAgentListTypesResponse>>
 
-        /** @see [listTypes] */
+        /** @see listTypes */
         fun listTypes(
             params: ReasoningAgentListTypesParams = ReasoningAgentListTypesParams.none()
         ): CompletableFuture<HttpResponseFor<ReasoningAgentListTypesResponse>> =
             listTypes(params, RequestOptions.none())
 
-        /** @see [listTypes] */
+        /** @see listTypes */
         fun listTypes(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ReasoningAgentListTypesResponse>> =

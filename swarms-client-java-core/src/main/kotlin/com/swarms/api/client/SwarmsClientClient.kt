@@ -67,17 +67,17 @@ interface SwarmsClientClient {
     /** Root */
     fun getRoot(): ClientGetRootResponse = getRoot(ClientGetRootParams.none())
 
-    /** @see [getRoot] */
+    /** @see getRoot */
     fun getRoot(
         params: ClientGetRootParams = ClientGetRootParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ClientGetRootResponse
 
-    /** @see [getRoot] */
+    /** @see getRoot */
     fun getRoot(params: ClientGetRootParams = ClientGetRootParams.none()): ClientGetRootResponse =
         getRoot(params, RequestOptions.none())
 
-    /** @see [getRoot] */
+    /** @see getRoot */
     fun getRoot(requestOptions: RequestOptions): ClientGetRootResponse =
         getRoot(ClientGetRootParams.none(), requestOptions)
 
@@ -127,20 +127,20 @@ interface SwarmsClientClient {
         @MustBeClosed
         fun getRoot(): HttpResponseFor<ClientGetRootResponse> = getRoot(ClientGetRootParams.none())
 
-        /** @see [getRoot] */
+        /** @see getRoot */
         @MustBeClosed
         fun getRoot(
             params: ClientGetRootParams = ClientGetRootParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ClientGetRootResponse>
 
-        /** @see [getRoot] */
+        /** @see getRoot */
         @MustBeClosed
         fun getRoot(
             params: ClientGetRootParams = ClientGetRootParams.none()
         ): HttpResponseFor<ClientGetRootResponse> = getRoot(params, RequestOptions.none())
 
-        /** @see [getRoot] */
+        /** @see getRoot */
         @MustBeClosed
         fun getRoot(requestOptions: RequestOptions): HttpResponseFor<ClientGetRootResponse> =
             getRoot(ClientGetRootParams.none(), requestOptions)

@@ -30,18 +30,18 @@ interface ReasoningAgentService {
     fun createCompletion(): ReasoningAgentCreateCompletionResponse =
         createCompletion(ReasoningAgentCreateCompletionParams.none())
 
-    /** @see [createCompletion] */
+    /** @see createCompletion */
     fun createCompletion(
         params: ReasoningAgentCreateCompletionParams = ReasoningAgentCreateCompletionParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ReasoningAgentCreateCompletionResponse
 
-    /** @see [createCompletion] */
+    /** @see createCompletion */
     fun createCompletion(
         params: ReasoningAgentCreateCompletionParams = ReasoningAgentCreateCompletionParams.none()
     ): ReasoningAgentCreateCompletionResponse = createCompletion(params, RequestOptions.none())
 
-    /** @see [createCompletion] */
+    /** @see createCompletion */
     fun createCompletion(requestOptions: RequestOptions): ReasoningAgentCreateCompletionResponse =
         createCompletion(ReasoningAgentCreateCompletionParams.none(), requestOptions)
 
@@ -49,18 +49,18 @@ interface ReasoningAgentService {
     fun listTypes(): ReasoningAgentListTypesResponse =
         listTypes(ReasoningAgentListTypesParams.none())
 
-    /** @see [listTypes] */
+    /** @see listTypes */
     fun listTypes(
         params: ReasoningAgentListTypesParams = ReasoningAgentListTypesParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ReasoningAgentListTypesResponse
 
-    /** @see [listTypes] */
+    /** @see listTypes */
     fun listTypes(
         params: ReasoningAgentListTypesParams = ReasoningAgentListTypesParams.none()
     ): ReasoningAgentListTypesResponse = listTypes(params, RequestOptions.none())
 
-    /** @see [listTypes] */
+    /** @see listTypes */
     fun listTypes(requestOptions: RequestOptions): ReasoningAgentListTypesResponse =
         listTypes(ReasoningAgentListTypesParams.none(), requestOptions)
 
@@ -86,7 +86,7 @@ interface ReasoningAgentService {
         fun createCompletion(): HttpResponseFor<ReasoningAgentCreateCompletionResponse> =
             createCompletion(ReasoningAgentCreateCompletionParams.none())
 
-        /** @see [createCompletion] */
+        /** @see createCompletion */
         @MustBeClosed
         fun createCompletion(
             params: ReasoningAgentCreateCompletionParams =
@@ -94,7 +94,7 @@ interface ReasoningAgentService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ReasoningAgentCreateCompletionResponse>
 
-        /** @see [createCompletion] */
+        /** @see createCompletion */
         @MustBeClosed
         fun createCompletion(
             params: ReasoningAgentCreateCompletionParams =
@@ -102,7 +102,7 @@ interface ReasoningAgentService {
         ): HttpResponseFor<ReasoningAgentCreateCompletionResponse> =
             createCompletion(params, RequestOptions.none())
 
-        /** @see [createCompletion] */
+        /** @see createCompletion */
         @MustBeClosed
         fun createCompletion(
             requestOptions: RequestOptions
@@ -117,21 +117,21 @@ interface ReasoningAgentService {
         fun listTypes(): HttpResponseFor<ReasoningAgentListTypesResponse> =
             listTypes(ReasoningAgentListTypesParams.none())
 
-        /** @see [listTypes] */
+        /** @see listTypes */
         @MustBeClosed
         fun listTypes(
             params: ReasoningAgentListTypesParams = ReasoningAgentListTypesParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ReasoningAgentListTypesResponse>
 
-        /** @see [listTypes] */
+        /** @see listTypes */
         @MustBeClosed
         fun listTypes(
             params: ReasoningAgentListTypesParams = ReasoningAgentListTypesParams.none()
         ): HttpResponseFor<ReasoningAgentListTypesResponse> =
             listTypes(params, RequestOptions.none())
 
-        /** @see [listTypes] */
+        /** @see listTypes */
         @MustBeClosed
         fun listTypes(
             requestOptions: RequestOptions

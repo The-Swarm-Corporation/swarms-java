@@ -35,18 +35,18 @@ interface SwarmService {
     fun checkAvailable(): SwarmCheckAvailableResponse =
         checkAvailable(SwarmCheckAvailableParams.none())
 
-    /** @see [checkAvailable] */
+    /** @see checkAvailable */
     fun checkAvailable(
         params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): SwarmCheckAvailableResponse
 
-    /** @see [checkAvailable] */
+    /** @see checkAvailable */
     fun checkAvailable(
         params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none()
     ): SwarmCheckAvailableResponse = checkAvailable(params, RequestOptions.none())
 
-    /** @see [checkAvailable] */
+    /** @see checkAvailable */
     fun checkAvailable(requestOptions: RequestOptions): SwarmCheckAvailableResponse =
         checkAvailable(SwarmCheckAvailableParams.none(), requestOptions)
 
@@ -56,24 +56,24 @@ interface SwarmService {
      */
     fun getLogs(): SwarmGetLogsResponse = getLogs(SwarmGetLogsParams.none())
 
-    /** @see [getLogs] */
+    /** @see getLogs */
     fun getLogs(
         params: SwarmGetLogsParams = SwarmGetLogsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): SwarmGetLogsResponse
 
-    /** @see [getLogs] */
+    /** @see getLogs */
     fun getLogs(params: SwarmGetLogsParams = SwarmGetLogsParams.none()): SwarmGetLogsResponse =
         getLogs(params, RequestOptions.none())
 
-    /** @see [getLogs] */
+    /** @see getLogs */
     fun getLogs(requestOptions: RequestOptions): SwarmGetLogsResponse =
         getLogs(SwarmGetLogsParams.none(), requestOptions)
 
     /** Run a swarm with the specified task. */
     fun run(params: SwarmRunParams): SwarmRunResponse = run(params, RequestOptions.none())
 
-    /** @see [run] */
+    /** @see run */
     fun run(
         params: SwarmRunParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -99,21 +99,21 @@ interface SwarmService {
         fun checkAvailable(): HttpResponseFor<SwarmCheckAvailableResponse> =
             checkAvailable(SwarmCheckAvailableParams.none())
 
-        /** @see [checkAvailable] */
+        /** @see checkAvailable */
         @MustBeClosed
         fun checkAvailable(
             params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<SwarmCheckAvailableResponse>
 
-        /** @see [checkAvailable] */
+        /** @see checkAvailable */
         @MustBeClosed
         fun checkAvailable(
             params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none()
         ): HttpResponseFor<SwarmCheckAvailableResponse> =
             checkAvailable(params, RequestOptions.none())
 
-        /** @see [checkAvailable] */
+        /** @see checkAvailable */
         @MustBeClosed
         fun checkAvailable(
             requestOptions: RequestOptions
@@ -127,20 +127,20 @@ interface SwarmService {
         @MustBeClosed
         fun getLogs(): HttpResponseFor<SwarmGetLogsResponse> = getLogs(SwarmGetLogsParams.none())
 
-        /** @see [getLogs] */
+        /** @see getLogs */
         @MustBeClosed
         fun getLogs(
             params: SwarmGetLogsParams = SwarmGetLogsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<SwarmGetLogsResponse>
 
-        /** @see [getLogs] */
+        /** @see getLogs */
         @MustBeClosed
         fun getLogs(
             params: SwarmGetLogsParams = SwarmGetLogsParams.none()
         ): HttpResponseFor<SwarmGetLogsResponse> = getLogs(params, RequestOptions.none())
 
-        /** @see [getLogs] */
+        /** @see getLogs */
         @MustBeClosed
         fun getLogs(requestOptions: RequestOptions): HttpResponseFor<SwarmGetLogsResponse> =
             getLogs(SwarmGetLogsParams.none(), requestOptions)
@@ -153,7 +153,7 @@ interface SwarmService {
         fun run(params: SwarmRunParams): HttpResponseFor<SwarmRunResponse> =
             run(params, RequestOptions.none())
 
-        /** @see [run] */
+        /** @see run */
         @MustBeClosed
         fun run(
             params: SwarmRunParams,

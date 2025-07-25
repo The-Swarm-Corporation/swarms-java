@@ -30,7 +30,7 @@ interface AgentService {
     /** Run an agent with the specified task. */
     fun run(params: AgentRunParams): AgentRunResponse = run(params, RequestOptions.none())
 
-    /** @see [run] */
+    /** @see run */
     fun run(
         params: AgentRunParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -56,7 +56,7 @@ interface AgentService {
         fun run(params: AgentRunParams): HttpResponseFor<AgentRunResponse> =
             run(params, RequestOptions.none())
 
-        /** @see [run] */
+        /** @see run */
         @MustBeClosed
         fun run(
             params: AgentRunParams,
