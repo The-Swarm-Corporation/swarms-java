@@ -8,12 +8,10 @@ import com.swarms.api.core.jsonMapper
 import com.swarms.api.models.agent.AgentSpec
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class SwarmSpecTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         val swarmSpec =
@@ -111,7 +109,6 @@ internal class SwarmSpecTest {
         assertThat(swarmSpec.tasks().getOrNull()).containsExactly("string")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()

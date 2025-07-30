@@ -3,12 +3,10 @@
 package com.swarms.api.models.reasoningagents
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class ReasoningAgentCreateCompletionParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         ReasoningAgentCreateCompletionParams.builder()
@@ -26,7 +24,6 @@ internal class ReasoningAgentCreateCompletionParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =
@@ -60,7 +57,6 @@ internal class ReasoningAgentCreateCompletionParamsTest {
         assertThat(body.task()).contains("task")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun bodyWithoutOptionalFields() {
         val params = ReasoningAgentCreateCompletionParams.builder().build()
