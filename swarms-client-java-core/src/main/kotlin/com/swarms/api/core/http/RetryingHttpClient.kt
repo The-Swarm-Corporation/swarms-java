@@ -3,6 +3,7 @@ package com.swarms.api.core.http
 import com.swarms.api.core.RequestOptions
 import com.swarms.api.core.checkRequired
 import com.swarms.api.errors.SwarmsClientIoException
+import com.swarms.api.errors.SwarmsClientRetryableException
 import java.io.IOException
 import java.time.Clock
 import java.time.Duration
@@ -176,10 +177,10 @@ private constructor(
     }
 
     private fun shouldRetry(throwable: Throwable): Boolean =
-        // Only retry IOException and SwarmsClientIoException, other exceptions are not intended to
-        // be
-        // retried.
-        throwable is IOException || throwable is SwarmsClientIoException
+        // Only retry known retryable exceptions, other exceptions are not intended to be retried.
+        throwable is IOException ||
+            throwable is SwarmsClientIoException ||
+            throwable is SwarmsClientRetryableException
 
     private fun getRetryBackoffDuration(retries: Int, response: HttpResponse?): Duration {
         // About the Retry-After header:
