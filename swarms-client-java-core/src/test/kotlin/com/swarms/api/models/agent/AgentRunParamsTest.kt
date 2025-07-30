@@ -4,12 +4,10 @@ package com.swarms.api.models.agent
 
 import com.swarms.api.core.JsonValue
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class AgentRunParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         AgentRunParams.builder()
@@ -49,7 +47,6 @@ internal class AgentRunParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =
@@ -127,7 +124,6 @@ internal class AgentRunParamsTest {
             )
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun bodyWithoutOptionalFields() {
         val params =

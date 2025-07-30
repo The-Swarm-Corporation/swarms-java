@@ -8,7 +8,6 @@ import com.swarms.api.core.jsonMapper
 import com.swarms.api.models.health.HealthCheckResponse
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class ProGuardCompatibilityTest {
@@ -47,7 +46,6 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.client()).isNotNull()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun healthCheckResponseRoundtrip() {
         val jsonMapper = jsonMapper()

@@ -25,7 +25,6 @@ import com.swarms.api.errors.UnprocessableEntityException
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.entry
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.parallel.ResourceLock
@@ -58,7 +57,6 @@ internal class ErrorHandlingTest {
                 .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot400() {
         val swarmsClientClient = client
@@ -76,7 +74,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot400WithRawResponse() {
         val swarmsClientClient = client.withRawResponse()
@@ -94,7 +91,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot401() {
         val swarmsClientClient = client
@@ -112,7 +108,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot401WithRawResponse() {
         val swarmsClientClient = client.withRawResponse()
@@ -130,7 +125,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot403() {
         val swarmsClientClient = client
@@ -148,7 +142,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot403WithRawResponse() {
         val swarmsClientClient = client.withRawResponse()
@@ -166,7 +159,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot404() {
         val swarmsClientClient = client
@@ -184,7 +176,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot404WithRawResponse() {
         val swarmsClientClient = client.withRawResponse()
@@ -202,7 +193,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot422() {
         val swarmsClientClient = client
@@ -220,7 +210,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot422WithRawResponse() {
         val swarmsClientClient = client.withRawResponse()
@@ -238,7 +227,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot429() {
         val swarmsClientClient = client
@@ -256,7 +244,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot429WithRawResponse() {
         val swarmsClientClient = client.withRawResponse()
@@ -274,7 +261,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot500() {
         val swarmsClientClient = client
@@ -292,7 +278,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot500WithRawResponse() {
         val swarmsClientClient = client.withRawResponse()
@@ -310,7 +295,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot999() {
         val swarmsClientClient = client
@@ -328,7 +312,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRoot999WithRawResponse() {
         val swarmsClientClient = client.withRawResponse()
@@ -346,7 +329,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun clientGetRootInvalidJsonBody() {
         val swarmsClientClient = client
