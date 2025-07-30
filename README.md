@@ -219,6 +219,8 @@ The SDK throws custom unchecked exception types:
 
 - [`SwarmsClientIoException`](swarms-client-java-core/src/main/kotlin/com/swarms/api/errors/SwarmsClientIoException.kt): I/O networking errors.
 
+- [`SwarmsClientRetryableException`](swarms-client-java-core/src/main/kotlin/com/swarms/api/errors/SwarmsClientRetryableException.kt): Generic error indicating a failure that could be retried by the client.
+
 - [`SwarmsClientInvalidDataException`](swarms-client-java-core/src/main/kotlin/com/swarms/api/errors/SwarmsClientInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
 
 - [`SwarmsClientException`](swarms-client-java-core/src/main/kotlin/com/swarms/api/errors/SwarmsClientException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
