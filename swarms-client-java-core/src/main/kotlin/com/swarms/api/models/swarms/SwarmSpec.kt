@@ -43,7 +43,6 @@ private constructor(
     private val messages: JsonField<Messages>,
     private val name: JsonField<String>,
     private val rearrangeFlow: JsonField<String>,
-    private val returnHistory: JsonField<Boolean>,
     private val rules: JsonField<String>,
     private val serviceTier: JsonField<String>,
     private val stream: JsonField<Boolean>,
@@ -77,9 +76,6 @@ private constructor(
         @JsonProperty("rearrange_flow")
         @ExcludeMissing
         rearrangeFlow: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("return_history")
-        @ExcludeMissing
-        returnHistory: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("rules") @ExcludeMissing rules: JsonField<String> = JsonMissing.of(),
         @JsonProperty("service_tier")
         @ExcludeMissing
@@ -101,7 +97,6 @@ private constructor(
         messages,
         name,
         rearrangeFlow,
-        returnHistory,
         rules,
         serviceTier,
         stream,
@@ -195,15 +190,6 @@ private constructor(
      *   the server responded with an unexpected value).
      */
     fun rearrangeFlow(): Optional<String> = rearrangeFlow.getOptional("rearrange_flow")
-
-    /**
-     * A flag indicating whether the swarm should return its execution history along with the final
-     * output.
-     *
-     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
-     *   the server responded with an unexpected value).
-     */
-    fun returnHistory(): Optional<Boolean> = returnHistory.getOptional("return_history")
 
     /**
      * Guidelines or constraints that govern the behavior and interactions of the agents within the
@@ -337,15 +323,6 @@ private constructor(
     fun _rearrangeFlow(): JsonField<String> = rearrangeFlow
 
     /**
-     * Returns the raw JSON value of [returnHistory].
-     *
-     * Unlike [returnHistory], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("return_history")
-    @ExcludeMissing
-    fun _returnHistory(): JsonField<Boolean> = returnHistory
-
-    /**
      * Returns the raw JSON value of [rules].
      *
      * Unlike [rules], this method doesn't throw if the JSON field has an unexpected type.
@@ -420,7 +397,6 @@ private constructor(
         private var messages: JsonField<Messages> = JsonMissing.of()
         private var name: JsonField<String> = JsonMissing.of()
         private var rearrangeFlow: JsonField<String> = JsonMissing.of()
-        private var returnHistory: JsonField<Boolean> = JsonMissing.of()
         private var rules: JsonField<String> = JsonMissing.of()
         private var serviceTier: JsonField<String> = JsonMissing.of()
         private var stream: JsonField<Boolean> = JsonMissing.of()
@@ -441,7 +417,6 @@ private constructor(
             messages = swarmSpec.messages
             name = swarmSpec.name
             rearrangeFlow = swarmSpec.rearrangeFlow
-            returnHistory = swarmSpec.returnHistory
             rules = swarmSpec.rules
             serviceTier = swarmSpec.serviceTier
             stream = swarmSpec.stream
@@ -675,35 +650,6 @@ private constructor(
         }
 
         /**
-         * A flag indicating whether the swarm should return its execution history along with the
-         * final output.
-         */
-        fun returnHistory(returnHistory: Boolean?) =
-            returnHistory(JsonField.ofNullable(returnHistory))
-
-        /**
-         * Alias for [Builder.returnHistory].
-         *
-         * This unboxed primitive overload exists for backwards compatibility.
-         */
-        fun returnHistory(returnHistory: Boolean) = returnHistory(returnHistory as Boolean?)
-
-        /** Alias for calling [Builder.returnHistory] with `returnHistory.orElse(null)`. */
-        fun returnHistory(returnHistory: Optional<Boolean>) =
-            returnHistory(returnHistory.getOrNull())
-
-        /**
-         * Sets [Builder.returnHistory] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.returnHistory] with a well-typed [Boolean] value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
-         */
-        fun returnHistory(returnHistory: JsonField<Boolean>) = apply {
-            this.returnHistory = returnHistory
-        }
-
-        /**
          * Guidelines or constraints that govern the behavior and interactions of the agents within
          * the swarm.
          */
@@ -851,7 +797,6 @@ private constructor(
                 messages,
                 name,
                 rearrangeFlow,
-                returnHistory,
                 rules,
                 serviceTier,
                 stream,
@@ -879,7 +824,6 @@ private constructor(
         messages().ifPresent { it.validate() }
         name()
         rearrangeFlow()
-        returnHistory()
         rules()
         serviceTier()
         stream()
@@ -914,7 +858,6 @@ private constructor(
             (messages.asKnown().getOrNull()?.validity() ?: 0) +
             (if (name.asKnown().isPresent) 1 else 0) +
             (if (rearrangeFlow.asKnown().isPresent) 1 else 0) +
-            (if (returnHistory.asKnown().isPresent) 1 else 0) +
             (if (rules.asKnown().isPresent) 1 else 0) +
             (if (serviceTier.asKnown().isPresent) 1 else 0) +
             (if (stream.asKnown().isPresent) 1 else 0) +
@@ -1553,15 +1496,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is SwarmSpec && agents == other.agents && description == other.description && heavySwarmLoopsPerAgent == other.heavySwarmLoopsPerAgent && heavySwarmQuestionAgentModelName == other.heavySwarmQuestionAgentModelName && heavySwarmWorkerModelName == other.heavySwarmWorkerModelName && img == other.img && maxLoops == other.maxLoops && messages == other.messages && name == other.name && rearrangeFlow == other.rearrangeFlow && returnHistory == other.returnHistory && rules == other.rules && serviceTier == other.serviceTier && stream == other.stream && swarmType == other.swarmType && task == other.task && tasks == other.tasks && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is SwarmSpec && agents == other.agents && description == other.description && heavySwarmLoopsPerAgent == other.heavySwarmLoopsPerAgent && heavySwarmQuestionAgentModelName == other.heavySwarmQuestionAgentModelName && heavySwarmWorkerModelName == other.heavySwarmWorkerModelName && img == other.img && maxLoops == other.maxLoops && messages == other.messages && name == other.name && rearrangeFlow == other.rearrangeFlow && rules == other.rules && serviceTier == other.serviceTier && stream == other.stream && swarmType == other.swarmType && task == other.task && tasks == other.tasks && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(agents, description, heavySwarmLoopsPerAgent, heavySwarmQuestionAgentModelName, heavySwarmWorkerModelName, img, maxLoops, messages, name, rearrangeFlow, returnHistory, rules, serviceTier, stream, swarmType, task, tasks, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(agents, description, heavySwarmLoopsPerAgent, heavySwarmQuestionAgentModelName, heavySwarmWorkerModelName, img, maxLoops, messages, name, rearrangeFlow, rules, serviceTier, stream, swarmType, task, tasks, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "SwarmSpec{agents=$agents, description=$description, heavySwarmLoopsPerAgent=$heavySwarmLoopsPerAgent, heavySwarmQuestionAgentModelName=$heavySwarmQuestionAgentModelName, heavySwarmWorkerModelName=$heavySwarmWorkerModelName, img=$img, maxLoops=$maxLoops, messages=$messages, name=$name, rearrangeFlow=$rearrangeFlow, returnHistory=$returnHistory, rules=$rules, serviceTier=$serviceTier, stream=$stream, swarmType=$swarmType, task=$task, tasks=$tasks, additionalProperties=$additionalProperties}"
+        "SwarmSpec{agents=$agents, description=$description, heavySwarmLoopsPerAgent=$heavySwarmLoopsPerAgent, heavySwarmQuestionAgentModelName=$heavySwarmQuestionAgentModelName, heavySwarmWorkerModelName=$heavySwarmWorkerModelName, img=$img, maxLoops=$maxLoops, messages=$messages, name=$name, rearrangeFlow=$rearrangeFlow, rules=$rules, serviceTier=$serviceTier, stream=$stream, swarmType=$swarmType, task=$task, tasks=$tasks, additionalProperties=$additionalProperties}"
 }

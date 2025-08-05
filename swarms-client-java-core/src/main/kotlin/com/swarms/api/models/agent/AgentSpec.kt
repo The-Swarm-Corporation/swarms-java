@@ -24,6 +24,8 @@ private constructor(
     private val agentName: JsonField<String>,
     private val autoGeneratePrompt: JsonField<Boolean>,
     private val description: JsonField<String>,
+    private val dynamicTemperatureEnabled: JsonField<Boolean>,
+    private val llmArgs: JsonField<LlmArgs>,
     private val maxLoops: JsonField<Long>,
     private val maxTokens: JsonField<Long>,
     private val mcpUrl: JsonField<String>,
@@ -45,6 +47,10 @@ private constructor(
         @JsonProperty("description")
         @ExcludeMissing
         description: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("dynamic_temperature_enabled")
+        @ExcludeMissing
+        dynamicTemperatureEnabled: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("llm_args") @ExcludeMissing llmArgs: JsonField<LlmArgs> = JsonMissing.of(),
         @JsonProperty("max_loops") @ExcludeMissing maxLoops: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("max_tokens") @ExcludeMissing maxTokens: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("mcp_url") @ExcludeMissing mcpUrl: JsonField<String> = JsonMissing.of(),
@@ -66,6 +72,8 @@ private constructor(
         agentName,
         autoGeneratePrompt,
         description,
+        dynamicTemperatureEnabled,
+        llmArgs,
         maxLoops,
         maxTokens,
         mcpUrl,
@@ -105,6 +113,25 @@ private constructor(
      *   the server responded with an unexpected value).
      */
     fun description(): Optional<String> = description.getOptional("description")
+
+    /**
+     * A flag indicating whether the agent should dynamically adjust its temperature based on the
+     * task.
+     *
+     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
+     *   the server responded with an unexpected value).
+     */
+    fun dynamicTemperatureEnabled(): Optional<Boolean> =
+        dynamicTemperatureEnabled.getOptional("dynamic_temperature_enabled")
+
+    /**
+     * Additional arguments to pass to the LLM such as top_p, frequency_penalty, presence_penalty,
+     * etc.
+     *
+     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
+     *   the server responded with an unexpected value).
+     */
+    fun llmArgs(): Optional<LlmArgs> = llmArgs.getOptional("llm_args")
 
     /**
      * The maximum number of times the agent is allowed to repeat its task, enabling iterative
@@ -210,6 +237,23 @@ private constructor(
     @JsonProperty("description") @ExcludeMissing fun _description(): JsonField<String> = description
 
     /**
+     * Returns the raw JSON value of [dynamicTemperatureEnabled].
+     *
+     * Unlike [dynamicTemperatureEnabled], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    @JsonProperty("dynamic_temperature_enabled")
+    @ExcludeMissing
+    fun _dynamicTemperatureEnabled(): JsonField<Boolean> = dynamicTemperatureEnabled
+
+    /**
+     * Returns the raw JSON value of [llmArgs].
+     *
+     * Unlike [llmArgs], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("llm_args") @ExcludeMissing fun _llmArgs(): JsonField<LlmArgs> = llmArgs
+
+    /**
      * Returns the raw JSON value of [maxLoops].
      *
      * Unlike [maxLoops], this method doesn't throw if the JSON field has an unexpected type.
@@ -310,6 +354,8 @@ private constructor(
         private var agentName: JsonField<String>? = null
         private var autoGeneratePrompt: JsonField<Boolean> = JsonMissing.of()
         private var description: JsonField<String> = JsonMissing.of()
+        private var dynamicTemperatureEnabled: JsonField<Boolean> = JsonMissing.of()
+        private var llmArgs: JsonField<LlmArgs> = JsonMissing.of()
         private var maxLoops: JsonField<Long> = JsonMissing.of()
         private var maxTokens: JsonField<Long> = JsonMissing.of()
         private var mcpUrl: JsonField<String> = JsonMissing.of()
@@ -326,6 +372,8 @@ private constructor(
             agentName = agentSpec.agentName
             autoGeneratePrompt = agentSpec.autoGeneratePrompt
             description = agentSpec.description
+            dynamicTemperatureEnabled = agentSpec.dynamicTemperatureEnabled
+            llmArgs = agentSpec.llmArgs
             maxLoops = agentSpec.maxLoops
             maxTokens = agentSpec.maxTokens
             mcpUrl = agentSpec.mcpUrl
@@ -405,6 +453,56 @@ private constructor(
          * value.
          */
         fun description(description: JsonField<String>) = apply { this.description = description }
+
+        /**
+         * A flag indicating whether the agent should dynamically adjust its temperature based on
+         * the task.
+         */
+        fun dynamicTemperatureEnabled(dynamicTemperatureEnabled: Boolean?) =
+            dynamicTemperatureEnabled(JsonField.ofNullable(dynamicTemperatureEnabled))
+
+        /**
+         * Alias for [Builder.dynamicTemperatureEnabled].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun dynamicTemperatureEnabled(dynamicTemperatureEnabled: Boolean) =
+            dynamicTemperatureEnabled(dynamicTemperatureEnabled as Boolean?)
+
+        /**
+         * Alias for calling [Builder.dynamicTemperatureEnabled] with
+         * `dynamicTemperatureEnabled.orElse(null)`.
+         */
+        fun dynamicTemperatureEnabled(dynamicTemperatureEnabled: Optional<Boolean>) =
+            dynamicTemperatureEnabled(dynamicTemperatureEnabled.getOrNull())
+
+        /**
+         * Sets [Builder.dynamicTemperatureEnabled] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.dynamicTemperatureEnabled] with a well-typed [Boolean]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun dynamicTemperatureEnabled(dynamicTemperatureEnabled: JsonField<Boolean>) = apply {
+            this.dynamicTemperatureEnabled = dynamicTemperatureEnabled
+        }
+
+        /**
+         * Additional arguments to pass to the LLM such as top_p, frequency_penalty,
+         * presence_penalty, etc.
+         */
+        fun llmArgs(llmArgs: LlmArgs?) = llmArgs(JsonField.ofNullable(llmArgs))
+
+        /** Alias for calling [Builder.llmArgs] with `llmArgs.orElse(null)`. */
+        fun llmArgs(llmArgs: Optional<LlmArgs>) = llmArgs(llmArgs.getOrNull())
+
+        /**
+         * Sets [Builder.llmArgs] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.llmArgs] with a well-typed [LlmArgs] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun llmArgs(llmArgs: JsonField<LlmArgs>) = apply { this.llmArgs = llmArgs }
 
         /**
          * The maximum number of times the agent is allowed to repeat its task, enabling iterative
@@ -639,6 +737,8 @@ private constructor(
                 checkRequired("agentName", agentName),
                 autoGeneratePrompt,
                 description,
+                dynamicTemperatureEnabled,
+                llmArgs,
                 maxLoops,
                 maxTokens,
                 mcpUrl,
@@ -662,6 +762,8 @@ private constructor(
         agentName()
         autoGeneratePrompt()
         description()
+        dynamicTemperatureEnabled()
+        llmArgs().ifPresent { it.validate() }
         maxLoops()
         maxTokens()
         mcpUrl()
@@ -692,6 +794,8 @@ private constructor(
         (if (agentName.asKnown().isPresent) 1 else 0) +
             (if (autoGeneratePrompt.asKnown().isPresent) 1 else 0) +
             (if (description.asKnown().isPresent) 1 else 0) +
+            (if (dynamicTemperatureEnabled.asKnown().isPresent) 1 else 0) +
+            (llmArgs.asKnown().getOrNull()?.validity() ?: 0) +
             (if (maxLoops.asKnown().isPresent) 1 else 0) +
             (if (maxTokens.asKnown().isPresent) 1 else 0) +
             (if (mcpUrl.asKnown().isPresent) 1 else 0) +
@@ -701,6 +805,111 @@ private constructor(
             (if (systemPrompt.asKnown().isPresent) 1 else 0) +
             (if (temperature.asKnown().isPresent) 1 else 0) +
             (toolsListDictionary.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
+
+    /**
+     * Additional arguments to pass to the LLM such as top_p, frequency_penalty, presence_penalty,
+     * etc.
+     */
+    class LlmArgs
+    @JsonCreator
+    private constructor(
+        @com.fasterxml.jackson.annotation.JsonValue
+        private val additionalProperties: Map<String, JsonValue>
+    ) {
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [LlmArgs]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [LlmArgs]. */
+        class Builder internal constructor() {
+
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(llmArgs: LlmArgs) = apply {
+                additionalProperties = llmArgs.additionalProperties.toMutableMap()
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [LlmArgs].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): LlmArgs = LlmArgs(additionalProperties.toImmutable())
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): LlmArgs = apply {
+            if (validated) {
+                return@apply
+            }
+
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: SwarmsClientInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            additionalProperties.count { (_, value) -> !value.isNull() && !value.isMissing() }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is LlmArgs && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() = "LlmArgs{additionalProperties=$additionalProperties}"
+    }
 
     class ToolsListDictionary
     @JsonCreator
@@ -809,15 +1018,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AgentSpec && agentName == other.agentName && autoGeneratePrompt == other.autoGeneratePrompt && description == other.description && maxLoops == other.maxLoops && maxTokens == other.maxTokens && mcpUrl == other.mcpUrl && modelName == other.modelName && role == other.role && streamingOn == other.streamingOn && systemPrompt == other.systemPrompt && temperature == other.temperature && toolsListDictionary == other.toolsListDictionary && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is AgentSpec && agentName == other.agentName && autoGeneratePrompt == other.autoGeneratePrompt && description == other.description && dynamicTemperatureEnabled == other.dynamicTemperatureEnabled && llmArgs == other.llmArgs && maxLoops == other.maxLoops && maxTokens == other.maxTokens && mcpUrl == other.mcpUrl && modelName == other.modelName && role == other.role && streamingOn == other.streamingOn && systemPrompt == other.systemPrompt && temperature == other.temperature && toolsListDictionary == other.toolsListDictionary && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(agentName, autoGeneratePrompt, description, maxLoops, maxTokens, mcpUrl, modelName, role, streamingOn, systemPrompt, temperature, toolsListDictionary, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(agentName, autoGeneratePrompt, description, dynamicTemperatureEnabled, llmArgs, maxLoops, maxTokens, mcpUrl, modelName, role, streamingOn, systemPrompt, temperature, toolsListDictionary, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "AgentSpec{agentName=$agentName, autoGeneratePrompt=$autoGeneratePrompt, description=$description, maxLoops=$maxLoops, maxTokens=$maxTokens, mcpUrl=$mcpUrl, modelName=$modelName, role=$role, streamingOn=$streamingOn, systemPrompt=$systemPrompt, temperature=$temperature, toolsListDictionary=$toolsListDictionary, additionalProperties=$additionalProperties}"
+        "AgentSpec{agentName=$agentName, autoGeneratePrompt=$autoGeneratePrompt, description=$description, dynamicTemperatureEnabled=$dynamicTemperatureEnabled, llmArgs=$llmArgs, maxLoops=$maxLoops, maxTokens=$maxTokens, mcpUrl=$mcpUrl, modelName=$modelName, role=$role, streamingOn=$streamingOn, systemPrompt=$systemPrompt, temperature=$temperature, toolsListDictionary=$toolsListDictionary, additionalProperties=$additionalProperties}"
 }
