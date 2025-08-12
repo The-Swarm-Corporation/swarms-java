@@ -15,7 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(TestServerExtension::class)
 internal class SwarmServiceAsyncTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun checkAvailable() {
         val client =
@@ -31,7 +31,7 @@ internal class SwarmServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun getLogs() {
         val client =
@@ -47,7 +47,7 @@ internal class SwarmServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun run() {
         val client =
