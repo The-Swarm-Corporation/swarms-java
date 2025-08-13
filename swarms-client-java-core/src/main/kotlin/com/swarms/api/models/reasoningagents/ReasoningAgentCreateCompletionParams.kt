@@ -1183,12 +1183,37 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && agentName == other.agentName && description == other.description && maxLoops == other.maxLoops && memoryCapacity == other.memoryCapacity && modelName == other.modelName && numKnowledgeItems == other.numKnowledgeItems && numSamples == other.numSamples && outputType == other.outputType && swarmType == other.swarmType && systemPrompt == other.systemPrompt && task == other.task && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Body &&
+                agentName == other.agentName &&
+                description == other.description &&
+                maxLoops == other.maxLoops &&
+                memoryCapacity == other.memoryCapacity &&
+                modelName == other.modelName &&
+                numKnowledgeItems == other.numKnowledgeItems &&
+                numSamples == other.numSamples &&
+                outputType == other.outputType &&
+                swarmType == other.swarmType &&
+                systemPrompt == other.systemPrompt &&
+                task == other.task &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(agentName, description, maxLoops, memoryCapacity, modelName, numKnowledgeItems, numSamples, outputType, swarmType, systemPrompt, task, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                agentName,
+                description,
+                maxLoops,
+                memoryCapacity,
+                modelName,
+                numKnowledgeItems,
+                numSamples,
+                outputType,
+                swarmType,
+                systemPrompt,
+                task,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1402,7 +1427,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is OutputType && value == other.value /* spotless:on */
+            return other is OutputType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1574,7 +1599,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is SwarmType && value == other.value /* spotless:on */
+            return other is SwarmType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1587,10 +1612,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ReasoningAgentCreateCompletionParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ReasoningAgentCreateCompletionParams &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = Objects.hash(body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "ReasoningAgentCreateCompletionParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

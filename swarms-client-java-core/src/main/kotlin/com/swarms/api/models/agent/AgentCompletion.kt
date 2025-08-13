@@ -474,10 +474,12 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is History && unionMember0 == other.unionMember0 && unnamedSchemaWithArrayParent0s == other.unnamedSchemaWithArrayParent0s /* spotless:on */
+            return other is History &&
+                unionMember0 == other.unionMember0 &&
+                unnamedSchemaWithArrayParent0s == other.unnamedSchemaWithArrayParent0s
         }
 
-        override fun hashCode(): Int = /* spotless:off */ Objects.hash(unionMember0, unnamedSchemaWithArrayParent0s) /* spotless:on */
+        override fun hashCode(): Int = Objects.hash(unionMember0, unnamedSchemaWithArrayParent0s)
 
         override fun toString(): String =
             when {
@@ -669,12 +671,10 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is UnionMember0 && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is UnionMember0 && additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
             private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
-            /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
@@ -779,12 +779,11 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is UnnamedSchemaWithArrayParent0 && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is UnnamedSchemaWithArrayParent0 &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
             private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
-            /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
@@ -798,12 +797,19 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AgentCompletion && agentConfig == other.agentConfig && history == other.history && img == other.img && imgs == other.imgs && stream == other.stream && task == other.task && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is AgentCompletion &&
+            agentConfig == other.agentConfig &&
+            history == other.history &&
+            img == other.img &&
+            imgs == other.imgs &&
+            stream == other.stream &&
+            task == other.task &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(agentConfig, history, img, imgs, stream, task, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(agentConfig, history, img, imgs, stream, task, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

@@ -159,12 +159,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is SwarmCheckAvailableResponse && success == other.success && swarmTypes == other.swarmTypes && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is SwarmCheckAvailableResponse &&
+            success == other.success &&
+            swarmTypes == other.swarmTypes &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
     private val hashCode: Int by lazy { Objects.hash(success, swarmTypes, additionalProperties) }
-    /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 

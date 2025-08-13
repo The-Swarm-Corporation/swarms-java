@@ -956,10 +956,12 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Messages && unnamedSchemaWithArrayParent1s == other.unnamedSchemaWithArrayParent1s && unionMember1 == other.unionMember1 /* spotless:on */
+            return other is Messages &&
+                unnamedSchemaWithArrayParent1s == other.unnamedSchemaWithArrayParent1s &&
+                unionMember1 == other.unionMember1
         }
 
-        override fun hashCode(): Int = /* spotless:off */ Objects.hash(unnamedSchemaWithArrayParent1s, unionMember1) /* spotless:on */
+        override fun hashCode(): Int = Objects.hash(unnamedSchemaWithArrayParent1s, unionMember1)
 
         override fun toString(): String =
             when {
@@ -1159,12 +1161,11 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is UnnamedSchemaWithArrayParent1 && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is UnnamedSchemaWithArrayParent1 &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
             private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
-            /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
@@ -1264,12 +1265,10 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is UnionMember1 && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is UnionMember1 && additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
             private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
-            /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
@@ -1483,7 +1482,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is SwarmType && value == other.value /* spotless:on */
+            return other is SwarmType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1496,12 +1495,47 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is SwarmSpec && agents == other.agents && description == other.description && heavySwarmLoopsPerAgent == other.heavySwarmLoopsPerAgent && heavySwarmQuestionAgentModelName == other.heavySwarmQuestionAgentModelName && heavySwarmWorkerModelName == other.heavySwarmWorkerModelName && img == other.img && maxLoops == other.maxLoops && messages == other.messages && name == other.name && rearrangeFlow == other.rearrangeFlow && rules == other.rules && serviceTier == other.serviceTier && stream == other.stream && swarmType == other.swarmType && task == other.task && tasks == other.tasks && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is SwarmSpec &&
+            agents == other.agents &&
+            description == other.description &&
+            heavySwarmLoopsPerAgent == other.heavySwarmLoopsPerAgent &&
+            heavySwarmQuestionAgentModelName == other.heavySwarmQuestionAgentModelName &&
+            heavySwarmWorkerModelName == other.heavySwarmWorkerModelName &&
+            img == other.img &&
+            maxLoops == other.maxLoops &&
+            messages == other.messages &&
+            name == other.name &&
+            rearrangeFlow == other.rearrangeFlow &&
+            rules == other.rules &&
+            serviceTier == other.serviceTier &&
+            stream == other.stream &&
+            swarmType == other.swarmType &&
+            task == other.task &&
+            tasks == other.tasks &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(agents, description, heavySwarmLoopsPerAgent, heavySwarmQuestionAgentModelName, heavySwarmWorkerModelName, img, maxLoops, messages, name, rearrangeFlow, rules, serviceTier, stream, swarmType, task, tasks, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            agents,
+            description,
+            heavySwarmLoopsPerAgent,
+            heavySwarmQuestionAgentModelName,
+            heavySwarmWorkerModelName,
+            img,
+            maxLoops,
+            messages,
+            name,
+            rearrangeFlow,
+            rules,
+            serviceTier,
+            stream,
+            swarmType,
+            task,
+            tasks,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

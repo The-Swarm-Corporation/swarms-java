@@ -190,10 +190,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AgentRunParams && agentCompletion == other.agentCompletion && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AgentRunParams &&
+            agentCompletion == other.agentCompletion &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(agentCompletion, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(agentCompletion, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "AgentRunParams{agentCompletion=$agentCompletion, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

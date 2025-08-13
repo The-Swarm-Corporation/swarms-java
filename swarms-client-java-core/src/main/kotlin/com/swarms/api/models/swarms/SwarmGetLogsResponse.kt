@@ -230,12 +230,17 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is SwarmGetLogsResponse && count == other.count && logs == other.logs && status == other.status && timestamp == other.timestamp && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is SwarmGetLogsResponse &&
+            count == other.count &&
+            logs == other.logs &&
+            status == other.status &&
+            timestamp == other.timestamp &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(count, logs, status, timestamp, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(count, logs, status, timestamp, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 
