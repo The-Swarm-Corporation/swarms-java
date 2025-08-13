@@ -484,12 +484,10 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Usage && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Usage && additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -501,12 +499,31 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AgentRunResponse && id == other.id && description == other.description && name == other.name && outputs == other.outputs && success == other.success && temperature == other.temperature && timestamp == other.timestamp && usage == other.usage && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is AgentRunResponse &&
+            id == other.id &&
+            description == other.description &&
+            name == other.name &&
+            outputs == other.outputs &&
+            success == other.success &&
+            temperature == other.temperature &&
+            timestamp == other.timestamp &&
+            usage == other.usage &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, description, name, outputs, success, temperature, timestamp, usage, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            id,
+            description,
+            name,
+            outputs,
+            success,
+            temperature,
+            timestamp,
+            usage,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

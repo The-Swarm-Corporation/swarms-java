@@ -300,12 +300,25 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BatchRunResponse && batchId == other.batchId && executionTime == other.executionTime && results == other.results && timestamp == other.timestamp && totalRequests == other.totalRequests && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is BatchRunResponse &&
+            batchId == other.batchId &&
+            executionTime == other.executionTime &&
+            results == other.results &&
+            timestamp == other.timestamp &&
+            totalRequests == other.totalRequests &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(batchId, executionTime, results, timestamp, totalRequests, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            batchId,
+            executionTime,
+            results,
+            timestamp,
+            totalRequests,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

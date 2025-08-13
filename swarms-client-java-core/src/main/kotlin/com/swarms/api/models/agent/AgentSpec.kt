@@ -899,12 +899,10 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is LlmArgs && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is LlmArgs && additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -1001,12 +999,11 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ToolsListDictionary && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is ToolsListDictionary &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -1018,12 +1015,43 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AgentSpec && agentName == other.agentName && autoGeneratePrompt == other.autoGeneratePrompt && description == other.description && dynamicTemperatureEnabled == other.dynamicTemperatureEnabled && llmArgs == other.llmArgs && maxLoops == other.maxLoops && maxTokens == other.maxTokens && mcpUrl == other.mcpUrl && modelName == other.modelName && role == other.role && streamingOn == other.streamingOn && systemPrompt == other.systemPrompt && temperature == other.temperature && toolsListDictionary == other.toolsListDictionary && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is AgentSpec &&
+            agentName == other.agentName &&
+            autoGeneratePrompt == other.autoGeneratePrompt &&
+            description == other.description &&
+            dynamicTemperatureEnabled == other.dynamicTemperatureEnabled &&
+            llmArgs == other.llmArgs &&
+            maxLoops == other.maxLoops &&
+            maxTokens == other.maxTokens &&
+            mcpUrl == other.mcpUrl &&
+            modelName == other.modelName &&
+            role == other.role &&
+            streamingOn == other.streamingOn &&
+            systemPrompt == other.systemPrompt &&
+            temperature == other.temperature &&
+            toolsListDictionary == other.toolsListDictionary &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(agentName, autoGeneratePrompt, description, dynamicTemperatureEnabled, llmArgs, maxLoops, maxTokens, mcpUrl, modelName, role, streamingOn, systemPrompt, temperature, toolsListDictionary, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            agentName,
+            autoGeneratePrompt,
+            description,
+            dynamicTemperatureEnabled,
+            llmArgs,
+            maxLoops,
+            maxTokens,
+            mcpUrl,
+            modelName,
+            role,
+            streamingOn,
+            systemPrompt,
+            temperature,
+            toolsListDictionary,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

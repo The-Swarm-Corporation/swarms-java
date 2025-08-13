@@ -622,12 +622,10 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Usage && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Usage && additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -639,12 +637,35 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is SwarmRunResponse && description == other.description && executionTime == other.executionTime && jobId == other.jobId && numberOfAgents == other.numberOfAgents && output == other.output && serviceTier == other.serviceTier && status == other.status && swarmName == other.swarmName && swarmType == other.swarmType && usage == other.usage && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is SwarmRunResponse &&
+            description == other.description &&
+            executionTime == other.executionTime &&
+            jobId == other.jobId &&
+            numberOfAgents == other.numberOfAgents &&
+            output == other.output &&
+            serviceTier == other.serviceTier &&
+            status == other.status &&
+            swarmName == other.swarmName &&
+            swarmType == other.swarmType &&
+            usage == other.usage &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(description, executionTime, jobId, numberOfAgents, output, serviceTier, status, swarmName, swarmType, usage, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            description,
+            executionTime,
+            jobId,
+            numberOfAgents,
+            output,
+            serviceTier,
+            status,
+            swarmName,
+            swarmType,
+            usage,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 
