@@ -14,8 +14,8 @@ internal class AgentRunResponseTest {
     fun create() {
         val agentRunResponse =
             AgentRunResponse.builder()
-                .id("id")
                 .description("description")
+                .jobId("job_id")
                 .name("name")
                 .outputs(JsonValue.from(mapOf<String, Any>()))
                 .success(true)
@@ -28,8 +28,8 @@ internal class AgentRunResponseTest {
                 )
                 .build()
 
-        assertThat(agentRunResponse.id()).contains("id")
         assertThat(agentRunResponse.description()).contains("description")
+        assertThat(agentRunResponse.jobId()).contains("job_id")
         assertThat(agentRunResponse.name()).contains("name")
         assertThat(agentRunResponse._outputs()).isEqualTo(JsonValue.from(mapOf<String, Any>()))
         assertThat(agentRunResponse.success()).contains(true)
@@ -48,8 +48,8 @@ internal class AgentRunResponseTest {
         val jsonMapper = jsonMapper()
         val agentRunResponse =
             AgentRunResponse.builder()
-                .id("id")
                 .description("description")
+                .jobId("job_id")
                 .name("name")
                 .outputs(JsonValue.from(mapOf<String, Any>()))
                 .success(true)
