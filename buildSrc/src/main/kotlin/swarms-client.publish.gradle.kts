@@ -10,7 +10,7 @@ configure<PublishingExtension> {
 
             pom {
                 name.set("Swarms API")
-                description.set("The Swarms API is a RESTful interface designed for seamless interaction with the\nSwarms framework. It offers endpoints for managing and executing swarms, agents,\nand related resources, all powered by an ultra-optimized runtime for maximum\nperformance and efficiency. To obtain your API key, please visit the\n[Swarms API Keys page](https://swarms.world/platform/api-keys). Comprehensive\ndocumentation is available at the\n[Swarms API Documentation](https://docs.swarms.world).")
+                description.set("The Swarms API delivers a high-performance, enterprise-grade platform for\norchestrating advanced multi-agent systems. Built on a Rust-powered agent\nruntime, it enables scalable, robust, and secure agent collaboration, supporting\ncomplex workflows and dynamic agent communication. The API exposes a\ncomprehensive suite of RESTful endpoints for the management, execution, and\nmonitoring of agents, swarms, and related resources, empowering organizations to\nautomate and optimize mission-critical processes. To access the API, obtain your\nAPI key from the [Swarms API Keys page](https://swarms.world/platform/api-keys).\nFor detailed integration guides, best practices, and reference material, consult\nthe [Swarms API Documentation](https://docs.swarms.ai).")
                 url.set("https://docs.swarms.world/en/latest/")
 
                 licenses {

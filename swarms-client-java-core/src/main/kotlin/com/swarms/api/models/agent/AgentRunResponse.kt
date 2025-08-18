@@ -19,8 +19,8 @@ import kotlin.jvm.optionals.getOrNull
 
 class AgentRunResponse
 private constructor(
-    private val id: JsonField<String>,
     private val description: JsonField<String>,
+    private val jobId: JsonField<String>,
     private val name: JsonField<String>,
     private val outputs: JsonValue,
     private val success: JsonField<Boolean>,
@@ -32,10 +32,10 @@ private constructor(
 
     @JsonCreator
     private constructor(
-        @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
         @JsonProperty("description")
         @ExcludeMissing
         description: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("job_id") @ExcludeMissing jobId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
         @JsonProperty("outputs") @ExcludeMissing outputs: JsonValue = JsonMissing.of(),
         @JsonProperty("success") @ExcludeMissing success: JsonField<Boolean> = JsonMissing.of(),
@@ -44,15 +44,17 @@ private constructor(
         temperature: JsonField<Double> = JsonMissing.of(),
         @JsonProperty("timestamp") @ExcludeMissing timestamp: JsonField<String> = JsonMissing.of(),
         @JsonProperty("usage") @ExcludeMissing usage: JsonField<Usage> = JsonMissing.of(),
-    ) : this(id, description, name, outputs, success, temperature, timestamp, usage, mutableMapOf())
-
-    /**
-     * The unique identifier for the agent completion.
-     *
-     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
-     *   the server responded with an unexpected value).
-     */
-    fun id(): Optional<String> = id.getOptional("id")
+    ) : this(
+        description,
+        jobId,
+        name,
+        outputs,
+        success,
+        temperature,
+        timestamp,
+        usage,
+        mutableMapOf(),
+    )
 
     /**
      * A description of the agent or completion.
@@ -61,6 +63,14 @@ private constructor(
      *   the server responded with an unexpected value).
      */
     fun description(): Optional<String> = description.getOptional("description")
+
+    /**
+     * The unique identifier for the agent completion.
+     *
+     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
+     *   the server responded with an unexpected value).
+     */
+    fun jobId(): Optional<String> = jobId.getOptional("job_id")
 
     /**
      * The name of the agent.
@@ -106,18 +116,18 @@ private constructor(
     fun usage(): Optional<Usage> = usage.getOptional("usage")
 
     /**
-     * Returns the raw JSON value of [id].
-     *
-     * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
-
-    /**
      * Returns the raw JSON value of [description].
      *
      * Unlike [description], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("description") @ExcludeMissing fun _description(): JsonField<String> = description
+
+    /**
+     * Returns the raw JSON value of [jobId].
+     *
+     * Unlike [jobId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("job_id") @ExcludeMissing fun _jobId(): JsonField<String> = jobId
 
     /**
      * Returns the raw JSON value of [name].
@@ -175,8 +185,8 @@ private constructor(
     /** A builder for [AgentRunResponse]. */
     class Builder internal constructor() {
 
-        private var id: JsonField<String> = JsonMissing.of()
         private var description: JsonField<String> = JsonMissing.of()
+        private var jobId: JsonField<String> = JsonMissing.of()
         private var name: JsonField<String> = JsonMissing.of()
         private var outputs: JsonValue = JsonMissing.of()
         private var success: JsonField<Boolean> = JsonMissing.of()
@@ -187,8 +197,8 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(agentRunResponse: AgentRunResponse) = apply {
-            id = agentRunResponse.id
             description = agentRunResponse.description
+            jobId = agentRunResponse.jobId
             name = agentRunResponse.name
             outputs = agentRunResponse.outputs
             success = agentRunResponse.success
@@ -197,20 +207,6 @@ private constructor(
             usage = agentRunResponse.usage
             additionalProperties = agentRunResponse.additionalProperties.toMutableMap()
         }
-
-        /** The unique identifier for the agent completion. */
-        fun id(id: String?) = id(JsonField.ofNullable(id))
-
-        /** Alias for calling [Builder.id] with `id.orElse(null)`. */
-        fun id(id: Optional<String>) = id(id.getOrNull())
-
-        /**
-         * Sets [Builder.id] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.id] with a well-typed [String] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
-         */
-        fun id(id: JsonField<String>) = apply { this.id = id }
 
         /** A description of the agent or completion. */
         fun description(description: String?) = description(JsonField.ofNullable(description))
@@ -226,6 +222,20 @@ private constructor(
          * value.
          */
         fun description(description: JsonField<String>) = apply { this.description = description }
+
+        /** The unique identifier for the agent completion. */
+        fun jobId(jobId: String?) = jobId(JsonField.ofNullable(jobId))
+
+        /** Alias for calling [Builder.jobId] with `jobId.orElse(null)`. */
+        fun jobId(jobId: Optional<String>) = jobId(jobId.getOrNull())
+
+        /**
+         * Sets [Builder.jobId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.jobId] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun jobId(jobId: JsonField<String>) = apply { this.jobId = jobId }
 
         /** The name of the agent. */
         fun name(name: String?) = name(JsonField.ofNullable(name))
@@ -342,8 +352,8 @@ private constructor(
          */
         fun build(): AgentRunResponse =
             AgentRunResponse(
-                id,
                 description,
+                jobId,
                 name,
                 outputs,
                 success,
@@ -361,8 +371,8 @@ private constructor(
             return@apply
         }
 
-        id()
         description()
+        jobId()
         name()
         success()
         temperature()
@@ -386,8 +396,8 @@ private constructor(
      */
     @JvmSynthetic
     internal fun validity(): Int =
-        (if (id.asKnown().isPresent) 1 else 0) +
-            (if (description.asKnown().isPresent) 1 else 0) +
+        (if (description.asKnown().isPresent) 1 else 0) +
+            (if (jobId.asKnown().isPresent) 1 else 0) +
             (if (name.asKnown().isPresent) 1 else 0) +
             (if (success.asKnown().isPresent) 1 else 0) +
             (if (temperature.asKnown().isPresent) 1 else 0) +
@@ -500,8 +510,8 @@ private constructor(
         }
 
         return other is AgentRunResponse &&
-            id == other.id &&
             description == other.description &&
+            jobId == other.jobId &&
             name == other.name &&
             outputs == other.outputs &&
             success == other.success &&
@@ -513,8 +523,8 @@ private constructor(
 
     private val hashCode: Int by lazy {
         Objects.hash(
-            id,
             description,
+            jobId,
             name,
             outputs,
             success,
@@ -528,5 +538,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "AgentRunResponse{id=$id, description=$description, name=$name, outputs=$outputs, success=$success, temperature=$temperature, timestamp=$timestamp, usage=$usage, additionalProperties=$additionalProperties}"
+        "AgentRunResponse{description=$description, jobId=$jobId, name=$name, outputs=$outputs, success=$success, temperature=$temperature, timestamp=$timestamp, usage=$usage, additionalProperties=$additionalProperties}"
 }
