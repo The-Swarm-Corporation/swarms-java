@@ -27,7 +27,7 @@ interface AgentServiceAsync {
 
     fun batch(): BatchServiceAsync
 
-    /** Run an agent with the specified task. */
+    /** Run an agent with the specified task. Supports streaming when stream=True. */
     fun run(params: AgentRunParams): CompletableFuture<AgentRunResponse> =
         run(params, RequestOptions.none())
 

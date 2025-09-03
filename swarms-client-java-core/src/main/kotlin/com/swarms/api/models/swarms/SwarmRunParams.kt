@@ -9,7 +9,7 @@ import com.swarms.api.core.http.Headers
 import com.swarms.api.core.http.QueryParams
 import java.util.Objects
 
-/** Run a swarm with the specified task. */
+/** Run a swarm with the specified task. Supports streaming when stream=True. */
 class SwarmRunParams
 private constructor(
     private val swarmSpec: SwarmSpec,

@@ -35,8 +35,8 @@ private constructor(
     private val history: JsonField<History>,
     private val img: JsonField<String>,
     private val imgs: JsonField<List<String>>,
-    private val stream: JsonField<Boolean>,
     private val task: JsonField<String>,
+    private val toolsEnabled: JsonField<List<String>>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -48,9 +48,11 @@ private constructor(
         @JsonProperty("history") @ExcludeMissing history: JsonField<History> = JsonMissing.of(),
         @JsonProperty("img") @ExcludeMissing img: JsonField<String> = JsonMissing.of(),
         @JsonProperty("imgs") @ExcludeMissing imgs: JsonField<List<String>> = JsonMissing.of(),
-        @JsonProperty("stream") @ExcludeMissing stream: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("task") @ExcludeMissing task: JsonField<String> = JsonMissing.of(),
-    ) : this(agentConfig, history, img, imgs, stream, task, mutableMapOf())
+        @JsonProperty("tools_enabled")
+        @ExcludeMissing
+        toolsEnabled: JsonField<List<String>> = JsonMissing.of(),
+    ) : this(agentConfig, history, img, imgs, task, toolsEnabled, mutableMapOf())
 
     /**
      * The configuration of the agent to be completed.
@@ -86,20 +88,20 @@ private constructor(
     fun imgs(): Optional<List<String>> = imgs.getOptional("imgs")
 
     /**
-     * A flag indicating whether the agent should stream its output.
-     *
-     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
-     *   the server responded with an unexpected value).
-     */
-    fun stream(): Optional<Boolean> = stream.getOptional("stream")
-
-    /**
      * The task to be completed by the agent.
      *
      * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
      *   the server responded with an unexpected value).
      */
     fun task(): Optional<String> = task.getOptional("task")
+
+    /**
+     * A list of tools that the agent should use to complete its task.
+     *
+     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
+     *   the server responded with an unexpected value).
+     */
+    fun toolsEnabled(): Optional<List<String>> = toolsEnabled.getOptional("tools_enabled")
 
     /**
      * Returns the raw JSON value of [agentConfig].
@@ -132,18 +134,20 @@ private constructor(
     @JsonProperty("imgs") @ExcludeMissing fun _imgs(): JsonField<List<String>> = imgs
 
     /**
-     * Returns the raw JSON value of [stream].
-     *
-     * Unlike [stream], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("stream") @ExcludeMissing fun _stream(): JsonField<Boolean> = stream
-
-    /**
      * Returns the raw JSON value of [task].
      *
      * Unlike [task], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("task") @ExcludeMissing fun _task(): JsonField<String> = task
+
+    /**
+     * Returns the raw JSON value of [toolsEnabled].
+     *
+     * Unlike [toolsEnabled], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("tools_enabled")
+    @ExcludeMissing
+    fun _toolsEnabled(): JsonField<List<String>> = toolsEnabled
 
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -170,8 +174,8 @@ private constructor(
         private var history: JsonField<History> = JsonMissing.of()
         private var img: JsonField<String> = JsonMissing.of()
         private var imgs: JsonField<MutableList<String>>? = null
-        private var stream: JsonField<Boolean> = JsonMissing.of()
         private var task: JsonField<String> = JsonMissing.of()
+        private var toolsEnabled: JsonField<MutableList<String>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -180,8 +184,8 @@ private constructor(
             history = agentCompletion.history
             img = agentCompletion.img
             imgs = agentCompletion.imgs.map { it.toMutableList() }
-            stream = agentCompletion.stream
             task = agentCompletion.task
+            toolsEnabled = agentCompletion.toolsEnabled.map { it.toMutableList() }
             additionalProperties = agentCompletion.additionalProperties.toMutableMap()
         }
 
@@ -271,27 +275,6 @@ private constructor(
             imgs = (imgs ?: JsonField.of(mutableListOf())).also { checkKnown("imgs", it).add(img) }
         }
 
-        /** A flag indicating whether the agent should stream its output. */
-        fun stream(stream: Boolean?) = stream(JsonField.ofNullable(stream))
-
-        /**
-         * Alias for [Builder.stream].
-         *
-         * This unboxed primitive overload exists for backwards compatibility.
-         */
-        fun stream(stream: Boolean) = stream(stream as Boolean?)
-
-        /** Alias for calling [Builder.stream] with `stream.orElse(null)`. */
-        fun stream(stream: Optional<Boolean>) = stream(stream.getOrNull())
-
-        /**
-         * Sets [Builder.stream] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.stream] with a well-typed [Boolean] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
-         */
-        fun stream(stream: JsonField<Boolean>) = apply { this.stream = stream }
-
         /** The task to be completed by the agent. */
         fun task(task: String?) = task(JsonField.ofNullable(task))
 
@@ -305,6 +288,37 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun task(task: JsonField<String>) = apply { this.task = task }
+
+        /** A list of tools that the agent should use to complete its task. */
+        fun toolsEnabled(toolsEnabled: List<String>?) =
+            toolsEnabled(JsonField.ofNullable(toolsEnabled))
+
+        /** Alias for calling [Builder.toolsEnabled] with `toolsEnabled.orElse(null)`. */
+        fun toolsEnabled(toolsEnabled: Optional<List<String>>) =
+            toolsEnabled(toolsEnabled.getOrNull())
+
+        /**
+         * Sets [Builder.toolsEnabled] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.toolsEnabled] with a well-typed `List<String>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun toolsEnabled(toolsEnabled: JsonField<List<String>>) = apply {
+            this.toolsEnabled = toolsEnabled.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [String] to [Builder.toolsEnabled].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addToolsEnabled(toolsEnabled: String) = apply {
+            this.toolsEnabled =
+                (this.toolsEnabled ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("toolsEnabled", it).add(toolsEnabled)
+                }
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -336,8 +350,8 @@ private constructor(
                 history,
                 img,
                 (imgs ?: JsonMissing.of()).map { it.toImmutable() },
-                stream,
                 task,
+                (toolsEnabled ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
             )
     }
@@ -353,8 +367,8 @@ private constructor(
         history().ifPresent { it.validate() }
         img()
         imgs()
-        stream()
         task()
+        toolsEnabled()
         validated = true
     }
 
@@ -377,8 +391,8 @@ private constructor(
             (history.asKnown().getOrNull()?.validity() ?: 0) +
             (if (img.asKnown().isPresent) 1 else 0) +
             (imgs.asKnown().getOrNull()?.size ?: 0) +
-            (if (stream.asKnown().isPresent) 1 else 0) +
-            (if (task.asKnown().isPresent) 1 else 0)
+            (if (task.asKnown().isPresent) 1 else 0) +
+            (toolsEnabled.asKnown().getOrNull()?.size ?: 0)
 
     /**
      * The history of the agent's previous tasks and responses. Can be either a dictionary or a list
@@ -802,17 +816,17 @@ private constructor(
             history == other.history &&
             img == other.img &&
             imgs == other.imgs &&
-            stream == other.stream &&
             task == other.task &&
+            toolsEnabled == other.toolsEnabled &&
             additionalProperties == other.additionalProperties
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(agentConfig, history, img, imgs, stream, task, additionalProperties)
+        Objects.hash(agentConfig, history, img, imgs, task, toolsEnabled, additionalProperties)
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "AgentCompletion{agentConfig=$agentConfig, history=$history, img=$img, imgs=$imgs, stream=$stream, task=$task, additionalProperties=$additionalProperties}"
+        "AgentCompletion{agentConfig=$agentConfig, history=$history, img=$img, imgs=$imgs, task=$task, toolsEnabled=$toolsEnabled, additionalProperties=$additionalProperties}"
 }

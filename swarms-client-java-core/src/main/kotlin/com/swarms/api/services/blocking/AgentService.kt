@@ -27,7 +27,7 @@ interface AgentService {
 
     fun batch(): BatchService
 
-    /** Run an agent with the specified task. */
+    /** Run an agent with the specified task. Supports streaming when stream=True. */
     fun run(params: AgentRunParams): AgentRunResponse = run(params, RequestOptions.none())
 
     /** @see run */

@@ -74,7 +74,7 @@ interface SwarmServiceAsync {
     fun getLogs(requestOptions: RequestOptions): CompletableFuture<SwarmGetLogsResponse> =
         getLogs(SwarmGetLogsParams.none(), requestOptions)
 
-    /** Run a swarm with the specified task. */
+    /** Run a swarm with the specified task. Supports streaming when stream=True. */
     fun run(params: SwarmRunParams): CompletableFuture<SwarmRunResponse> =
         run(params, RequestOptions.none())
 
