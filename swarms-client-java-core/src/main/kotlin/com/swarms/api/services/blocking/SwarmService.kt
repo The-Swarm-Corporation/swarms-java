@@ -70,7 +70,7 @@ interface SwarmService {
     fun getLogs(requestOptions: RequestOptions): SwarmGetLogsResponse =
         getLogs(SwarmGetLogsParams.none(), requestOptions)
 
-    /** Run a swarm with the specified task. */
+    /** Run a swarm with the specified task. Supports streaming when stream=True. */
     fun run(params: SwarmRunParams): SwarmRunResponse = run(params, RequestOptions.none())
 
     /** @see run */

@@ -9,7 +9,7 @@ import com.swarms.api.core.http.Headers
 import com.swarms.api.core.http.QueryParams
 import java.util.Objects
 
-/** Run an agent with the specified task. */
+/** Run an agent with the specified task. Supports streaming when stream=True. */
 class AgentRunParams
 private constructor(
     private val agentCompletion: AgentCompletion,

@@ -1295,8 +1295,6 @@ private constructor(
 
             @JvmField val MIXTURE_OF_AGENTS = of("MixtureOfAgents")
 
-            @JvmField val SPREAD_SHEET_SWARM = of("SpreadSheetSwarm")
-
             @JvmField val SEQUENTIAL_WORKFLOW = of("SequentialWorkflow")
 
             @JvmField val CONCURRENT_WORKFLOW = of("ConcurrentWorkflow")
@@ -1330,7 +1328,6 @@ private constructor(
         enum class Known {
             AGENT_REARRANGE,
             MIXTURE_OF_AGENTS,
-            SPREAD_SHEET_SWARM,
             SEQUENTIAL_WORKFLOW,
             CONCURRENT_WORKFLOW,
             GROUP_CHAT,
@@ -1358,7 +1355,6 @@ private constructor(
         enum class Value {
             AGENT_REARRANGE,
             MIXTURE_OF_AGENTS,
-            SPREAD_SHEET_SWARM,
             SEQUENTIAL_WORKFLOW,
             CONCURRENT_WORKFLOW,
             GROUP_CHAT,
@@ -1389,7 +1385,6 @@ private constructor(
             when (this) {
                 AGENT_REARRANGE -> Value.AGENT_REARRANGE
                 MIXTURE_OF_AGENTS -> Value.MIXTURE_OF_AGENTS
-                SPREAD_SHEET_SWARM -> Value.SPREAD_SHEET_SWARM
                 SEQUENTIAL_WORKFLOW -> Value.SEQUENTIAL_WORKFLOW
                 CONCURRENT_WORKFLOW -> Value.CONCURRENT_WORKFLOW
                 GROUP_CHAT -> Value.GROUP_CHAT
@@ -1419,7 +1414,6 @@ private constructor(
             when (this) {
                 AGENT_REARRANGE -> Known.AGENT_REARRANGE
                 MIXTURE_OF_AGENTS -> Known.MIXTURE_OF_AGENTS
-                SPREAD_SHEET_SWARM -> Known.SPREAD_SHEET_SWARM
                 SEQUENTIAL_WORKFLOW -> Known.SEQUENTIAL_WORKFLOW
                 CONCURRENT_WORKFLOW -> Known.CONCURRENT_WORKFLOW
                 GROUP_CHAT -> Known.GROUP_CHAT
