@@ -32,6 +32,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class SwarmSpec
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val agents: JsonField<List<AgentSpec>>,
     private val description: JsonField<String>,

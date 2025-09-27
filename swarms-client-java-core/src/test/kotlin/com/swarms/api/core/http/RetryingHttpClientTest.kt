@@ -6,6 +6,7 @@ import com.github.tomakehurst.wiremock.junit5.WireMockTest
 import com.github.tomakehurst.wiremock.stubbing.Scenario
 import com.swarms.api.client.okhttp.OkHttpClient
 import com.swarms.api.core.RequestOptions
+import com.swarms.api.core.Sleeper
 import com.swarms.api.errors.SwarmsClientRetryableException
 import java.io.InputStream
 import java.time.Duration
@@ -294,12 +295,14 @@ internal class RetryingHttpClientTest {
                 .httpClient(failingHttpClient)
                 .maxRetries(2)
                 .sleeper(
-                    object : RetryingHttpClient.Sleeper {
+                    object : Sleeper {
 
                         override fun sleep(duration: Duration) {}
 
                         override fun sleepAsync(duration: Duration): CompletableFuture<Void> =
                             CompletableFuture.completedFuture(null)
+
+                        override fun close() {}
                     }
                 )
                 .build()
@@ -333,12 +336,14 @@ internal class RetryingHttpClientTest {
             .httpClient(httpClient)
             // Use a no-op `Sleeper` to make the test fast.
             .sleeper(
-                object : RetryingHttpClient.Sleeper {
+                object : Sleeper {
 
                     override fun sleep(duration: Duration) {}
 
                     override fun sleepAsync(duration: Duration): CompletableFuture<Void> =
                         CompletableFuture.completedFuture(null)
+
+                    override fun close() {}
                 }
             )
 

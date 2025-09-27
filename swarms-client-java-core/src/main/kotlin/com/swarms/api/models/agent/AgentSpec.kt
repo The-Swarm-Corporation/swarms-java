@@ -20,6 +20,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class AgentSpec
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val agentName: JsonField<String>,
     private val autoGeneratePrompt: JsonField<Boolean>,
@@ -1204,6 +1205,7 @@ private constructor(
 
     /** The MCP connection to use for the agent. */
     class McpConfig
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val authorizationToken: JsonField<String>,
         private val headers: JsonField<Headers>,
@@ -1851,6 +1853,7 @@ private constructor(
      * multiple MCP connections.
      */
     class McpConfigs
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val connections: JsonField<List<Connection>>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -2011,6 +2014,7 @@ private constructor(
             (connections.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0)
 
         class Connection
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val authorizationToken: JsonField<String>,
             private val headers: JsonField<Headers>,

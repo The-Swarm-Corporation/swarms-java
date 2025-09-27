@@ -5,6 +5,7 @@ package com.swarms.api.services.async
 import com.swarms.api.core.ClientOptions
 import com.swarms.api.core.RequestOptions
 import com.swarms.api.core.http.HttpResponseFor
+import com.swarms.api.models.agent.AgentCompletion
 import com.swarms.api.models.agent.AgentRunParams
 import com.swarms.api.models.agent.AgentRunResponse
 import com.swarms.api.services.async.agent.BatchServiceAsync
@@ -37,6 +38,17 @@ interface AgentServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AgentRunResponse>
 
+    /** @see run */
+    fun run(
+        agentCompletion: AgentCompletion,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<AgentRunResponse> =
+        run(AgentRunParams.builder().agentCompletion(agentCompletion).build(), requestOptions)
+
+    /** @see run */
+    fun run(agentCompletion: AgentCompletion): CompletableFuture<AgentRunResponse> =
+        run(agentCompletion, RequestOptions.none())
+
     /** A view of [AgentServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
 
@@ -63,5 +75,18 @@ interface AgentServiceAsync {
             params: AgentRunParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AgentRunResponse>>
+
+        /** @see run */
+        fun run(
+            agentCompletion: AgentCompletion,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AgentRunResponse>> =
+            run(AgentRunParams.builder().agentCompletion(agentCompletion).build(), requestOptions)
+
+        /** @see run */
+        fun run(
+            agentCompletion: AgentCompletion
+        ): CompletableFuture<HttpResponseFor<AgentRunResponse>> =
+            run(agentCompletion, RequestOptions.none())
     }
 }

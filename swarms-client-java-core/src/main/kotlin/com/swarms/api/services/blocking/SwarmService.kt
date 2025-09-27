@@ -12,6 +12,7 @@ import com.swarms.api.models.swarms.SwarmGetLogsParams
 import com.swarms.api.models.swarms.SwarmGetLogsResponse
 import com.swarms.api.models.swarms.SwarmRunParams
 import com.swarms.api.models.swarms.SwarmRunResponse
+import com.swarms.api.models.swarms.SwarmSpec
 import com.swarms.api.services.blocking.swarms.BatchService
 import java.util.function.Consumer
 
@@ -78,6 +79,15 @@ interface SwarmService {
         params: SwarmRunParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): SwarmRunResponse
+
+    /** @see run */
+    fun run(
+        swarmSpec: SwarmSpec,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): SwarmRunResponse = run(SwarmRunParams.builder().swarmSpec(swarmSpec).build(), requestOptions)
+
+    /** @see run */
+    fun run(swarmSpec: SwarmSpec): SwarmRunResponse = run(swarmSpec, RequestOptions.none())
 
     /** A view of [SwarmService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -159,5 +169,18 @@ interface SwarmService {
             params: SwarmRunParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<SwarmRunResponse>
+
+        /** @see run */
+        @MustBeClosed
+        fun run(
+            swarmSpec: SwarmSpec,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<SwarmRunResponse> =
+            run(SwarmRunParams.builder().swarmSpec(swarmSpec).build(), requestOptions)
+
+        /** @see run */
+        @MustBeClosed
+        fun run(swarmSpec: SwarmSpec): HttpResponseFor<SwarmRunResponse> =
+            run(swarmSpec, RequestOptions.none())
     }
 }

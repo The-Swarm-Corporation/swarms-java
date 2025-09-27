@@ -18,6 +18,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class RateGetLimitsResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val limits: JsonField<Limits>,
     private val rateLimits: JsonField<RateLimits>,
@@ -325,6 +326,7 @@ private constructor(
 
     /** The configured rate limits based on the user's subscription tier. */
     class Limits
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val maximumRequestsPerDay: JsonField<Long>,
         private val maximumRequestsPerHour: JsonField<Long>,
@@ -645,6 +647,7 @@ private constructor(
 
     /** Current rate limit usage information for different time windows. */
     class RateLimits
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val day: JsonField<Day>,
         private val hour: JsonField<Hour>,
@@ -860,6 +863,7 @@ private constructor(
 
         /** Rate limit information for the last day. */
         class Day
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val count: JsonField<Long>,
             private val exceeded: JsonField<Boolean>,
@@ -1190,6 +1194,7 @@ private constructor(
 
         /** Rate limit information for the last hour. */
         class Hour
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val count: JsonField<Long>,
             private val exceeded: JsonField<Boolean>,
@@ -1520,6 +1525,7 @@ private constructor(
 
         /** Rate limit information for the last minute. */
         class Minute
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val count: JsonField<Long>,
             private val exceeded: JsonField<Boolean>,

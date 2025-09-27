@@ -17,6 +17,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class ModelListAvailableResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val models: JsonValue,
     private val success: JsonField<Boolean>,
