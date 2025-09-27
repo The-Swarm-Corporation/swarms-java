@@ -19,6 +19,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class SwarmRunResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val description: JsonField<String>,
     private val executionTime: JsonField<Double>,

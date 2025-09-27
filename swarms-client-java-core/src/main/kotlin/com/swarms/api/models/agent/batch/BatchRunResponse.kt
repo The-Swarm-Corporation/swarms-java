@@ -17,6 +17,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class BatchRunResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val batchId: JsonField<String>,
     private val executionTime: JsonField<Double>,

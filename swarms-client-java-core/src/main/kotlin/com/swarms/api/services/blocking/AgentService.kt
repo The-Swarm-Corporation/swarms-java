@@ -6,6 +6,7 @@ import com.google.errorprone.annotations.MustBeClosed
 import com.swarms.api.core.ClientOptions
 import com.swarms.api.core.RequestOptions
 import com.swarms.api.core.http.HttpResponseFor
+import com.swarms.api.models.agent.AgentCompletion
 import com.swarms.api.models.agent.AgentRunParams
 import com.swarms.api.models.agent.AgentRunResponse
 import com.swarms.api.services.blocking.agent.BatchService
@@ -36,6 +37,17 @@ interface AgentService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AgentRunResponse
 
+    /** @see run */
+    fun run(
+        agentCompletion: AgentCompletion,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): AgentRunResponse =
+        run(AgentRunParams.builder().agentCompletion(agentCompletion).build(), requestOptions)
+
+    /** @see run */
+    fun run(agentCompletion: AgentCompletion): AgentRunResponse =
+        run(agentCompletion, RequestOptions.none())
+
     /** A view of [AgentService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
 
@@ -62,5 +74,18 @@ interface AgentService {
             params: AgentRunParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AgentRunResponse>
+
+        /** @see run */
+        @MustBeClosed
+        fun run(
+            agentCompletion: AgentCompletion,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<AgentRunResponse> =
+            run(AgentRunParams.builder().agentCompletion(agentCompletion).build(), requestOptions)
+
+        /** @see run */
+        @MustBeClosed
+        fun run(agentCompletion: AgentCompletion): HttpResponseFor<AgentRunResponse> =
+            run(agentCompletion, RequestOptions.none())
     }
 }

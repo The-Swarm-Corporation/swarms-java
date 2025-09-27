@@ -11,6 +11,7 @@ import com.swarms.api.models.swarms.SwarmGetLogsParams
 import com.swarms.api.models.swarms.SwarmGetLogsResponse
 import com.swarms.api.models.swarms.SwarmRunParams
 import com.swarms.api.models.swarms.SwarmRunResponse
+import com.swarms.api.models.swarms.SwarmSpec
 import com.swarms.api.services.async.swarms.BatchServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -83,6 +84,17 @@ interface SwarmServiceAsync {
         params: SwarmRunParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<SwarmRunResponse>
+
+    /** @see run */
+    fun run(
+        swarmSpec: SwarmSpec,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<SwarmRunResponse> =
+        run(SwarmRunParams.builder().swarmSpec(swarmSpec).build(), requestOptions)
+
+    /** @see run */
+    fun run(swarmSpec: SwarmSpec): CompletableFuture<SwarmRunResponse> =
+        run(swarmSpec, RequestOptions.none())
 
     /** A view of [SwarmServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -160,5 +172,16 @@ interface SwarmServiceAsync {
             params: SwarmRunParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<SwarmRunResponse>>
+
+        /** @see run */
+        fun run(
+            swarmSpec: SwarmSpec,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<SwarmRunResponse>> =
+            run(SwarmRunParams.builder().swarmSpec(swarmSpec).build(), requestOptions)
+
+        /** @see run */
+        fun run(swarmSpec: SwarmSpec): CompletableFuture<HttpResponseFor<SwarmRunResponse>> =
+            run(swarmSpec, RequestOptions.none())
     }
 }
