@@ -6,6 +6,8 @@ import com.swarms.api.core.ClientOptions
 import com.swarms.api.core.RequestOptions
 import com.swarms.api.core.http.HttpResponseFor
 import com.swarms.api.models.agent.AgentCompletion
+import com.swarms.api.models.agent.AgentListParams
+import com.swarms.api.models.agent.AgentListResponse
 import com.swarms.api.models.agent.AgentRunParams
 import com.swarms.api.models.agent.AgentRunResponse
 import com.swarms.api.services.async.agent.BatchServiceAsync
@@ -27,6 +29,27 @@ interface AgentServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): AgentServiceAsync
 
     fun batch(): BatchServiceAsync
+
+    /**
+     * Get all unique agent configurations that the user has created or used, without task details.
+     * Allows users to reuse agent configs with new tasks.
+     */
+    fun list(): CompletableFuture<AgentListResponse> = list(AgentListParams.none())
+
+    /** @see list */
+    fun list(
+        params: AgentListParams = AgentListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<AgentListResponse>
+
+    /** @see list */
+    fun list(
+        params: AgentListParams = AgentListParams.none()
+    ): CompletableFuture<AgentListResponse> = list(params, RequestOptions.none())
+
+    /** @see list */
+    fun list(requestOptions: RequestOptions): CompletableFuture<AgentListResponse> =
+        list(AgentListParams.none(), requestOptions)
 
     /** Run an agent with the specified task. Supports streaming when stream=True. */
     fun run(params: AgentRunParams): CompletableFuture<AgentRunResponse> =
@@ -62,6 +85,31 @@ interface AgentServiceAsync {
         ): AgentServiceAsync.WithRawResponse
 
         fun batch(): BatchServiceAsync.WithRawResponse
+
+        /**
+         * Returns a raw HTTP response for `get /v1/agents/list`, but is otherwise the same as
+         * [AgentServiceAsync.list].
+         */
+        fun list(): CompletableFuture<HttpResponseFor<AgentListResponse>> =
+            list(AgentListParams.none())
+
+        /** @see list */
+        fun list(
+            params: AgentListParams = AgentListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<AgentListResponse>>
+
+        /** @see list */
+        fun list(
+            params: AgentListParams = AgentListParams.none()
+        ): CompletableFuture<HttpResponseFor<AgentListResponse>> =
+            list(params, RequestOptions.none())
+
+        /** @see list */
+        fun list(
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<AgentListResponse>> =
+            list(AgentListParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /v1/agent/completions`, but is otherwise the same

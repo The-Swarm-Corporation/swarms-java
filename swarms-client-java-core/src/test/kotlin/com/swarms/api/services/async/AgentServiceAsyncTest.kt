@@ -16,6 +16,22 @@ internal class AgentServiceAsyncTest {
 
     @Disabled("Prism tests are disabled")
     @Test
+    fun list() {
+        val client =
+            SwarmsClientOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val agentServiceAsync = client.agent()
+
+        val agentsFuture = agentServiceAsync.list()
+
+        val agents = agentsFuture.get()
+        agents.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
     fun run() {
         val client =
             SwarmsClientOkHttpClientAsync.builder()

@@ -470,6 +470,21 @@ JsonValue complexValue = JsonValue.from(Map.of(
 ));
 ```
 
+Normally a `Builder` class's `build` method will throw [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html) if any required parameter or property is unset.
+
+To forcibly omit a required parameter or property, pass [`JsonMissing`](swarms-client-java-core/src/main/kotlin/com/swarms/api/core/Values.kt):
+
+```java
+import com.swarms.api.core.JsonMissing;
+import com.swarms.api.models.ClientGetRootParams;
+import com.swarms.api.models.client.advancedresearch.AdvancedResearchCreateCompletionParams;
+
+ClientGetRootParams params = AdvancedResearchCreateCompletionParams.builder()
+    .task("task")
+    .config(JsonMissing.of())
+    .build();
+```
+
 ### Response properties
 
 To access undocumented response properties, call the `_additionalProperties()` method:
