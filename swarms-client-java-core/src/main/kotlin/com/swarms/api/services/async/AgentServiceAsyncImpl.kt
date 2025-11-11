@@ -15,6 +15,8 @@ import com.swarms.api.core.http.HttpResponseFor
 import com.swarms.api.core.http.json
 import com.swarms.api.core.http.parseable
 import com.swarms.api.core.prepareAsync
+import com.swarms.api.models.agent.AgentListParams
+import com.swarms.api.models.agent.AgentListResponse
 import com.swarms.api.models.agent.AgentRunParams
 import com.swarms.api.models.agent.AgentRunResponse
 import com.swarms.api.services.async.agent.BatchServiceAsync
@@ -37,6 +39,13 @@ class AgentServiceAsyncImpl internal constructor(private val clientOptions: Clie
         AgentServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun batch(): BatchServiceAsync = batch
+
+    override fun list(
+        params: AgentListParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<AgentListResponse> =
+        // get /v1/agents/list
+        withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
     override fun run(
         params: AgentRunParams,
@@ -63,6 +72,36 @@ class AgentServiceAsyncImpl internal constructor(private val clientOptions: Clie
             )
 
         override fun batch(): BatchServiceAsync.WithRawResponse = batch
+
+        private val listHandler: Handler<AgentListResponse> =
+            jsonHandler<AgentListResponse>(clientOptions.jsonMapper)
+
+        override fun list(
+            params: AgentListParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<AgentListResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v1", "agents", "list")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { listHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
 
         private val runHandler: Handler<AgentRunResponse> =
             jsonHandler<AgentRunResponse>(clientOptions.jsonMapper)

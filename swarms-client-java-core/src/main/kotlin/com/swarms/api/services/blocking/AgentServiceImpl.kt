@@ -15,6 +15,8 @@ import com.swarms.api.core.http.HttpResponseFor
 import com.swarms.api.core.http.json
 import com.swarms.api.core.http.parseable
 import com.swarms.api.core.prepare
+import com.swarms.api.models.agent.AgentListParams
+import com.swarms.api.models.agent.AgentListResponse
 import com.swarms.api.models.agent.AgentRunParams
 import com.swarms.api.models.agent.AgentRunResponse
 import com.swarms.api.services.blocking.agent.BatchService
@@ -36,6 +38,10 @@ class AgentServiceImpl internal constructor(private val clientOptions: ClientOpt
         AgentServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun batch(): BatchService = batch
+
+    override fun list(params: AgentListParams, requestOptions: RequestOptions): AgentListResponse =
+        // get /v1/agents/list
+        withRawResponse().list(params, requestOptions).parse()
 
     override fun run(params: AgentRunParams, requestOptions: RequestOptions): AgentRunResponse =
         // post /v1/agent/completions
@@ -59,6 +65,33 @@ class AgentServiceImpl internal constructor(private val clientOptions: ClientOpt
             )
 
         override fun batch(): BatchService.WithRawResponse = batch
+
+        private val listHandler: Handler<AgentListResponse> =
+            jsonHandler<AgentListResponse>(clientOptions.jsonMapper)
+
+        override fun list(
+            params: AgentListParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<AgentListResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("v1", "agents", "list")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { listHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
 
         private val runHandler: Handler<AgentRunResponse> =
             jsonHandler<AgentRunResponse>(clientOptions.jsonMapper)
