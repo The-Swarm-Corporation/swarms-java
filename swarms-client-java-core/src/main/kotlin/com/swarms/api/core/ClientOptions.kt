@@ -105,7 +105,10 @@ private constructor(
     /**
      * The base URL to use for every request.
      *
-     * Defaults to the production environment: `https://swarms-api-285321057562.us-east1.run.app`.
+     * Defaults to the production environment: `https://api.swarms.world`.
+     *
+     * The following other environments, with dedicated builder methods, are available:
+     * - sandbox: `https://swarms-api-285321057562.us-east1.run.app`
      */
     fun baseUrl(): String = baseUrl ?: PRODUCTION_URL
 
@@ -115,7 +118,9 @@ private constructor(
 
     companion object {
 
-        const val PRODUCTION_URL = "https://swarms-api-285321057562.us-east1.run.app"
+        const val PRODUCTION_URL = "https://api.swarms.world"
+
+        const val SANDBOX_URL = "https://swarms-api-285321057562.us-east1.run.app"
 
         /**
          * Returns a mutable builder for constructing an instance of [ClientOptions].
@@ -220,13 +225,18 @@ private constructor(
         /**
          * The base URL to use for every request.
          *
-         * Defaults to the production environment:
-         * `https://swarms-api-285321057562.us-east1.run.app`.
+         * Defaults to the production environment: `https://api.swarms.world`.
+         *
+         * The following other environments, with dedicated builder methods, are available:
+         * - sandbox: `https://swarms-api-285321057562.us-east1.run.app`
          */
         fun baseUrl(baseUrl: String?) = apply { this.baseUrl = baseUrl }
 
         /** Alias for calling [Builder.baseUrl] with `baseUrl.orElse(null)`. */
         fun baseUrl(baseUrl: Optional<String>) = baseUrl(baseUrl.getOrNull())
+
+        /** Sets [baseUrl] to `https://swarms-api-285321057562.us-east1.run.app`. */
+        fun sandbox() = baseUrl(SANDBOX_URL)
 
         /**
          * Whether to call `validate` on every response before returning it.
@@ -364,10 +374,10 @@ private constructor(
          *
          * See this table for the available options:
          *
-         * |Setter   |System property            |Environment variable    |Required|Default value                                       |
-         * |---------|---------------------------|------------------------|--------|----------------------------------------------------|
-         * |`apiKey` |`swarmsclient.swarmsApiKey`|`SWARMS_API_KEY`        |false   |-                                                   |
-         * |`baseUrl`|`swarmsclient.baseUrl`     |`SWARMS_CLIENT_BASE_URL`|true    |`"https://swarms-api-285321057562.us-east1.run.app"`|
+         * |Setter   |System property            |Environment variable    |Required|Default value               |
+         * |---------|---------------------------|------------------------|--------|----------------------------|
+         * |`apiKey` |`swarmsclient.swarmsApiKey`|`SWARMS_API_KEY`        |false   |-                           |
+         * |`baseUrl`|`swarmsclient.baseUrl`     |`SWARMS_CLIENT_BASE_URL`|true    |`"https://api.swarms.world"`|
          *
          * System properties take precedence over environment variables.
          */

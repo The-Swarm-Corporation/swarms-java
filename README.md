@@ -7,13 +7,13 @@
 
 <!-- x-release-please-end -->
 
-The Swarms Client Java SDK provides convenient access to the [Swarms Client REST API](https://docs.swarms.world/en/latest/) from applications written in Java.
+The Swarms Client Java SDK provides convenient access to the [Swarms Client REST API](https://docs.swarms.ai) from applications written in Java.
 
 It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [docs.swarms.world](https://docs.swarms.world/en/latest/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.swarms.api/swarms-client-java/0.0.1-alpha.0).
+The REST API documentation can be found on [docs.swarms.ai](https://docs.swarms.ai). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.swarms.api/swarms-client-java/0.0.1-alpha.0).
 
 <!-- x-release-please-end -->
 
@@ -98,10 +98,10 @@ SwarmsClientClient client = SwarmsClientOkHttpClient.builder()
 
 See this table for the available options:
 
-| Setter    | System property             | Environment variable     | Required | Default value                                        |
-| --------- | --------------------------- | ------------------------ | -------- | ---------------------------------------------------- |
-| `apiKey`  | `swarmsclient.swarmsApiKey` | `SWARMS_API_KEY`         | false    | -                                                    |
-| `baseUrl` | `swarmsclient.baseUrl`      | `SWARMS_CLIENT_BASE_URL` | true     | `"https://swarms-api-285321057562.us-east1.run.app"` |
+| Setter    | System property             | Environment variable     | Required | Default value                |
+| --------- | --------------------------- | ------------------------ | -------- | ---------------------------- |
+| `apiKey`  | `swarmsclient.swarmsApiKey` | `SWARMS_API_KEY`         | false    | -                            |
+| `baseUrl` | `swarmsclient.baseUrl`      | `SWARMS_CLIENT_BASE_URL` | true     | `"https://api.swarms.world"` |
 
 System properties take precedence over environment variables.
 
@@ -349,6 +349,20 @@ SwarmsClientClient client = SwarmsClientOkHttpClient.builder()
     .sslSocketFactory(yourSSLSocketFactory)
     .trustManager(yourTrustManager)
     .hostnameVerifier(yourHostnameVerifier)
+    .build();
+```
+
+### Environments
+
+The SDK sends requests to the production by default. To send requests to a different environment, configure the client like so:
+
+```java
+import com.swarms.api.client.SwarmsClientClient;
+import com.swarms.api.client.okhttp.SwarmsClientOkHttpClient;
+
+SwarmsClientClient client = SwarmsClientOkHttpClient.builder()
+    .fromEnv()
+    .sandbox()
     .build();
 ```
 
