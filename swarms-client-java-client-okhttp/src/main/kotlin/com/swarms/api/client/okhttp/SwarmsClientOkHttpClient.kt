@@ -144,13 +144,18 @@ class SwarmsClientOkHttpClient private constructor() {
         /**
          * The base URL to use for every request.
          *
-         * Defaults to the production environment:
-         * `https://swarms-api-285321057562.us-east1.run.app`.
+         * Defaults to the production environment: `https://api.swarms.world`.
+         *
+         * The following other environments, with dedicated builder methods, are available:
+         * - sandbox: `https://swarms-api-285321057562.us-east1.run.app`
          */
         fun baseUrl(baseUrl: String?) = apply { clientOptions.baseUrl(baseUrl) }
 
         /** Alias for calling [Builder.baseUrl] with `baseUrl.orElse(null)`. */
         fun baseUrl(baseUrl: Optional<String>) = baseUrl(baseUrl.getOrNull())
+
+        /** Sets [baseUrl] to `https://swarms-api-285321057562.us-east1.run.app`. */
+        fun sandbox() = apply { clientOptions.sandbox() }
 
         /**
          * Whether to call `validate` on every response before returning it.
