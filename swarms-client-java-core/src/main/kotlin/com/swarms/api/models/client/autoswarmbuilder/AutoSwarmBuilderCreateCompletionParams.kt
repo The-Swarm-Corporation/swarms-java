@@ -904,8 +904,6 @@ private constructor(
 
             @JvmField val RETURN_AGENTS = of("return-agents")
 
-            @JvmField val EXECUTE_SWARM_ROUTER = of("execute-swarm-router")
-
             @JvmField val RETURN_SWARM_ROUTER_CONFIG = of("return-swarm-router-config")
 
             @JvmField val RETURN_AGENTS_OBJECTS = of("return-agents-objects")
@@ -916,7 +914,6 @@ private constructor(
         /** An enum containing [ExecutionType]'s known values. */
         enum class Known {
             RETURN_AGENTS,
-            EXECUTE_SWARM_ROUTER,
             RETURN_SWARM_ROUTER_CONFIG,
             RETURN_AGENTS_OBJECTS,
         }
@@ -932,7 +929,6 @@ private constructor(
          */
         enum class Value {
             RETURN_AGENTS,
-            EXECUTE_SWARM_ROUTER,
             RETURN_SWARM_ROUTER_CONFIG,
             RETURN_AGENTS_OBJECTS,
             /**
@@ -952,7 +948,6 @@ private constructor(
         fun value(): Value =
             when (this) {
                 RETURN_AGENTS -> Value.RETURN_AGENTS
-                EXECUTE_SWARM_ROUTER -> Value.EXECUTE_SWARM_ROUTER
                 RETURN_SWARM_ROUTER_CONFIG -> Value.RETURN_SWARM_ROUTER_CONFIG
                 RETURN_AGENTS_OBJECTS -> Value.RETURN_AGENTS_OBJECTS
                 else -> Value._UNKNOWN
@@ -970,7 +965,6 @@ private constructor(
         fun known(): Known =
             when (this) {
                 RETURN_AGENTS -> Known.RETURN_AGENTS
-                EXECUTE_SWARM_ROUTER -> Known.EXECUTE_SWARM_ROUTER
                 RETURN_SWARM_ROUTER_CONFIG -> Known.RETURN_SWARM_ROUTER_CONFIG
                 RETURN_AGENTS_OBJECTS -> Known.RETURN_AGENTS_OBJECTS
                 else -> throw SwarmsClientInvalidDataException("Unknown ExecutionType: $value")
