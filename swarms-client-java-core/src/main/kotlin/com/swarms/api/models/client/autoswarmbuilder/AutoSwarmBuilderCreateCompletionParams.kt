@@ -6,15 +6,14 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.swarms.api.core.Enum
 import com.swarms.api.core.ExcludeMissing
 import com.swarms.api.core.JsonField
 import com.swarms.api.core.JsonMissing
 import com.swarms.api.core.JsonValue
 import com.swarms.api.core.Params
-import com.swarms.api.core.checkKnown
 import com.swarms.api.core.http.Headers
 import com.swarms.api.core.http.QueryParams
-import com.swarms.api.core.toImmutable
 import com.swarms.api.errors.SwarmsClientInvalidDataException
 import java.util.Collections
 import java.util.Objects
@@ -46,7 +45,7 @@ private constructor(
      * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
      *   the server responded with an unexpected value).
      */
-    fun executionType(): Optional<List<JsonValue>> = body.executionType()
+    fun executionType(): Optional<ExecutionType> = body.executionType()
 
     /**
      * Maximum number of loops to run.
@@ -100,7 +99,7 @@ private constructor(
      *
      * Unlike [executionType], this method doesn't throw if the JSON field has an unexpected type.
      */
-    fun _executionType(): JsonField<List<JsonValue>> = body._executionType()
+    fun _executionType(): JsonField<ExecutionType> = body._executionType()
 
     /**
      * Returns the raw JSON value of [maxLoops].
@@ -205,32 +204,23 @@ private constructor(
         fun description(description: JsonField<String>) = apply { body.description(description) }
 
         /** The type of execution to perform. */
-        fun executionType(executionType: List<JsonValue>?) = apply {
+        fun executionType(executionType: ExecutionType?) = apply {
             body.executionType(executionType)
         }
 
         /** Alias for calling [Builder.executionType] with `executionType.orElse(null)`. */
-        fun executionType(executionType: Optional<List<JsonValue>>) =
+        fun executionType(executionType: Optional<ExecutionType>) =
             executionType(executionType.getOrNull())
 
         /**
          * Sets [Builder.executionType] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.executionType] with a well-typed `List<JsonValue>` value
+         * You should usually call [Builder.executionType] with a well-typed [ExecutionType] value
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun executionType(executionType: JsonField<List<JsonValue>>) = apply {
+        fun executionType(executionType: JsonField<ExecutionType>) = apply {
             body.executionType(executionType)
-        }
-
-        /**
-         * Adds a single [JsonValue] to [Builder.executionType].
-         *
-         * @throws IllegalStateException if the field was previously set to a non-list.
-         */
-        fun addExecutionType(executionType: JsonValue) = apply {
-            body.addExecutionType(executionType)
         }
 
         /** Maximum number of loops to run. */
@@ -469,7 +459,7 @@ private constructor(
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val description: JsonField<String>,
-        private val executionType: JsonField<List<JsonValue>>,
+        private val executionType: JsonField<ExecutionType>,
         private val maxLoops: JsonField<Long>,
         private val maxTokens: JsonField<Long>,
         private val modelName: JsonField<String>,
@@ -485,7 +475,7 @@ private constructor(
             description: JsonField<String> = JsonMissing.of(),
             @JsonProperty("execution_type")
             @ExcludeMissing
-            executionType: JsonField<List<JsonValue>> = JsonMissing.of(),
+            executionType: JsonField<ExecutionType> = JsonMissing.of(),
             @JsonProperty("max_loops") @ExcludeMissing maxLoops: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("max_tokens")
             @ExcludeMissing
@@ -520,7 +510,7 @@ private constructor(
          * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g.
          *   if the server responded with an unexpected value).
          */
-        fun executionType(): Optional<List<JsonValue>> = executionType.getOptional("execution_type")
+        fun executionType(): Optional<ExecutionType> = executionType.getOptional("execution_type")
 
         /**
          * Maximum number of loops to run.
@@ -579,7 +569,7 @@ private constructor(
          */
         @JsonProperty("execution_type")
         @ExcludeMissing
-        fun _executionType(): JsonField<List<JsonValue>> = executionType
+        fun _executionType(): JsonField<ExecutionType> = executionType
 
         /**
          * Returns the raw JSON value of [maxLoops].
@@ -638,7 +628,7 @@ private constructor(
         class Builder internal constructor() {
 
             private var description: JsonField<String> = JsonMissing.of()
-            private var executionType: JsonField<MutableList<JsonValue>>? = null
+            private var executionType: JsonField<ExecutionType> = JsonMissing.of()
             private var maxLoops: JsonField<Long> = JsonMissing.of()
             private var maxTokens: JsonField<Long> = JsonMissing.of()
             private var modelName: JsonField<String> = JsonMissing.of()
@@ -649,7 +639,7 @@ private constructor(
             @JvmSynthetic
             internal fun from(body: Body) = apply {
                 description = body.description
-                executionType = body.executionType.map { it.toMutableList() }
+                executionType = body.executionType
                 maxLoops = body.maxLoops
                 maxTokens = body.maxTokens
                 modelName = body.modelName
@@ -676,34 +666,22 @@ private constructor(
             }
 
             /** The type of execution to perform. */
-            fun executionType(executionType: List<JsonValue>?) =
+            fun executionType(executionType: ExecutionType?) =
                 executionType(JsonField.ofNullable(executionType))
 
             /** Alias for calling [Builder.executionType] with `executionType.orElse(null)`. */
-            fun executionType(executionType: Optional<List<JsonValue>>) =
+            fun executionType(executionType: Optional<ExecutionType>) =
                 executionType(executionType.getOrNull())
 
             /**
              * Sets [Builder.executionType] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.executionType] with a well-typed `List<JsonValue>`
+             * You should usually call [Builder.executionType] with a well-typed [ExecutionType]
              * value instead. This method is primarily for setting the field to an undocumented or
              * not yet supported value.
              */
-            fun executionType(executionType: JsonField<List<JsonValue>>) = apply {
-                this.executionType = executionType.map { it.toMutableList() }
-            }
-
-            /**
-             * Adds a single [JsonValue] to [Builder.executionType].
-             *
-             * @throws IllegalStateException if the field was previously set to a non-list.
-             */
-            fun addExecutionType(executionType: JsonValue) = apply {
-                this.executionType =
-                    (this.executionType ?: JsonField.of(mutableListOf())).also {
-                        checkKnown("executionType", it).add(executionType)
-                    }
+            fun executionType(executionType: JsonField<ExecutionType>) = apply {
+                this.executionType = executionType
             }
 
             /** Maximum number of loops to run. */
@@ -822,7 +800,7 @@ private constructor(
             fun build(): Body =
                 Body(
                     description,
-                    (executionType ?: JsonMissing.of()).map { it.toImmutable() },
+                    executionType,
                     maxLoops,
                     maxTokens,
                     modelName,
@@ -840,7 +818,7 @@ private constructor(
             }
 
             description()
-            executionType()
+            executionType().ifPresent { it.validate() }
             maxLoops()
             maxTokens()
             modelName()
@@ -866,7 +844,7 @@ private constructor(
         @JvmSynthetic
         internal fun validity(): Int =
             (if (description.asKnown().isPresent) 1 else 0) +
-                (executionType.asKnown().getOrNull()?.size ?: 0) +
+                (executionType.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (maxLoops.asKnown().isPresent) 1 else 0) +
                 (if (maxTokens.asKnown().isPresent) 1 else 0) +
                 (if (modelName.asKnown().isPresent) 1 else 0) +
@@ -906,6 +884,150 @@ private constructor(
 
         override fun toString() =
             "Body{description=$description, executionType=$executionType, maxLoops=$maxLoops, maxTokens=$maxTokens, modelName=$modelName, name=$name, task=$task, additionalProperties=$additionalProperties}"
+    }
+
+    /** The type of execution to perform. */
+    class ExecutionType @JsonCreator private constructor(private val value: JsonField<String>) :
+        Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val RETURN_AGENTS = of("return-agents")
+
+            @JvmField val EXECUTE_SWARM_ROUTER = of("execute-swarm-router")
+
+            @JvmField val RETURN_SWARM_ROUTER_CONFIG = of("return-swarm-router-config")
+
+            @JvmField val RETURN_AGENTS_OBJECTS = of("return-agents-objects")
+
+            @JvmStatic fun of(value: String) = ExecutionType(JsonField.of(value))
+        }
+
+        /** An enum containing [ExecutionType]'s known values. */
+        enum class Known {
+            RETURN_AGENTS,
+            EXECUTE_SWARM_ROUTER,
+            RETURN_SWARM_ROUTER_CONFIG,
+            RETURN_AGENTS_OBJECTS,
+        }
+
+        /**
+         * An enum containing [ExecutionType]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [ExecutionType] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            RETURN_AGENTS,
+            EXECUTE_SWARM_ROUTER,
+            RETURN_SWARM_ROUTER_CONFIG,
+            RETURN_AGENTS_OBJECTS,
+            /**
+             * An enum member indicating that [ExecutionType] was instantiated with an unknown
+             * value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                RETURN_AGENTS -> Value.RETURN_AGENTS
+                EXECUTE_SWARM_ROUTER -> Value.EXECUTE_SWARM_ROUTER
+                RETURN_SWARM_ROUTER_CONFIG -> Value.RETURN_SWARM_ROUTER_CONFIG
+                RETURN_AGENTS_OBJECTS -> Value.RETURN_AGENTS_OBJECTS
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws SwarmsClientInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                RETURN_AGENTS -> Known.RETURN_AGENTS
+                EXECUTE_SWARM_ROUTER -> Known.EXECUTE_SWARM_ROUTER
+                RETURN_SWARM_ROUTER_CONFIG -> Known.RETURN_SWARM_ROUTER_CONFIG
+                RETURN_AGENTS_OBJECTS -> Known.RETURN_AGENTS_OBJECTS
+                else -> throw SwarmsClientInvalidDataException("Unknown ExecutionType: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws SwarmsClientInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                SwarmsClientInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        fun validate(): ExecutionType = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: SwarmsClientInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is ExecutionType && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {
