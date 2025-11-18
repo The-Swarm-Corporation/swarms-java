@@ -4,7 +4,6 @@ package com.swarms.api.services.blocking.client
 
 import com.swarms.api.TestServerExtension
 import com.swarms.api.client.okhttp.SwarmsClientOkHttpClient
-import com.swarms.api.core.JsonValue
 import com.swarms.api.models.client.autoswarmbuilder.AutoSwarmBuilderCreateCompletionParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -27,7 +26,9 @@ internal class AutoSwarmBuilderServiceTest {
             autoSwarmBuilderService.createCompletion(
                 AutoSwarmBuilderCreateCompletionParams.builder()
                     .description("description")
-                    .addExecutionType(JsonValue.from(mapOf<String, Any>()))
+                    .executionType(
+                        AutoSwarmBuilderCreateCompletionParams.ExecutionType.RETURN_AGENTS
+                    )
                     .maxLoops(0L)
                     .maxTokens(0L)
                     .modelName("model_name")
