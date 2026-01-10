@@ -24,7 +24,7 @@ internal class RateGetLimitsResponseTest {
                 .rateLimits(
                     RateGetLimitsResponse.RateLimits.builder()
                         .day(
-                            RateGetLimitsResponse.RateLimits.Day.builder()
+                            RateLimitWindow.builder()
                                 .count(0L)
                                 .exceeded(true)
                                 .limit(0L)
@@ -33,7 +33,7 @@ internal class RateGetLimitsResponseTest {
                                 .build()
                         )
                         .hour(
-                            RateGetLimitsResponse.RateLimits.Hour.builder()
+                            RateLimitWindow.builder()
                                 .count(0L)
                                 .exceeded(true)
                                 .limit(0L)
@@ -42,7 +42,7 @@ internal class RateGetLimitsResponseTest {
                                 .build()
                         )
                         .minute(
-                            RateGetLimitsResponse.RateLimits.Minute.builder()
+                            RateLimitWindow.builder()
                                 .count(0L)
                                 .exceeded(true)
                                 .limit(0L)
@@ -70,7 +70,7 @@ internal class RateGetLimitsResponseTest {
             .contains(
                 RateGetLimitsResponse.RateLimits.builder()
                     .day(
-                        RateGetLimitsResponse.RateLimits.Day.builder()
+                        RateLimitWindow.builder()
                             .count(0L)
                             .exceeded(true)
                             .limit(0L)
@@ -79,7 +79,7 @@ internal class RateGetLimitsResponseTest {
                             .build()
                     )
                     .hour(
-                        RateGetLimitsResponse.RateLimits.Hour.builder()
+                        RateLimitWindow.builder()
                             .count(0L)
                             .exceeded(true)
                             .limit(0L)
@@ -88,7 +88,7 @@ internal class RateGetLimitsResponseTest {
                             .build()
                     )
                     .minute(
-                        RateGetLimitsResponse.RateLimits.Minute.builder()
+                        RateLimitWindow.builder()
                             .count(0L)
                             .exceeded(true)
                             .limit(0L)
@@ -119,7 +119,7 @@ internal class RateGetLimitsResponseTest {
                 .rateLimits(
                     RateGetLimitsResponse.RateLimits.builder()
                         .day(
-                            RateGetLimitsResponse.RateLimits.Day.builder()
+                            RateLimitWindow.builder()
                                 .count(0L)
                                 .exceeded(true)
                                 .limit(0L)
@@ -128,7 +128,7 @@ internal class RateGetLimitsResponseTest {
                                 .build()
                         )
                         .hour(
-                            RateGetLimitsResponse.RateLimits.Hour.builder()
+                            RateLimitWindow.builder()
                                 .count(0L)
                                 .exceeded(true)
                                 .limit(0L)
@@ -137,7 +137,7 @@ internal class RateGetLimitsResponseTest {
                                 .build()
                         )
                         .minute(
-                            RateGetLimitsResponse.RateLimits.Minute.builder()
+                            RateLimitWindow.builder()
                                 .count(0L)
                                 .exceeded(true)
                                 .limit(0L)

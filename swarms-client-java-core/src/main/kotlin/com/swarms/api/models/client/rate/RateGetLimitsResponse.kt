@@ -649,17 +649,21 @@ private constructor(
     class RateLimits
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val day: JsonField<Day>,
-        private val hour: JsonField<Hour>,
-        private val minute: JsonField<Minute>,
+        private val day: JsonField<RateLimitWindow>,
+        private val hour: JsonField<RateLimitWindow>,
+        private val minute: JsonField<RateLimitWindow>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
-            @JsonProperty("day") @ExcludeMissing day: JsonField<Day> = JsonMissing.of(),
-            @JsonProperty("hour") @ExcludeMissing hour: JsonField<Hour> = JsonMissing.of(),
-            @JsonProperty("minute") @ExcludeMissing minute: JsonField<Minute> = JsonMissing.of(),
+            @JsonProperty("day") @ExcludeMissing day: JsonField<RateLimitWindow> = JsonMissing.of(),
+            @JsonProperty("hour")
+            @ExcludeMissing
+            hour: JsonField<RateLimitWindow> = JsonMissing.of(),
+            @JsonProperty("minute")
+            @ExcludeMissing
+            minute: JsonField<RateLimitWindow> = JsonMissing.of(),
         ) : this(day, hour, minute, mutableMapOf())
 
         /**
@@ -668,7 +672,7 @@ private constructor(
          * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun day(): Day = day.getRequired("day")
+        fun day(): RateLimitWindow = day.getRequired("day")
 
         /**
          * Rate limit information for the last hour.
@@ -676,7 +680,7 @@ private constructor(
          * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun hour(): Hour = hour.getRequired("hour")
+        fun hour(): RateLimitWindow = hour.getRequired("hour")
 
         /**
          * Rate limit information for the last minute.
@@ -684,28 +688,28 @@ private constructor(
          * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun minute(): Minute = minute.getRequired("minute")
+        fun minute(): RateLimitWindow = minute.getRequired("minute")
 
         /**
          * Returns the raw JSON value of [day].
          *
          * Unlike [day], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("day") @ExcludeMissing fun _day(): JsonField<Day> = day
+        @JsonProperty("day") @ExcludeMissing fun _day(): JsonField<RateLimitWindow> = day
 
         /**
          * Returns the raw JSON value of [hour].
          *
          * Unlike [hour], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("hour") @ExcludeMissing fun _hour(): JsonField<Hour> = hour
+        @JsonProperty("hour") @ExcludeMissing fun _hour(): JsonField<RateLimitWindow> = hour
 
         /**
          * Returns the raw JSON value of [minute].
          *
          * Unlike [minute], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("minute") @ExcludeMissing fun _minute(): JsonField<Minute> = minute
+        @JsonProperty("minute") @ExcludeMissing fun _minute(): JsonField<RateLimitWindow> = minute
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -737,9 +741,9 @@ private constructor(
         /** A builder for [RateLimits]. */
         class Builder internal constructor() {
 
-            private var day: JsonField<Day>? = null
-            private var hour: JsonField<Hour>? = null
-            private var minute: JsonField<Minute>? = null
+            private var day: JsonField<RateLimitWindow>? = null
+            private var hour: JsonField<RateLimitWindow>? = null
+            private var minute: JsonField<RateLimitWindow>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -751,40 +755,40 @@ private constructor(
             }
 
             /** Rate limit information for the last day. */
-            fun day(day: Day) = day(JsonField.of(day))
+            fun day(day: RateLimitWindow) = day(JsonField.of(day))
 
             /**
              * Sets [Builder.day] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.day] with a well-typed [Day] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
+             * You should usually call [Builder.day] with a well-typed [RateLimitWindow] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
-            fun day(day: JsonField<Day>) = apply { this.day = day }
+            fun day(day: JsonField<RateLimitWindow>) = apply { this.day = day }
 
             /** Rate limit information for the last hour. */
-            fun hour(hour: Hour) = hour(JsonField.of(hour))
+            fun hour(hour: RateLimitWindow) = hour(JsonField.of(hour))
 
             /**
              * Sets [Builder.hour] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.hour] with a well-typed [Hour] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
+             * You should usually call [Builder.hour] with a well-typed [RateLimitWindow] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
-            fun hour(hour: JsonField<Hour>) = apply { this.hour = hour }
+            fun hour(hour: JsonField<RateLimitWindow>) = apply { this.hour = hour }
 
             /** Rate limit information for the last minute. */
-            fun minute(minute: Minute) = minute(JsonField.of(minute))
+            fun minute(minute: RateLimitWindow) = minute(JsonField.of(minute))
 
             /**
              * Sets [Builder.minute] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.minute] with a well-typed [Minute] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
+             * You should usually call [Builder.minute] with a well-typed [RateLimitWindow] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun minute(minute: JsonField<Minute>) = apply { this.minute = minute }
+            fun minute(minute: JsonField<RateLimitWindow>) = apply { this.minute = minute }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -860,999 +864,6 @@ private constructor(
             (day.asKnown().getOrNull()?.validity() ?: 0) +
                 (hour.asKnown().getOrNull()?.validity() ?: 0) +
                 (minute.asKnown().getOrNull()?.validity() ?: 0)
-
-        /** Rate limit information for the last day. */
-        class Day
-        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-        private constructor(
-            private val count: JsonField<Long>,
-            private val exceeded: JsonField<Boolean>,
-            private val limit: JsonField<Long>,
-            private val remaining: JsonField<Long>,
-            private val resetTime: JsonField<String>,
-            private val additionalProperties: MutableMap<String, JsonValue>,
-        ) {
-
-            @JsonCreator
-            private constructor(
-                @JsonProperty("count") @ExcludeMissing count: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("exceeded")
-                @ExcludeMissing
-                exceeded: JsonField<Boolean> = JsonMissing.of(),
-                @JsonProperty("limit") @ExcludeMissing limit: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("remaining")
-                @ExcludeMissing
-                remaining: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("reset_time")
-                @ExcludeMissing
-                resetTime: JsonField<String> = JsonMissing.of(),
-            ) : this(count, exceeded, limit, remaining, resetTime, mutableMapOf())
-
-            /**
-             * The number of requests made in this time window.
-             *
-             * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun count(): Long = count.getRequired("count")
-
-            /**
-             * Whether the rate limit has been exceeded for this time window.
-             *
-             * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun exceeded(): Boolean = exceeded.getRequired("exceeded")
-
-            /**
-             * The maximum number of requests allowed in this time window.
-             *
-             * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun limit(): Long = limit.getRequired("limit")
-
-            /**
-             * The number of requests remaining before hitting the limit.
-             *
-             * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun remaining(): Long = remaining.getRequired("remaining")
-
-            /**
-             * ISO timestamp when the rate limit will reset.
-             *
-             * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun resetTime(): String = resetTime.getRequired("reset_time")
-
-            /**
-             * Returns the raw JSON value of [count].
-             *
-             * Unlike [count], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("count") @ExcludeMissing fun _count(): JsonField<Long> = count
-
-            /**
-             * Returns the raw JSON value of [exceeded].
-             *
-             * Unlike [exceeded], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("exceeded") @ExcludeMissing fun _exceeded(): JsonField<Boolean> = exceeded
-
-            /**
-             * Returns the raw JSON value of [limit].
-             *
-             * Unlike [limit], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("limit") @ExcludeMissing fun _limit(): JsonField<Long> = limit
-
-            /**
-             * Returns the raw JSON value of [remaining].
-             *
-             * Unlike [remaining], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("remaining") @ExcludeMissing fun _remaining(): JsonField<Long> = remaining
-
-            /**
-             * Returns the raw JSON value of [resetTime].
-             *
-             * Unlike [resetTime], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("reset_time")
-            @ExcludeMissing
-            fun _resetTime(): JsonField<String> = resetTime
-
-            @JsonAnySetter
-            private fun putAdditionalProperty(key: String, value: JsonValue) {
-                additionalProperties.put(key, value)
-            }
-
-            @JsonAnyGetter
-            @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> =
-                Collections.unmodifiableMap(additionalProperties)
-
-            fun toBuilder() = Builder().from(this)
-
-            companion object {
-
-                /**
-                 * Returns a mutable builder for constructing an instance of [Day].
-                 *
-                 * The following fields are required:
-                 * ```java
-                 * .count()
-                 * .exceeded()
-                 * .limit()
-                 * .remaining()
-                 * .resetTime()
-                 * ```
-                 */
-                @JvmStatic fun builder() = Builder()
-            }
-
-            /** A builder for [Day]. */
-            class Builder internal constructor() {
-
-                private var count: JsonField<Long>? = null
-                private var exceeded: JsonField<Boolean>? = null
-                private var limit: JsonField<Long>? = null
-                private var remaining: JsonField<Long>? = null
-                private var resetTime: JsonField<String>? = null
-                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-                @JvmSynthetic
-                internal fun from(day: Day) = apply {
-                    count = day.count
-                    exceeded = day.exceeded
-                    limit = day.limit
-                    remaining = day.remaining
-                    resetTime = day.resetTime
-                    additionalProperties = day.additionalProperties.toMutableMap()
-                }
-
-                /** The number of requests made in this time window. */
-                fun count(count: Long) = count(JsonField.of(count))
-
-                /**
-                 * Sets [Builder.count] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.count] with a well-typed [Long] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
-                 */
-                fun count(count: JsonField<Long>) = apply { this.count = count }
-
-                /** Whether the rate limit has been exceeded for this time window. */
-                fun exceeded(exceeded: Boolean) = exceeded(JsonField.of(exceeded))
-
-                /**
-                 * Sets [Builder.exceeded] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.exceeded] with a well-typed [Boolean] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun exceeded(exceeded: JsonField<Boolean>) = apply { this.exceeded = exceeded }
-
-                /** The maximum number of requests allowed in this time window. */
-                fun limit(limit: Long) = limit(JsonField.of(limit))
-
-                /**
-                 * Sets [Builder.limit] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.limit] with a well-typed [Long] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
-                 */
-                fun limit(limit: JsonField<Long>) = apply { this.limit = limit }
-
-                /** The number of requests remaining before hitting the limit. */
-                fun remaining(remaining: Long) = remaining(JsonField.of(remaining))
-
-                /**
-                 * Sets [Builder.remaining] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.remaining] with a well-typed [Long] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun remaining(remaining: JsonField<Long>) = apply { this.remaining = remaining }
-
-                /** ISO timestamp when the rate limit will reset. */
-                fun resetTime(resetTime: String) = resetTime(JsonField.of(resetTime))
-
-                /**
-                 * Sets [Builder.resetTime] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.resetTime] with a well-typed [String] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun resetTime(resetTime: JsonField<String>) = apply { this.resetTime = resetTime }
-
-                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.clear()
-                    putAllAdditionalProperties(additionalProperties)
-                }
-
-                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    additionalProperties.put(key, value)
-                }
-
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                    apply {
-                        this.additionalProperties.putAll(additionalProperties)
-                    }
-
-                fun removeAdditionalProperty(key: String) = apply {
-                    additionalProperties.remove(key)
-                }
-
-                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                    keys.forEach(::removeAdditionalProperty)
-                }
-
-                /**
-                 * Returns an immutable instance of [Day].
-                 *
-                 * Further updates to this [Builder] will not mutate the returned instance.
-                 *
-                 * The following fields are required:
-                 * ```java
-                 * .count()
-                 * .exceeded()
-                 * .limit()
-                 * .remaining()
-                 * .resetTime()
-                 * ```
-                 *
-                 * @throws IllegalStateException if any required field is unset.
-                 */
-                fun build(): Day =
-                    Day(
-                        checkRequired("count", count),
-                        checkRequired("exceeded", exceeded),
-                        checkRequired("limit", limit),
-                        checkRequired("remaining", remaining),
-                        checkRequired("resetTime", resetTime),
-                        additionalProperties.toMutableMap(),
-                    )
-            }
-
-            private var validated: Boolean = false
-
-            fun validate(): Day = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                count()
-                exceeded()
-                limit()
-                remaining()
-                resetTime()
-                validated = true
-            }
-
-            fun isValid(): Boolean =
-                try {
-                    validate()
-                    true
-                } catch (e: SwarmsClientInvalidDataException) {
-                    false
-                }
-
-            /**
-             * Returns a score indicating how many valid values are contained in this object
-             * recursively.
-             *
-             * Used for best match union deserialization.
-             */
-            @JvmSynthetic
-            internal fun validity(): Int =
-                (if (count.asKnown().isPresent) 1 else 0) +
-                    (if (exceeded.asKnown().isPresent) 1 else 0) +
-                    (if (limit.asKnown().isPresent) 1 else 0) +
-                    (if (remaining.asKnown().isPresent) 1 else 0) +
-                    (if (resetTime.asKnown().isPresent) 1 else 0)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Day &&
-                    count == other.count &&
-                    exceeded == other.exceeded &&
-                    limit == other.limit &&
-                    remaining == other.remaining &&
-                    resetTime == other.resetTime &&
-                    additionalProperties == other.additionalProperties
-            }
-
-            private val hashCode: Int by lazy {
-                Objects.hash(count, exceeded, limit, remaining, resetTime, additionalProperties)
-            }
-
-            override fun hashCode(): Int = hashCode
-
-            override fun toString() =
-                "Day{count=$count, exceeded=$exceeded, limit=$limit, remaining=$remaining, resetTime=$resetTime, additionalProperties=$additionalProperties}"
-        }
-
-        /** Rate limit information for the last hour. */
-        class Hour
-        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-        private constructor(
-            private val count: JsonField<Long>,
-            private val exceeded: JsonField<Boolean>,
-            private val limit: JsonField<Long>,
-            private val remaining: JsonField<Long>,
-            private val resetTime: JsonField<String>,
-            private val additionalProperties: MutableMap<String, JsonValue>,
-        ) {
-
-            @JsonCreator
-            private constructor(
-                @JsonProperty("count") @ExcludeMissing count: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("exceeded")
-                @ExcludeMissing
-                exceeded: JsonField<Boolean> = JsonMissing.of(),
-                @JsonProperty("limit") @ExcludeMissing limit: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("remaining")
-                @ExcludeMissing
-                remaining: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("reset_time")
-                @ExcludeMissing
-                resetTime: JsonField<String> = JsonMissing.of(),
-            ) : this(count, exceeded, limit, remaining, resetTime, mutableMapOf())
-
-            /**
-             * The number of requests made in this time window.
-             *
-             * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun count(): Long = count.getRequired("count")
-
-            /**
-             * Whether the rate limit has been exceeded for this time window.
-             *
-             * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun exceeded(): Boolean = exceeded.getRequired("exceeded")
-
-            /**
-             * The maximum number of requests allowed in this time window.
-             *
-             * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun limit(): Long = limit.getRequired("limit")
-
-            /**
-             * The number of requests remaining before hitting the limit.
-             *
-             * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun remaining(): Long = remaining.getRequired("remaining")
-
-            /**
-             * ISO timestamp when the rate limit will reset.
-             *
-             * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun resetTime(): String = resetTime.getRequired("reset_time")
-
-            /**
-             * Returns the raw JSON value of [count].
-             *
-             * Unlike [count], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("count") @ExcludeMissing fun _count(): JsonField<Long> = count
-
-            /**
-             * Returns the raw JSON value of [exceeded].
-             *
-             * Unlike [exceeded], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("exceeded") @ExcludeMissing fun _exceeded(): JsonField<Boolean> = exceeded
-
-            /**
-             * Returns the raw JSON value of [limit].
-             *
-             * Unlike [limit], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("limit") @ExcludeMissing fun _limit(): JsonField<Long> = limit
-
-            /**
-             * Returns the raw JSON value of [remaining].
-             *
-             * Unlike [remaining], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("remaining") @ExcludeMissing fun _remaining(): JsonField<Long> = remaining
-
-            /**
-             * Returns the raw JSON value of [resetTime].
-             *
-             * Unlike [resetTime], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("reset_time")
-            @ExcludeMissing
-            fun _resetTime(): JsonField<String> = resetTime
-
-            @JsonAnySetter
-            private fun putAdditionalProperty(key: String, value: JsonValue) {
-                additionalProperties.put(key, value)
-            }
-
-            @JsonAnyGetter
-            @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> =
-                Collections.unmodifiableMap(additionalProperties)
-
-            fun toBuilder() = Builder().from(this)
-
-            companion object {
-
-                /**
-                 * Returns a mutable builder for constructing an instance of [Hour].
-                 *
-                 * The following fields are required:
-                 * ```java
-                 * .count()
-                 * .exceeded()
-                 * .limit()
-                 * .remaining()
-                 * .resetTime()
-                 * ```
-                 */
-                @JvmStatic fun builder() = Builder()
-            }
-
-            /** A builder for [Hour]. */
-            class Builder internal constructor() {
-
-                private var count: JsonField<Long>? = null
-                private var exceeded: JsonField<Boolean>? = null
-                private var limit: JsonField<Long>? = null
-                private var remaining: JsonField<Long>? = null
-                private var resetTime: JsonField<String>? = null
-                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-                @JvmSynthetic
-                internal fun from(hour: Hour) = apply {
-                    count = hour.count
-                    exceeded = hour.exceeded
-                    limit = hour.limit
-                    remaining = hour.remaining
-                    resetTime = hour.resetTime
-                    additionalProperties = hour.additionalProperties.toMutableMap()
-                }
-
-                /** The number of requests made in this time window. */
-                fun count(count: Long) = count(JsonField.of(count))
-
-                /**
-                 * Sets [Builder.count] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.count] with a well-typed [Long] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
-                 */
-                fun count(count: JsonField<Long>) = apply { this.count = count }
-
-                /** Whether the rate limit has been exceeded for this time window. */
-                fun exceeded(exceeded: Boolean) = exceeded(JsonField.of(exceeded))
-
-                /**
-                 * Sets [Builder.exceeded] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.exceeded] with a well-typed [Boolean] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun exceeded(exceeded: JsonField<Boolean>) = apply { this.exceeded = exceeded }
-
-                /** The maximum number of requests allowed in this time window. */
-                fun limit(limit: Long) = limit(JsonField.of(limit))
-
-                /**
-                 * Sets [Builder.limit] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.limit] with a well-typed [Long] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
-                 */
-                fun limit(limit: JsonField<Long>) = apply { this.limit = limit }
-
-                /** The number of requests remaining before hitting the limit. */
-                fun remaining(remaining: Long) = remaining(JsonField.of(remaining))
-
-                /**
-                 * Sets [Builder.remaining] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.remaining] with a well-typed [Long] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun remaining(remaining: JsonField<Long>) = apply { this.remaining = remaining }
-
-                /** ISO timestamp when the rate limit will reset. */
-                fun resetTime(resetTime: String) = resetTime(JsonField.of(resetTime))
-
-                /**
-                 * Sets [Builder.resetTime] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.resetTime] with a well-typed [String] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun resetTime(resetTime: JsonField<String>) = apply { this.resetTime = resetTime }
-
-                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.clear()
-                    putAllAdditionalProperties(additionalProperties)
-                }
-
-                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    additionalProperties.put(key, value)
-                }
-
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                    apply {
-                        this.additionalProperties.putAll(additionalProperties)
-                    }
-
-                fun removeAdditionalProperty(key: String) = apply {
-                    additionalProperties.remove(key)
-                }
-
-                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                    keys.forEach(::removeAdditionalProperty)
-                }
-
-                /**
-                 * Returns an immutable instance of [Hour].
-                 *
-                 * Further updates to this [Builder] will not mutate the returned instance.
-                 *
-                 * The following fields are required:
-                 * ```java
-                 * .count()
-                 * .exceeded()
-                 * .limit()
-                 * .remaining()
-                 * .resetTime()
-                 * ```
-                 *
-                 * @throws IllegalStateException if any required field is unset.
-                 */
-                fun build(): Hour =
-                    Hour(
-                        checkRequired("count", count),
-                        checkRequired("exceeded", exceeded),
-                        checkRequired("limit", limit),
-                        checkRequired("remaining", remaining),
-                        checkRequired("resetTime", resetTime),
-                        additionalProperties.toMutableMap(),
-                    )
-            }
-
-            private var validated: Boolean = false
-
-            fun validate(): Hour = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                count()
-                exceeded()
-                limit()
-                remaining()
-                resetTime()
-                validated = true
-            }
-
-            fun isValid(): Boolean =
-                try {
-                    validate()
-                    true
-                } catch (e: SwarmsClientInvalidDataException) {
-                    false
-                }
-
-            /**
-             * Returns a score indicating how many valid values are contained in this object
-             * recursively.
-             *
-             * Used for best match union deserialization.
-             */
-            @JvmSynthetic
-            internal fun validity(): Int =
-                (if (count.asKnown().isPresent) 1 else 0) +
-                    (if (exceeded.asKnown().isPresent) 1 else 0) +
-                    (if (limit.asKnown().isPresent) 1 else 0) +
-                    (if (remaining.asKnown().isPresent) 1 else 0) +
-                    (if (resetTime.asKnown().isPresent) 1 else 0)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Hour &&
-                    count == other.count &&
-                    exceeded == other.exceeded &&
-                    limit == other.limit &&
-                    remaining == other.remaining &&
-                    resetTime == other.resetTime &&
-                    additionalProperties == other.additionalProperties
-            }
-
-            private val hashCode: Int by lazy {
-                Objects.hash(count, exceeded, limit, remaining, resetTime, additionalProperties)
-            }
-
-            override fun hashCode(): Int = hashCode
-
-            override fun toString() =
-                "Hour{count=$count, exceeded=$exceeded, limit=$limit, remaining=$remaining, resetTime=$resetTime, additionalProperties=$additionalProperties}"
-        }
-
-        /** Rate limit information for the last minute. */
-        class Minute
-        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
-        private constructor(
-            private val count: JsonField<Long>,
-            private val exceeded: JsonField<Boolean>,
-            private val limit: JsonField<Long>,
-            private val remaining: JsonField<Long>,
-            private val resetTime: JsonField<String>,
-            private val additionalProperties: MutableMap<String, JsonValue>,
-        ) {
-
-            @JsonCreator
-            private constructor(
-                @JsonProperty("count") @ExcludeMissing count: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("exceeded")
-                @ExcludeMissing
-                exceeded: JsonField<Boolean> = JsonMissing.of(),
-                @JsonProperty("limit") @ExcludeMissing limit: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("remaining")
-                @ExcludeMissing
-                remaining: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("reset_time")
-                @ExcludeMissing
-                resetTime: JsonField<String> = JsonMissing.of(),
-            ) : this(count, exceeded, limit, remaining, resetTime, mutableMapOf())
-
-            /**
-             * The number of requests made in this time window.
-             *
-             * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun count(): Long = count.getRequired("count")
-
-            /**
-             * Whether the rate limit has been exceeded for this time window.
-             *
-             * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun exceeded(): Boolean = exceeded.getRequired("exceeded")
-
-            /**
-             * The maximum number of requests allowed in this time window.
-             *
-             * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun limit(): Long = limit.getRequired("limit")
-
-            /**
-             * The number of requests remaining before hitting the limit.
-             *
-             * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun remaining(): Long = remaining.getRequired("remaining")
-
-            /**
-             * ISO timestamp when the rate limit will reset.
-             *
-             * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
-             */
-            fun resetTime(): String = resetTime.getRequired("reset_time")
-
-            /**
-             * Returns the raw JSON value of [count].
-             *
-             * Unlike [count], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("count") @ExcludeMissing fun _count(): JsonField<Long> = count
-
-            /**
-             * Returns the raw JSON value of [exceeded].
-             *
-             * Unlike [exceeded], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("exceeded") @ExcludeMissing fun _exceeded(): JsonField<Boolean> = exceeded
-
-            /**
-             * Returns the raw JSON value of [limit].
-             *
-             * Unlike [limit], this method doesn't throw if the JSON field has an unexpected type.
-             */
-            @JsonProperty("limit") @ExcludeMissing fun _limit(): JsonField<Long> = limit
-
-            /**
-             * Returns the raw JSON value of [remaining].
-             *
-             * Unlike [remaining], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("remaining") @ExcludeMissing fun _remaining(): JsonField<Long> = remaining
-
-            /**
-             * Returns the raw JSON value of [resetTime].
-             *
-             * Unlike [resetTime], this method doesn't throw if the JSON field has an unexpected
-             * type.
-             */
-            @JsonProperty("reset_time")
-            @ExcludeMissing
-            fun _resetTime(): JsonField<String> = resetTime
-
-            @JsonAnySetter
-            private fun putAdditionalProperty(key: String, value: JsonValue) {
-                additionalProperties.put(key, value)
-            }
-
-            @JsonAnyGetter
-            @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> =
-                Collections.unmodifiableMap(additionalProperties)
-
-            fun toBuilder() = Builder().from(this)
-
-            companion object {
-
-                /**
-                 * Returns a mutable builder for constructing an instance of [Minute].
-                 *
-                 * The following fields are required:
-                 * ```java
-                 * .count()
-                 * .exceeded()
-                 * .limit()
-                 * .remaining()
-                 * .resetTime()
-                 * ```
-                 */
-                @JvmStatic fun builder() = Builder()
-            }
-
-            /** A builder for [Minute]. */
-            class Builder internal constructor() {
-
-                private var count: JsonField<Long>? = null
-                private var exceeded: JsonField<Boolean>? = null
-                private var limit: JsonField<Long>? = null
-                private var remaining: JsonField<Long>? = null
-                private var resetTime: JsonField<String>? = null
-                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-                @JvmSynthetic
-                internal fun from(minute: Minute) = apply {
-                    count = minute.count
-                    exceeded = minute.exceeded
-                    limit = minute.limit
-                    remaining = minute.remaining
-                    resetTime = minute.resetTime
-                    additionalProperties = minute.additionalProperties.toMutableMap()
-                }
-
-                /** The number of requests made in this time window. */
-                fun count(count: Long) = count(JsonField.of(count))
-
-                /**
-                 * Sets [Builder.count] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.count] with a well-typed [Long] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
-                 */
-                fun count(count: JsonField<Long>) = apply { this.count = count }
-
-                /** Whether the rate limit has been exceeded for this time window. */
-                fun exceeded(exceeded: Boolean) = exceeded(JsonField.of(exceeded))
-
-                /**
-                 * Sets [Builder.exceeded] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.exceeded] with a well-typed [Boolean] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun exceeded(exceeded: JsonField<Boolean>) = apply { this.exceeded = exceeded }
-
-                /** The maximum number of requests allowed in this time window. */
-                fun limit(limit: Long) = limit(JsonField.of(limit))
-
-                /**
-                 * Sets [Builder.limit] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.limit] with a well-typed [Long] value instead.
-                 * This method is primarily for setting the field to an undocumented or not yet
-                 * supported value.
-                 */
-                fun limit(limit: JsonField<Long>) = apply { this.limit = limit }
-
-                /** The number of requests remaining before hitting the limit. */
-                fun remaining(remaining: Long) = remaining(JsonField.of(remaining))
-
-                /**
-                 * Sets [Builder.remaining] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.remaining] with a well-typed [Long] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun remaining(remaining: JsonField<Long>) = apply { this.remaining = remaining }
-
-                /** ISO timestamp when the rate limit will reset. */
-                fun resetTime(resetTime: String) = resetTime(JsonField.of(resetTime))
-
-                /**
-                 * Sets [Builder.resetTime] to an arbitrary JSON value.
-                 *
-                 * You should usually call [Builder.resetTime] with a well-typed [String] value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
-                 */
-                fun resetTime(resetTime: JsonField<String>) = apply { this.resetTime = resetTime }
-
-                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.clear()
-                    putAllAdditionalProperties(additionalProperties)
-                }
-
-                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    additionalProperties.put(key, value)
-                }
-
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                    apply {
-                        this.additionalProperties.putAll(additionalProperties)
-                    }
-
-                fun removeAdditionalProperty(key: String) = apply {
-                    additionalProperties.remove(key)
-                }
-
-                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                    keys.forEach(::removeAdditionalProperty)
-                }
-
-                /**
-                 * Returns an immutable instance of [Minute].
-                 *
-                 * Further updates to this [Builder] will not mutate the returned instance.
-                 *
-                 * The following fields are required:
-                 * ```java
-                 * .count()
-                 * .exceeded()
-                 * .limit()
-                 * .remaining()
-                 * .resetTime()
-                 * ```
-                 *
-                 * @throws IllegalStateException if any required field is unset.
-                 */
-                fun build(): Minute =
-                    Minute(
-                        checkRequired("count", count),
-                        checkRequired("exceeded", exceeded),
-                        checkRequired("limit", limit),
-                        checkRequired("remaining", remaining),
-                        checkRequired("resetTime", resetTime),
-                        additionalProperties.toMutableMap(),
-                    )
-            }
-
-            private var validated: Boolean = false
-
-            fun validate(): Minute = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                count()
-                exceeded()
-                limit()
-                remaining()
-                resetTime()
-                validated = true
-            }
-
-            fun isValid(): Boolean =
-                try {
-                    validate()
-                    true
-                } catch (e: SwarmsClientInvalidDataException) {
-                    false
-                }
-
-            /**
-             * Returns a score indicating how many valid values are contained in this object
-             * recursively.
-             *
-             * Used for best match union deserialization.
-             */
-            @JvmSynthetic
-            internal fun validity(): Int =
-                (if (count.asKnown().isPresent) 1 else 0) +
-                    (if (exceeded.asKnown().isPresent) 1 else 0) +
-                    (if (limit.asKnown().isPresent) 1 else 0) +
-                    (if (remaining.asKnown().isPresent) 1 else 0) +
-                    (if (resetTime.asKnown().isPresent) 1 else 0)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Minute &&
-                    count == other.count &&
-                    exceeded == other.exceeded &&
-                    limit == other.limit &&
-                    remaining == other.remaining &&
-                    resetTime == other.resetTime &&
-                    additionalProperties == other.additionalProperties
-            }
-
-            private val hashCode: Int by lazy {
-                Objects.hash(count, exceeded, limit, remaining, resetTime, additionalProperties)
-            }
-
-            override fun hashCode(): Int = hashCode
-
-            override fun toString() =
-                "Minute{count=$count, exceeded=$exceeded, limit=$limit, remaining=$remaining, resetTime=$resetTime, additionalProperties=$additionalProperties}"
-        }
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {

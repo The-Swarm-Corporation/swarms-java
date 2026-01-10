@@ -6,6 +6,7 @@ import com.swarms.api.TestServerExtension
 import com.swarms.api.client.okhttp.SwarmsClientOkHttpClientAsync
 import com.swarms.api.core.JsonValue
 import com.swarms.api.models.agent.AgentSpec
+import com.swarms.api.models.agent.McpConnection
 import com.swarms.api.models.client.batchedgridworkflow.BatchedGridWorkflowCompleteWorkflowParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -41,16 +42,16 @@ internal class BatchedGridWorkflowServiceAsyncTest {
                             .maxLoops(0L)
                             .maxTokens(0L)
                             .mcpConfig(
-                                AgentSpec.McpConfig.builder()
+                                McpConnection.builder()
                                     .authorizationToken("authorization_token")
                                     .headers(
-                                        AgentSpec.McpConfig.Headers.builder()
+                                        McpConnection.Headers.builder()
                                             .putAdditionalProperty("foo", JsonValue.from("string"))
                                             .build()
                                     )
                                     .timeout(0L)
                                     .toolConfigurations(
-                                        AgentSpec.McpConfig.ToolConfigurations.builder()
+                                        McpConnection.ToolConfigurations.builder()
                                             .putAdditionalProperty("foo", JsonValue.from("bar"))
                                             .build()
                                     )
@@ -62,10 +63,10 @@ internal class BatchedGridWorkflowServiceAsyncTest {
                             .mcpConfigs(
                                 AgentSpec.McpConfigs.builder()
                                     .addConnection(
-                                        AgentSpec.McpConfigs.Connection.builder()
+                                        McpConnection.builder()
                                             .authorizationToken("authorization_token")
                                             .headers(
-                                                AgentSpec.McpConfigs.Connection.Headers.builder()
+                                                McpConnection.Headers.builder()
                                                     .putAdditionalProperty(
                                                         "foo",
                                                         JsonValue.from("string"),
@@ -74,8 +75,7 @@ internal class BatchedGridWorkflowServiceAsyncTest {
                                             )
                                             .timeout(0L)
                                             .toolConfigurations(
-                                                AgentSpec.McpConfigs.Connection.ToolConfigurations
-                                                    .builder()
+                                                McpConnection.ToolConfigurations.builder()
                                                     .putAdditionalProperty(
                                                         "foo",
                                                         JsonValue.from("bar"),
