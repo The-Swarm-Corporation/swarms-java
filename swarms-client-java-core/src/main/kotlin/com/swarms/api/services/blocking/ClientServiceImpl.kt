@@ -9,6 +9,8 @@ import com.swarms.api.services.blocking.client.AutoSwarmBuilderService
 import com.swarms.api.services.blocking.client.AutoSwarmBuilderServiceImpl
 import com.swarms.api.services.blocking.client.BatchedGridWorkflowService
 import com.swarms.api.services.blocking.client.BatchedGridWorkflowServiceImpl
+import com.swarms.api.services.blocking.client.GraphWorkflowService
+import com.swarms.api.services.blocking.client.GraphWorkflowServiceImpl
 import com.swarms.api.services.blocking.client.MarketplaceService
 import com.swarms.api.services.blocking.client.MarketplaceServiceImpl
 import com.swarms.api.services.blocking.client.RateService
@@ -42,6 +44,10 @@ class ClientServiceImpl internal constructor(private val clientOptions: ClientOp
         BatchedGridWorkflowServiceImpl(clientOptions)
     }
 
+    private val graphWorkflow: GraphWorkflowService by lazy {
+        GraphWorkflowServiceImpl(clientOptions)
+    }
+
     override fun withRawResponse(): ClientService.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ClientService =
@@ -58,6 +64,8 @@ class ClientServiceImpl internal constructor(private val clientOptions: ClientOp
     override fun marketplace(): MarketplaceService = marketplace
 
     override fun batchedGridWorkflow(): BatchedGridWorkflowService = batchedGridWorkflow
+
+    override fun graphWorkflow(): GraphWorkflowService = graphWorkflow
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ClientService.WithRawResponse {
@@ -86,6 +94,10 @@ class ClientServiceImpl internal constructor(private val clientOptions: ClientOp
             BatchedGridWorkflowServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val graphWorkflow: GraphWorkflowService.WithRawResponse by lazy {
+            GraphWorkflowServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): ClientService.WithRawResponse =
@@ -105,5 +117,7 @@ class ClientServiceImpl internal constructor(private val clientOptions: ClientOp
 
         override fun batchedGridWorkflow(): BatchedGridWorkflowService.WithRawResponse =
             batchedGridWorkflow
+
+        override fun graphWorkflow(): GraphWorkflowService.WithRawResponse = graphWorkflow
     }
 }

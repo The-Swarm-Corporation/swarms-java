@@ -6,6 +6,7 @@ import com.swarms.api.core.ClientOptions
 import com.swarms.api.services.async.client.AdvancedResearchServiceAsync
 import com.swarms.api.services.async.client.AutoSwarmBuilderServiceAsync
 import com.swarms.api.services.async.client.BatchedGridWorkflowServiceAsync
+import com.swarms.api.services.async.client.GraphWorkflowServiceAsync
 import com.swarms.api.services.async.client.MarketplaceServiceAsync
 import com.swarms.api.services.async.client.RateServiceAsync
 import com.swarms.api.services.async.client.ToolServiceAsync
@@ -37,6 +38,8 @@ interface ClientServiceAsync {
 
     fun batchedGridWorkflow(): BatchedGridWorkflowServiceAsync
 
+    fun graphWorkflow(): GraphWorkflowServiceAsync
+
     /**
      * A view of [ClientServiceAsync] that provides access to raw HTTP responses for each method.
      */
@@ -62,5 +65,7 @@ interface ClientServiceAsync {
         fun marketplace(): MarketplaceServiceAsync.WithRawResponse
 
         fun batchedGridWorkflow(): BatchedGridWorkflowServiceAsync.WithRawResponse
+
+        fun graphWorkflow(): GraphWorkflowServiceAsync.WithRawResponse
     }
 }

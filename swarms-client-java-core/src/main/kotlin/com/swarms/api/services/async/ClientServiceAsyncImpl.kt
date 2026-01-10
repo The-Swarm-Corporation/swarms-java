@@ -9,6 +9,8 @@ import com.swarms.api.services.async.client.AutoSwarmBuilderServiceAsync
 import com.swarms.api.services.async.client.AutoSwarmBuilderServiceAsyncImpl
 import com.swarms.api.services.async.client.BatchedGridWorkflowServiceAsync
 import com.swarms.api.services.async.client.BatchedGridWorkflowServiceAsyncImpl
+import com.swarms.api.services.async.client.GraphWorkflowServiceAsync
+import com.swarms.api.services.async.client.GraphWorkflowServiceAsyncImpl
 import com.swarms.api.services.async.client.MarketplaceServiceAsync
 import com.swarms.api.services.async.client.MarketplaceServiceAsyncImpl
 import com.swarms.api.services.async.client.RateServiceAsync
@@ -44,6 +46,10 @@ class ClientServiceAsyncImpl internal constructor(private val clientOptions: Cli
         BatchedGridWorkflowServiceAsyncImpl(clientOptions)
     }
 
+    private val graphWorkflow: GraphWorkflowServiceAsync by lazy {
+        GraphWorkflowServiceAsyncImpl(clientOptions)
+    }
+
     override fun withRawResponse(): ClientServiceAsync.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ClientServiceAsync =
@@ -60,6 +66,8 @@ class ClientServiceAsyncImpl internal constructor(private val clientOptions: Cli
     override fun marketplace(): MarketplaceServiceAsync = marketplace
 
     override fun batchedGridWorkflow(): BatchedGridWorkflowServiceAsync = batchedGridWorkflow
+
+    override fun graphWorkflow(): GraphWorkflowServiceAsync = graphWorkflow
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ClientServiceAsync.WithRawResponse {
@@ -88,6 +96,10 @@ class ClientServiceAsyncImpl internal constructor(private val clientOptions: Cli
             BatchedGridWorkflowServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val graphWorkflow: GraphWorkflowServiceAsync.WithRawResponse by lazy {
+            GraphWorkflowServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): ClientServiceAsync.WithRawResponse =
@@ -109,5 +121,7 @@ class ClientServiceAsyncImpl internal constructor(private val clientOptions: Cli
 
         override fun batchedGridWorkflow(): BatchedGridWorkflowServiceAsync.WithRawResponse =
             batchedGridWorkflow
+
+        override fun graphWorkflow(): GraphWorkflowServiceAsync.WithRawResponse = graphWorkflow
     }
 }
