@@ -6,6 +6,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.swarms.api.core.JsonValue
 import com.swarms.api.core.jsonMapper
 import com.swarms.api.models.agent.AgentSpec
+import com.swarms.api.models.agent.McpConnection
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -30,16 +31,16 @@ internal class SwarmSpecTest {
                         .maxLoops(0L)
                         .maxTokens(0L)
                         .mcpConfig(
-                            AgentSpec.McpConfig.builder()
+                            McpConnection.builder()
                                 .authorizationToken("authorization_token")
                                 .headers(
-                                    AgentSpec.McpConfig.Headers.builder()
+                                    McpConnection.Headers.builder()
                                         .putAdditionalProperty("foo", JsonValue.from("string"))
                                         .build()
                                 )
                                 .timeout(0L)
                                 .toolConfigurations(
-                                    AgentSpec.McpConfig.ToolConfigurations.builder()
+                                    McpConnection.ToolConfigurations.builder()
                                         .putAdditionalProperty("foo", JsonValue.from("bar"))
                                         .build()
                                 )
@@ -51,10 +52,10 @@ internal class SwarmSpecTest {
                         .mcpConfigs(
                             AgentSpec.McpConfigs.builder()
                                 .addConnection(
-                                    AgentSpec.McpConfigs.Connection.builder()
+                                    McpConnection.builder()
                                         .authorizationToken("authorization_token")
                                         .headers(
-                                            AgentSpec.McpConfigs.Connection.Headers.builder()
+                                            McpConnection.Headers.builder()
                                                 .putAdditionalProperty(
                                                     "foo",
                                                     JsonValue.from("string"),
@@ -63,8 +64,7 @@ internal class SwarmSpecTest {
                                         )
                                         .timeout(0L)
                                         .toolConfigurations(
-                                            AgentSpec.McpConfigs.Connection.ToolConfigurations
-                                                .builder()
+                                            McpConnection.ToolConfigurations.builder()
                                                 .putAdditionalProperty("foo", JsonValue.from("bar"))
                                                 .build()
                                         )
@@ -130,16 +130,16 @@ internal class SwarmSpecTest {
                     .maxLoops(0L)
                     .maxTokens(0L)
                     .mcpConfig(
-                        AgentSpec.McpConfig.builder()
+                        McpConnection.builder()
                             .authorizationToken("authorization_token")
                             .headers(
-                                AgentSpec.McpConfig.Headers.builder()
+                                McpConnection.Headers.builder()
                                     .putAdditionalProperty("foo", JsonValue.from("string"))
                                     .build()
                             )
                             .timeout(0L)
                             .toolConfigurations(
-                                AgentSpec.McpConfig.ToolConfigurations.builder()
+                                McpConnection.ToolConfigurations.builder()
                                     .putAdditionalProperty("foo", JsonValue.from("bar"))
                                     .build()
                             )
@@ -151,16 +151,16 @@ internal class SwarmSpecTest {
                     .mcpConfigs(
                         AgentSpec.McpConfigs.builder()
                             .addConnection(
-                                AgentSpec.McpConfigs.Connection.builder()
+                                McpConnection.builder()
                                     .authorizationToken("authorization_token")
                                     .headers(
-                                        AgentSpec.McpConfigs.Connection.Headers.builder()
+                                        McpConnection.Headers.builder()
                                             .putAdditionalProperty("foo", JsonValue.from("string"))
                                             .build()
                                     )
                                     .timeout(0L)
                                     .toolConfigurations(
-                                        AgentSpec.McpConfigs.Connection.ToolConfigurations.builder()
+                                        McpConnection.ToolConfigurations.builder()
                                             .putAdditionalProperty("foo", JsonValue.from("bar"))
                                             .build()
                                     )
@@ -234,16 +234,16 @@ internal class SwarmSpecTest {
                         .maxLoops(0L)
                         .maxTokens(0L)
                         .mcpConfig(
-                            AgentSpec.McpConfig.builder()
+                            McpConnection.builder()
                                 .authorizationToken("authorization_token")
                                 .headers(
-                                    AgentSpec.McpConfig.Headers.builder()
+                                    McpConnection.Headers.builder()
                                         .putAdditionalProperty("foo", JsonValue.from("string"))
                                         .build()
                                 )
                                 .timeout(0L)
                                 .toolConfigurations(
-                                    AgentSpec.McpConfig.ToolConfigurations.builder()
+                                    McpConnection.ToolConfigurations.builder()
                                         .putAdditionalProperty("foo", JsonValue.from("bar"))
                                         .build()
                                 )
@@ -255,10 +255,10 @@ internal class SwarmSpecTest {
                         .mcpConfigs(
                             AgentSpec.McpConfigs.builder()
                                 .addConnection(
-                                    AgentSpec.McpConfigs.Connection.builder()
+                                    McpConnection.builder()
                                         .authorizationToken("authorization_token")
                                         .headers(
-                                            AgentSpec.McpConfigs.Connection.Headers.builder()
+                                            McpConnection.Headers.builder()
                                                 .putAdditionalProperty(
                                                     "foo",
                                                     JsonValue.from("string"),
@@ -267,8 +267,7 @@ internal class SwarmSpecTest {
                                         )
                                         .timeout(0L)
                                         .toolConfigurations(
-                                            AgentSpec.McpConfigs.Connection.ToolConfigurations
-                                                .builder()
+                                            McpConnection.ToolConfigurations.builder()
                                                 .putAdditionalProperty("foo", JsonValue.from("bar"))
                                                 .build()
                                         )

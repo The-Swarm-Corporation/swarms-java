@@ -27,16 +27,16 @@ internal class AgentRunParamsTest {
                             .maxLoops(0L)
                             .maxTokens(0L)
                             .mcpConfig(
-                                AgentSpec.McpConfig.builder()
+                                McpConnection.builder()
                                     .authorizationToken("authorization_token")
                                     .headers(
-                                        AgentSpec.McpConfig.Headers.builder()
+                                        McpConnection.Headers.builder()
                                             .putAdditionalProperty("foo", JsonValue.from("string"))
                                             .build()
                                     )
                                     .timeout(0L)
                                     .toolConfigurations(
-                                        AgentSpec.McpConfig.ToolConfigurations.builder()
+                                        McpConnection.ToolConfigurations.builder()
                                             .putAdditionalProperty("foo", JsonValue.from("bar"))
                                             .build()
                                     )
@@ -48,10 +48,10 @@ internal class AgentRunParamsTest {
                             .mcpConfigs(
                                 AgentSpec.McpConfigs.builder()
                                     .addConnection(
-                                        AgentSpec.McpConfigs.Connection.builder()
+                                        McpConnection.builder()
                                             .authorizationToken("authorization_token")
                                             .headers(
-                                                AgentSpec.McpConfigs.Connection.Headers.builder()
+                                                McpConnection.Headers.builder()
                                                     .putAdditionalProperty(
                                                         "foo",
                                                         JsonValue.from("string"),
@@ -60,8 +60,7 @@ internal class AgentRunParamsTest {
                                             )
                                             .timeout(0L)
                                             .toolConfigurations(
-                                                AgentSpec.McpConfigs.Connection.ToolConfigurations
-                                                    .builder()
+                                                McpConnection.ToolConfigurations.builder()
                                                     .putAdditionalProperty(
                                                         "foo",
                                                         JsonValue.from("bar"),
@@ -126,10 +125,10 @@ internal class AgentRunParamsTest {
                                 .maxLoops(0L)
                                 .maxTokens(0L)
                                 .mcpConfig(
-                                    AgentSpec.McpConfig.builder()
+                                    McpConnection.builder()
                                         .authorizationToken("authorization_token")
                                         .headers(
-                                            AgentSpec.McpConfig.Headers.builder()
+                                            McpConnection.Headers.builder()
                                                 .putAdditionalProperty(
                                                     "foo",
                                                     JsonValue.from("string"),
@@ -138,7 +137,7 @@ internal class AgentRunParamsTest {
                                         )
                                         .timeout(0L)
                                         .toolConfigurations(
-                                            AgentSpec.McpConfig.ToolConfigurations.builder()
+                                            McpConnection.ToolConfigurations.builder()
                                                 .putAdditionalProperty("foo", JsonValue.from("bar"))
                                                 .build()
                                         )
@@ -150,11 +149,10 @@ internal class AgentRunParamsTest {
                                 .mcpConfigs(
                                     AgentSpec.McpConfigs.builder()
                                         .addConnection(
-                                            AgentSpec.McpConfigs.Connection.builder()
+                                            McpConnection.builder()
                                                 .authorizationToken("authorization_token")
                                                 .headers(
-                                                    AgentSpec.McpConfigs.Connection.Headers
-                                                        .builder()
+                                                    McpConnection.Headers.builder()
                                                         .putAdditionalProperty(
                                                             "foo",
                                                             JsonValue.from("string"),
@@ -163,9 +161,7 @@ internal class AgentRunParamsTest {
                                                 )
                                                 .timeout(0L)
                                                 .toolConfigurations(
-                                                    AgentSpec.McpConfigs.Connection
-                                                        .ToolConfigurations
-                                                        .builder()
+                                                    McpConnection.ToolConfigurations.builder()
                                                         .putAdditionalProperty(
                                                             "foo",
                                                             JsonValue.from("bar"),
@@ -228,16 +224,16 @@ internal class AgentRunParamsTest {
                             .maxLoops(0L)
                             .maxTokens(0L)
                             .mcpConfig(
-                                AgentSpec.McpConfig.builder()
+                                McpConnection.builder()
                                     .authorizationToken("authorization_token")
                                     .headers(
-                                        AgentSpec.McpConfig.Headers.builder()
+                                        McpConnection.Headers.builder()
                                             .putAdditionalProperty("foo", JsonValue.from("string"))
                                             .build()
                                     )
                                     .timeout(0L)
                                     .toolConfigurations(
-                                        AgentSpec.McpConfig.ToolConfigurations.builder()
+                                        McpConnection.ToolConfigurations.builder()
                                             .putAdditionalProperty("foo", JsonValue.from("bar"))
                                             .build()
                                     )
@@ -249,10 +245,10 @@ internal class AgentRunParamsTest {
                             .mcpConfigs(
                                 AgentSpec.McpConfigs.builder()
                                     .addConnection(
-                                        AgentSpec.McpConfigs.Connection.builder()
+                                        McpConnection.builder()
                                             .authorizationToken("authorization_token")
                                             .headers(
-                                                AgentSpec.McpConfigs.Connection.Headers.builder()
+                                                McpConnection.Headers.builder()
                                                     .putAdditionalProperty(
                                                         "foo",
                                                         JsonValue.from("string"),
@@ -261,8 +257,7 @@ internal class AgentRunParamsTest {
                                             )
                                             .timeout(0L)
                                             .toolConfigurations(
-                                                AgentSpec.McpConfigs.Connection.ToolConfigurations
-                                                    .builder()
+                                                McpConnection.ToolConfigurations.builder()
                                                     .putAdditionalProperty(
                                                         "foo",
                                                         JsonValue.from("bar"),
