@@ -15,54 +15,54 @@ import com.swarms.api.core.http.HttpResponseFor
 import com.swarms.api.core.http.json
 import com.swarms.api.core.http.parseable
 import com.swarms.api.core.prepare
-import com.swarms.api.models.client.marketplace.MarketplaceCreateAgentParams
-import com.swarms.api.models.client.marketplace.MarketplaceCreateAgentResponse
+import com.swarms.api.models.client.graphworkflow.GraphWorkflowExecuteWorkflowParams
+import com.swarms.api.models.client.graphworkflow.GraphWorkflowExecuteWorkflowResponse
 import java.util.function.Consumer
 
-class MarketplaceServiceImpl internal constructor(private val clientOptions: ClientOptions) :
-    MarketplaceService {
+class GraphWorkflowServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    GraphWorkflowService {
 
-    private val withRawResponse: MarketplaceService.WithRawResponse by lazy {
+    private val withRawResponse: GraphWorkflowService.WithRawResponse by lazy {
         WithRawResponseImpl(clientOptions)
     }
 
-    override fun withRawResponse(): MarketplaceService.WithRawResponse = withRawResponse
+    override fun withRawResponse(): GraphWorkflowService.WithRawResponse = withRawResponse
 
-    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): MarketplaceService =
-        MarketplaceServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): GraphWorkflowService =
+        GraphWorkflowServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
-    override fun createAgent(
-        params: MarketplaceCreateAgentParams,
+    override fun executeWorkflow(
+        params: GraphWorkflowExecuteWorkflowParams,
         requestOptions: RequestOptions,
-    ): MarketplaceCreateAgentResponse =
-        // post /v1/marketplace/agents
-        withRawResponse().createAgent(params, requestOptions).parse()
+    ): GraphWorkflowExecuteWorkflowResponse =
+        // post /v1/graph-workflow/completions
+        withRawResponse().executeWorkflow(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
-        MarketplaceService.WithRawResponse {
+        GraphWorkflowService.WithRawResponse {
 
         private val errorHandler: Handler<HttpResponse> =
             errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
-        ): MarketplaceService.WithRawResponse =
-            MarketplaceServiceImpl.WithRawResponseImpl(
+        ): GraphWorkflowService.WithRawResponse =
+            GraphWorkflowServiceImpl.WithRawResponseImpl(
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val createAgentHandler: Handler<MarketplaceCreateAgentResponse> =
-            jsonHandler<MarketplaceCreateAgentResponse>(clientOptions.jsonMapper)
+        private val executeWorkflowHandler: Handler<GraphWorkflowExecuteWorkflowResponse> =
+            jsonHandler<GraphWorkflowExecuteWorkflowResponse>(clientOptions.jsonMapper)
 
-        override fun createAgent(
-            params: MarketplaceCreateAgentParams,
+        override fun executeWorkflow(
+            params: GraphWorkflowExecuteWorkflowParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<MarketplaceCreateAgentResponse> {
+        ): HttpResponseFor<GraphWorkflowExecuteWorkflowResponse> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
                     .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments("v1", "marketplace", "agents")
+                    .addPathSegments("v1", "graph-workflow", "completions")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepare(clientOptions, params)
@@ -70,7 +70,7 @@ class MarketplaceServiceImpl internal constructor(private val clientOptions: Cli
             val response = clientOptions.httpClient.execute(request, requestOptions)
             return errorHandler.handle(response).parseable {
                 response
-                    .use { createAgentHandler.handle(it) }
+                    .use { executeWorkflowHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
