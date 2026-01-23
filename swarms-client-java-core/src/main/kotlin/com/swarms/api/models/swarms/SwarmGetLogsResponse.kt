@@ -40,6 +40,12 @@ private constructor(
      */
     fun count(): Optional<Long> = count.getOptional("count")
 
+    /**
+     * This arbitrary value can be deserialized into a custom type using the `convert` method:
+     * ```java
+     * MyClass myObject = swarmGetLogsResponse.logs().convert(MyClass.class);
+     * ```
+     */
     @JsonProperty("logs") @ExcludeMissing fun _logs(): JsonValue = logs
 
     /**

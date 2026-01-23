@@ -91,7 +91,14 @@ private constructor(
      */
     fun name(): Optional<String> = name.getOptional("name")
 
-    /** The outputs of the advanced research session */
+    /**
+     * The outputs of the advanced research session
+     *
+     * This arbitrary value can be deserialized into a custom type using the `convert` method:
+     * ```java
+     * MyClass myObject = advancedResearchCreateCompletionResponse.outputs().convert(MyClass.class);
+     * ```
+     */
     @JsonProperty("outputs") @ExcludeMissing fun _outputs(): JsonValue = outputs
 
     /**

@@ -66,7 +66,14 @@ private constructor(
      */
     fun name(): String = name.getRequired("name")
 
-    /** The outputs of the batched grid workflow. */
+    /**
+     * The outputs of the batched grid workflow.
+     *
+     * This arbitrary value can be deserialized into a custom type using the `convert` method:
+     * ```java
+     * MyClass myObject = batchedGridWorkflowCompleteWorkflowResponse.outputs().convert(MyClass.class);
+     * ```
+     */
     @JsonProperty("outputs") @ExcludeMissing fun _outputs(): JsonValue = outputs
 
     /**

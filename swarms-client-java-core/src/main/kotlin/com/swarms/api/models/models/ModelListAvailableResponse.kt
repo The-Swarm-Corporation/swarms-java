@@ -30,6 +30,12 @@ private constructor(
         @JsonProperty("success") @ExcludeMissing success: JsonField<Boolean> = JsonMissing.of(),
     ) : this(models, success, mutableMapOf())
 
+    /**
+     * This arbitrary value can be deserialized into a custom type using the `convert` method:
+     * ```java
+     * MyClass myObject = modelListAvailableResponse.models().convert(MyClass.class);
+     * ```
+     */
     @JsonProperty("models") @ExcludeMissing fun _models(): JsonValue = models
 
     /**
