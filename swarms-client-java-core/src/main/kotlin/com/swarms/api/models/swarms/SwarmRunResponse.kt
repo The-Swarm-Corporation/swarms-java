@@ -100,7 +100,14 @@ private constructor(
      */
     fun numberOfAgents(): Optional<Long> = numberOfAgents.getOptional("number_of_agents")
 
-    /** The output of the swarm. */
+    /**
+     * The output of the swarm.
+     *
+     * This arbitrary value can be deserialized into a custom type using the `convert` method:
+     * ```java
+     * MyClass myObject = swarmRunResponse.output().convert(MyClass.class);
+     * ```
+     */
     @JsonProperty("output") @ExcludeMissing fun _output(): JsonValue = output
 
     /**

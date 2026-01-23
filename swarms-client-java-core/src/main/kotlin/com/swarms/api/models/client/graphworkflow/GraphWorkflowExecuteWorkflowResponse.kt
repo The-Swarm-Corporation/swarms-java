@@ -52,7 +52,14 @@ private constructor(
      */
     fun jobId(): String = jobId.getRequired("job_id")
 
-    /** The outputs of the graph workflow. */
+    /**
+     * The outputs of the graph workflow.
+     *
+     * This arbitrary value can be deserialized into a custom type using the `convert` method:
+     * ```java
+     * MyClass myObject = graphWorkflowExecuteWorkflowResponse.outputs().convert(MyClass.class);
+     * ```
+     */
     @JsonProperty("outputs") @ExcludeMissing fun _outputs(): JsonValue = outputs
 
     /**
