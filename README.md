@@ -363,20 +363,6 @@ SwarmsClientClient client = SwarmsClientOkHttpClient.builder()
     .build();
 ```
 
-### Environments
-
-The SDK sends requests to the production by default. To send requests to a different environment, configure the client like so:
-
-```java
-import com.swarms.api.client.SwarmsClientClient;
-import com.swarms.api.client.okhttp.SwarmsClientOkHttpClient;
-
-SwarmsClientClient client = SwarmsClientOkHttpClient.builder()
-    .fromEnv()
-    .sandbox()
-    .build();
-```
-
 ### Custom HTTP client
 
 The SDK consists of three artifacts:

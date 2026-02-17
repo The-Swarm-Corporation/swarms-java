@@ -106,9 +106,6 @@ private constructor(
      * The base URL to use for every request.
      *
      * Defaults to the production environment: `https://api.swarms.world`.
-     *
-     * The following other environments, with dedicated builder methods, are available:
-     * - sandbox: `https://swarms-api-285321057562.us-east1.run.app`
      */
     fun baseUrl(): String = baseUrl ?: PRODUCTION_URL
 
@@ -119,8 +116,6 @@ private constructor(
     companion object {
 
         const val PRODUCTION_URL = "https://api.swarms.world"
-
-        const val SANDBOX_URL = "https://swarms-api-285321057562.us-east1.run.app"
 
         /**
          * Returns a mutable builder for constructing an instance of [ClientOptions].
@@ -226,17 +221,11 @@ private constructor(
          * The base URL to use for every request.
          *
          * Defaults to the production environment: `https://api.swarms.world`.
-         *
-         * The following other environments, with dedicated builder methods, are available:
-         * - sandbox: `https://swarms-api-285321057562.us-east1.run.app`
          */
         fun baseUrl(baseUrl: String?) = apply { this.baseUrl = baseUrl }
 
         /** Alias for calling [Builder.baseUrl] with `baseUrl.orElse(null)`. */
         fun baseUrl(baseUrl: Optional<String>) = baseUrl(baseUrl.getOrNull())
-
-        /** Sets [baseUrl] to `https://swarms-api-285321057562.us-east1.run.app`. */
-        fun sandbox() = baseUrl(SANDBOX_URL)
 
         /**
          * Whether to call `validate` on every response before returning it.
