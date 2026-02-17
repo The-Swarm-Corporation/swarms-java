@@ -3,23 +3,74 @@
 package com.swarms.api.models.swarms
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
+import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.swarms.api.core.ExcludeMissing
+import com.swarms.api.core.JsonField
+import com.swarms.api.core.JsonMissing
 import com.swarms.api.core.JsonValue
+import com.swarms.api.core.checkKnown
 import com.swarms.api.core.toImmutable
 import com.swarms.api.errors.SwarmsClientInvalidDataException
+import java.util.Collections
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 class SwarmCheckAvailableResponse
-@JsonCreator
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
-    @com.fasterxml.jackson.annotation.JsonValue
-    private val additionalProperties: Map<String, JsonValue>
+    private val success: JsonField<Boolean>,
+    private val swarmTypes: JsonField<List<String>>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("success") @ExcludeMissing success: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("swarm_types")
+        @ExcludeMissing
+        swarmTypes: JsonField<List<String>> = JsonMissing.of(),
+    ) : this(success, swarmTypes, mutableMapOf())
+
+    /**
+     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
+     *   the server responded with an unexpected value).
+     */
+    fun success(): Optional<Boolean> = success.getOptional("success")
+
+    /**
+     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
+     *   the server responded with an unexpected value).
+     */
+    fun swarmTypes(): Optional<List<String>> = swarmTypes.getOptional("swarm_types")
+
+    /**
+     * Returns the raw JSON value of [success].
+     *
+     * Unlike [success], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("success") @ExcludeMissing fun _success(): JsonField<Boolean> = success
+
+    /**
+     * Returns the raw JSON value of [swarmTypes].
+     *
+     * Unlike [swarmTypes], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("swarm_types")
+    @ExcludeMissing
+    fun _swarmTypes(): JsonField<List<String>> = swarmTypes
+
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
 
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -34,11 +85,63 @@ private constructor(
     /** A builder for [SwarmCheckAvailableResponse]. */
     class Builder internal constructor() {
 
+        private var success: JsonField<Boolean> = JsonMissing.of()
+        private var swarmTypes: JsonField<MutableList<String>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(swarmCheckAvailableResponse: SwarmCheckAvailableResponse) = apply {
+            success = swarmCheckAvailableResponse.success
+            swarmTypes = swarmCheckAvailableResponse.swarmTypes.map { it.toMutableList() }
             additionalProperties = swarmCheckAvailableResponse.additionalProperties.toMutableMap()
+        }
+
+        fun success(success: Boolean?) = success(JsonField.ofNullable(success))
+
+        /**
+         * Alias for [Builder.success].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun success(success: Boolean) = success(success as Boolean?)
+
+        /** Alias for calling [Builder.success] with `success.orElse(null)`. */
+        fun success(success: Optional<Boolean>) = success(success.getOrNull())
+
+        /**
+         * Sets [Builder.success] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.success] with a well-typed [Boolean] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun success(success: JsonField<Boolean>) = apply { this.success = success }
+
+        fun swarmTypes(swarmTypes: List<String>?) = swarmTypes(JsonField.ofNullable(swarmTypes))
+
+        /** Alias for calling [Builder.swarmTypes] with `swarmTypes.orElse(null)`. */
+        fun swarmTypes(swarmTypes: Optional<List<String>>) = swarmTypes(swarmTypes.getOrNull())
+
+        /**
+         * Sets [Builder.swarmTypes] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.swarmTypes] with a well-typed `List<String>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun swarmTypes(swarmTypes: JsonField<List<String>>) = apply {
+            this.swarmTypes = swarmTypes.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [String] to [swarmTypes].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addSwarmType(swarmType: String) = apply {
+            swarmTypes =
+                (swarmTypes ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("swarmTypes", it).add(swarmType)
+                }
         }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -66,7 +169,11 @@ private constructor(
          * Further updates to this [Builder] will not mutate the returned instance.
          */
         fun build(): SwarmCheckAvailableResponse =
-            SwarmCheckAvailableResponse(additionalProperties.toImmutable())
+            SwarmCheckAvailableResponse(
+                success,
+                (swarmTypes ?: JsonMissing.of()).map { it.toImmutable() },
+                additionalProperties.toMutableMap(),
+            )
     }
 
     private var validated: Boolean = false
@@ -76,6 +183,8 @@ private constructor(
             return@apply
         }
 
+        success()
+        swarmTypes()
         validated = true
     }
 
@@ -94,22 +203,23 @@ private constructor(
      */
     @JvmSynthetic
     internal fun validity(): Int =
-        additionalProperties.count { (_, value) -> !value.isNull() && !value.isMissing() }
+        (if (success.asKnown().isPresent) 1 else 0) + (swarmTypes.asKnown().getOrNull()?.size ?: 0)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
         }
 
-        return /* spotless:off */ other is SwarmCheckAvailableResponse && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is SwarmCheckAvailableResponse &&
+            success == other.success &&
+            swarmTypes == other.swarmTypes &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy { Objects.hash(success, swarmTypes, additionalProperties) }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "SwarmCheckAvailableResponse{additionalProperties=$additionalProperties}"
+        "SwarmCheckAvailableResponse{success=$success, swarmTypes=$swarmTypes, additionalProperties=$additionalProperties}"
 }

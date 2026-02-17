@@ -9,7 +9,7 @@ import com.swarms.api.core.http.Headers
 import com.swarms.api.core.http.QueryParams
 import java.util.Objects
 
-/** Run a swarm with the specified task. */
+/** Run a swarm with the specified task. Supports streaming when stream=True. */
 class SwarmRunParams
 private constructor(
     private val swarmSpec: SwarmSpec,
@@ -21,8 +21,10 @@ private constructor(
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = swarmSpec._additionalProperties()
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
@@ -185,10 +187,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is SwarmRunParams && swarmSpec == other.swarmSpec && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is SwarmRunParams &&
+            swarmSpec == other.swarmSpec &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(swarmSpec, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = Objects.hash(swarmSpec, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "SwarmRunParams{swarmSpec=$swarmSpec, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

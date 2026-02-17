@@ -28,7 +28,7 @@ interface BatchServiceAsync {
     fun run(params: BatchRunParams): CompletableFuture<List<BatchRunResponse>> =
         run(params, RequestOptions.none())
 
-    /** @see [run] */
+    /** @see run */
     fun run(
         params: BatchRunParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -55,7 +55,7 @@ interface BatchServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<BatchRunResponse>>> =
             run(params, RequestOptions.none())
 
-        /** @see [run] */
+        /** @see run */
         fun run(
             params: BatchRunParams,
             requestOptions: RequestOptions = RequestOptions.none(),

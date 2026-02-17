@@ -30,12 +30,14 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class AgentCompletion
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val agentConfig: JsonField<AgentSpec>,
     private val history: JsonField<History>,
     private val img: JsonField<String>,
     private val imgs: JsonField<List<String>>,
     private val task: JsonField<String>,
+    private val toolsEnabled: JsonField<List<String>>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -48,7 +50,10 @@ private constructor(
         @JsonProperty("img") @ExcludeMissing img: JsonField<String> = JsonMissing.of(),
         @JsonProperty("imgs") @ExcludeMissing imgs: JsonField<List<String>> = JsonMissing.of(),
         @JsonProperty("task") @ExcludeMissing task: JsonField<String> = JsonMissing.of(),
-    ) : this(agentConfig, history, img, imgs, task, mutableMapOf())
+        @JsonProperty("tools_enabled")
+        @ExcludeMissing
+        toolsEnabled: JsonField<List<String>> = JsonMissing.of(),
+    ) : this(agentConfig, history, img, imgs, task, toolsEnabled, mutableMapOf())
 
     /**
      * The configuration of the agent to be completed.
@@ -92,6 +97,14 @@ private constructor(
     fun task(): Optional<String> = task.getOptional("task")
 
     /**
+     * A list of tools that the agent should use to complete its task.
+     *
+     * @throws SwarmsClientInvalidDataException if the JSON field has an unexpected type (e.g. if
+     *   the server responded with an unexpected value).
+     */
+    fun toolsEnabled(): Optional<List<String>> = toolsEnabled.getOptional("tools_enabled")
+
+    /**
      * Returns the raw JSON value of [agentConfig].
      *
      * Unlike [agentConfig], this method doesn't throw if the JSON field has an unexpected type.
@@ -128,6 +141,15 @@ private constructor(
      */
     @JsonProperty("task") @ExcludeMissing fun _task(): JsonField<String> = task
 
+    /**
+     * Returns the raw JSON value of [toolsEnabled].
+     *
+     * Unlike [toolsEnabled], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("tools_enabled")
+    @ExcludeMissing
+    fun _toolsEnabled(): JsonField<List<String>> = toolsEnabled
+
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
         additionalProperties.put(key, value)
@@ -154,6 +176,7 @@ private constructor(
         private var img: JsonField<String> = JsonMissing.of()
         private var imgs: JsonField<MutableList<String>>? = null
         private var task: JsonField<String> = JsonMissing.of()
+        private var toolsEnabled: JsonField<MutableList<String>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -163,6 +186,7 @@ private constructor(
             img = agentCompletion.img
             imgs = agentCompletion.imgs.map { it.toMutableList() }
             task = agentCompletion.task
+            toolsEnabled = agentCompletion.toolsEnabled.map { it.toMutableList() }
             additionalProperties = agentCompletion.additionalProperties.toMutableMap()
         }
 
@@ -266,6 +290,37 @@ private constructor(
          */
         fun task(task: JsonField<String>) = apply { this.task = task }
 
+        /** A list of tools that the agent should use to complete its task. */
+        fun toolsEnabled(toolsEnabled: List<String>?) =
+            toolsEnabled(JsonField.ofNullable(toolsEnabled))
+
+        /** Alias for calling [Builder.toolsEnabled] with `toolsEnabled.orElse(null)`. */
+        fun toolsEnabled(toolsEnabled: Optional<List<String>>) =
+            toolsEnabled(toolsEnabled.getOrNull())
+
+        /**
+         * Sets [Builder.toolsEnabled] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.toolsEnabled] with a well-typed `List<String>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun toolsEnabled(toolsEnabled: JsonField<List<String>>) = apply {
+            this.toolsEnabled = toolsEnabled.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [String] to [Builder.toolsEnabled].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addToolsEnabled(toolsEnabled: String) = apply {
+            this.toolsEnabled =
+                (this.toolsEnabled ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("toolsEnabled", it).add(toolsEnabled)
+                }
+        }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -297,6 +352,7 @@ private constructor(
                 img,
                 (imgs ?: JsonMissing.of()).map { it.toImmutable() },
                 task,
+                (toolsEnabled ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
             )
     }
@@ -313,6 +369,7 @@ private constructor(
         img()
         imgs()
         task()
+        toolsEnabled()
         validated = true
     }
 
@@ -335,7 +392,8 @@ private constructor(
             (history.asKnown().getOrNull()?.validity() ?: 0) +
             (if (img.asKnown().isPresent) 1 else 0) +
             (imgs.asKnown().getOrNull()?.size ?: 0) +
-            (if (task.asKnown().isPresent) 1 else 0)
+            (if (task.asKnown().isPresent) 1 else 0) +
+            (toolsEnabled.asKnown().getOrNull()?.size ?: 0)
 
     /**
      * The history of the agent's previous tasks and responses. Can be either a dictionary or a list
@@ -431,10 +489,12 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is History && unionMember0 == other.unionMember0 && unnamedSchemaWithArrayParent0s == other.unnamedSchemaWithArrayParent0s /* spotless:on */
+            return other is History &&
+                unionMember0 == other.unionMember0 &&
+                unnamedSchemaWithArrayParent0s == other.unnamedSchemaWithArrayParent0s
         }
 
-        override fun hashCode(): Int = /* spotless:off */ Objects.hash(unionMember0, unnamedSchemaWithArrayParent0s) /* spotless:on */
+        override fun hashCode(): Int = Objects.hash(unionMember0, unnamedSchemaWithArrayParent0s)
 
         override fun toString(): String =
             when {
@@ -453,7 +513,10 @@ private constructor(
             @JvmStatic
             fun ofUnnamedSchemaWithArrayParent0s(
                 unnamedSchemaWithArrayParent0s: List<UnnamedSchemaWithArrayParent0>
-            ) = History(unnamedSchemaWithArrayParent0s = unnamedSchemaWithArrayParent0s)
+            ) =
+                History(
+                    unnamedSchemaWithArrayParent0s = unnamedSchemaWithArrayParent0s.toImmutable()
+                )
         }
 
         /**
@@ -623,12 +686,10 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is UnionMember0 && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is UnionMember0 && additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
             private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
-            /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
@@ -733,12 +794,11 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is UnnamedSchemaWithArrayParent0 && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is UnnamedSchemaWithArrayParent0 &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
             private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
-            /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
@@ -752,15 +812,22 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AgentCompletion && agentConfig == other.agentConfig && history == other.history && img == other.img && imgs == other.imgs && task == other.task && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is AgentCompletion &&
+            agentConfig == other.agentConfig &&
+            history == other.history &&
+            img == other.img &&
+            imgs == other.imgs &&
+            task == other.task &&
+            toolsEnabled == other.toolsEnabled &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(agentConfig, history, img, imgs, task, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(agentConfig, history, img, imgs, task, toolsEnabled, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "AgentCompletion{agentConfig=$agentConfig, history=$history, img=$img, imgs=$imgs, task=$task, additionalProperties=$additionalProperties}"
+        "AgentCompletion{agentConfig=$agentConfig, history=$history, img=$img, imgs=$imgs, task=$task, toolsEnabled=$toolsEnabled, additionalProperties=$additionalProperties}"
 }

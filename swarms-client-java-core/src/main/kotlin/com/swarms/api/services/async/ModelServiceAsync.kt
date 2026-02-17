@@ -28,18 +28,18 @@ interface ModelServiceAsync {
     fun listAvailable(): CompletableFuture<ModelListAvailableResponse> =
         listAvailable(ModelListAvailableParams.none())
 
-    /** @see [listAvailable] */
+    /** @see listAvailable */
     fun listAvailable(
         params: ModelListAvailableParams = ModelListAvailableParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ModelListAvailableResponse>
 
-    /** @see [listAvailable] */
+    /** @see listAvailable */
     fun listAvailable(
         params: ModelListAvailableParams = ModelListAvailableParams.none()
     ): CompletableFuture<ModelListAvailableResponse> = listAvailable(params, RequestOptions.none())
 
-    /** @see [listAvailable] */
+    /** @see listAvailable */
     fun listAvailable(
         requestOptions: RequestOptions
     ): CompletableFuture<ModelListAvailableResponse> =
@@ -64,19 +64,19 @@ interface ModelServiceAsync {
         fun listAvailable(): CompletableFuture<HttpResponseFor<ModelListAvailableResponse>> =
             listAvailable(ModelListAvailableParams.none())
 
-        /** @see [listAvailable] */
+        /** @see listAvailable */
         fun listAvailable(
             params: ModelListAvailableParams = ModelListAvailableParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ModelListAvailableResponse>>
 
-        /** @see [listAvailable] */
+        /** @see listAvailable */
         fun listAvailable(
             params: ModelListAvailableParams = ModelListAvailableParams.none()
         ): CompletableFuture<HttpResponseFor<ModelListAvailableResponse>> =
             listAvailable(params, RequestOptions.none())
 
-        /** @see [listAvailable] */
+        /** @see listAvailable */
         fun listAvailable(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ModelListAvailableResponse>> =

@@ -11,6 +11,7 @@ import com.swarms.api.models.swarms.SwarmGetLogsParams
 import com.swarms.api.models.swarms.SwarmGetLogsResponse
 import com.swarms.api.models.swarms.SwarmRunParams
 import com.swarms.api.models.swarms.SwarmRunResponse
+import com.swarms.api.models.swarms.SwarmSpec
 import com.swarms.api.services.async.swarms.BatchServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -35,54 +36,65 @@ interface SwarmServiceAsync {
     fun checkAvailable(): CompletableFuture<SwarmCheckAvailableResponse> =
         checkAvailable(SwarmCheckAvailableParams.none())
 
-    /** @see [checkAvailable] */
+    /** @see checkAvailable */
     fun checkAvailable(
         params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<SwarmCheckAvailableResponse>
 
-    /** @see [checkAvailable] */
+    /** @see checkAvailable */
     fun checkAvailable(
         params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none()
     ): CompletableFuture<SwarmCheckAvailableResponse> =
         checkAvailable(params, RequestOptions.none())
 
-    /** @see [checkAvailable] */
+    /** @see checkAvailable */
     fun checkAvailable(
         requestOptions: RequestOptions
     ): CompletableFuture<SwarmCheckAvailableResponse> =
         checkAvailable(SwarmCheckAvailableParams.none(), requestOptions)
 
     /**
-     * Get all API request logs for the user associated with the provided API key, excluding any
-     * logs that contain a client_ip field in their data.
+     * Get all API request logs for all API keys associated with the user identified by the provided
+     * API key, excluding any logs that contain a client_ip field in their data.
      */
     fun getLogs(): CompletableFuture<SwarmGetLogsResponse> = getLogs(SwarmGetLogsParams.none())
 
-    /** @see [getLogs] */
+    /** @see getLogs */
     fun getLogs(
         params: SwarmGetLogsParams = SwarmGetLogsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<SwarmGetLogsResponse>
 
-    /** @see [getLogs] */
+    /** @see getLogs */
     fun getLogs(
         params: SwarmGetLogsParams = SwarmGetLogsParams.none()
     ): CompletableFuture<SwarmGetLogsResponse> = getLogs(params, RequestOptions.none())
 
-    /** @see [getLogs] */
+    /** @see getLogs */
     fun getLogs(requestOptions: RequestOptions): CompletableFuture<SwarmGetLogsResponse> =
         getLogs(SwarmGetLogsParams.none(), requestOptions)
 
-    /** Run a swarm with the specified task. */
+    /** Run a swarm with the specified task. Supports streaming when stream=True. */
     fun run(params: SwarmRunParams): CompletableFuture<SwarmRunResponse> =
         run(params, RequestOptions.none())
 
-    /** @see [run] */
+    /** @see run */
     fun run(
         params: SwarmRunParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<SwarmRunResponse>
+
+    /** @see run */
+    fun run(
+        swarmSpec: SwarmSpec,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<SwarmRunResponse> =
+        run(SwarmRunParams.builder().swarmSpec(swarmSpec).build(), requestOptions)
+
+    /** @see run */
+    fun run(swarmSpec: SwarmSpec): CompletableFuture<SwarmRunResponse> =
+        run(swarmSpec, RequestOptions.none())
 
     /** A view of [SwarmServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -105,19 +117,19 @@ interface SwarmServiceAsync {
         fun checkAvailable(): CompletableFuture<HttpResponseFor<SwarmCheckAvailableResponse>> =
             checkAvailable(SwarmCheckAvailableParams.none())
 
-        /** @see [checkAvailable] */
+        /** @see checkAvailable */
         fun checkAvailable(
             params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<SwarmCheckAvailableResponse>>
 
-        /** @see [checkAvailable] */
+        /** @see checkAvailable */
         fun checkAvailable(
             params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none()
         ): CompletableFuture<HttpResponseFor<SwarmCheckAvailableResponse>> =
             checkAvailable(params, RequestOptions.none())
 
-        /** @see [checkAvailable] */
+        /** @see checkAvailable */
         fun checkAvailable(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<SwarmCheckAvailableResponse>> =
@@ -130,19 +142,19 @@ interface SwarmServiceAsync {
         fun getLogs(): CompletableFuture<HttpResponseFor<SwarmGetLogsResponse>> =
             getLogs(SwarmGetLogsParams.none())
 
-        /** @see [getLogs] */
+        /** @see getLogs */
         fun getLogs(
             params: SwarmGetLogsParams = SwarmGetLogsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<SwarmGetLogsResponse>>
 
-        /** @see [getLogs] */
+        /** @see getLogs */
         fun getLogs(
             params: SwarmGetLogsParams = SwarmGetLogsParams.none()
         ): CompletableFuture<HttpResponseFor<SwarmGetLogsResponse>> =
             getLogs(params, RequestOptions.none())
 
-        /** @see [getLogs] */
+        /** @see getLogs */
         fun getLogs(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<SwarmGetLogsResponse>> =
@@ -155,10 +167,21 @@ interface SwarmServiceAsync {
         fun run(params: SwarmRunParams): CompletableFuture<HttpResponseFor<SwarmRunResponse>> =
             run(params, RequestOptions.none())
 
-        /** @see [run] */
+        /** @see run */
         fun run(
             params: SwarmRunParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<SwarmRunResponse>>
+
+        /** @see run */
+        fun run(
+            swarmSpec: SwarmSpec,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<SwarmRunResponse>> =
+            run(SwarmRunParams.builder().swarmSpec(swarmSpec).build(), requestOptions)
+
+        /** @see run */
+        fun run(swarmSpec: SwarmSpec): CompletableFuture<HttpResponseFor<SwarmRunResponse>> =
+            run(swarmSpec, RequestOptions.none())
     }
 }

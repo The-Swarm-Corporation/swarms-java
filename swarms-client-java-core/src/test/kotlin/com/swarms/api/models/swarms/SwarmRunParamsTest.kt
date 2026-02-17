@@ -4,13 +4,12 @@ package com.swarms.api.models.swarms
 
 import com.swarms.api.core.JsonValue
 import com.swarms.api.models.agent.AgentSpec
+import com.swarms.api.models.agent.McpConnection
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class SwarmRunParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         SwarmRunParams.builder()
@@ -21,14 +20,72 @@ internal class SwarmRunParamsTest {
                             .agentName("agent_name")
                             .autoGeneratePrompt(true)
                             .description("description")
+                            .dynamicTemperatureEnabled(true)
+                            .llmArgs(
+                                AgentSpec.LlmArgs.builder()
+                                    .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                    .build()
+                            )
                             .maxLoops(0L)
                             .maxTokens(0L)
+                            .mcpConfig(
+                                McpConnection.builder()
+                                    .authorizationToken("authorization_token")
+                                    .headers(
+                                        McpConnection.Headers.builder()
+                                            .putAdditionalProperty("foo", JsonValue.from("string"))
+                                            .build()
+                                    )
+                                    .timeout(0L)
+                                    .toolConfigurations(
+                                        McpConnection.ToolConfigurations.builder()
+                                            .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                            .build()
+                                    )
+                                    .transport("transport")
+                                    .type("type")
+                                    .url("url")
+                                    .build()
+                            )
+                            .mcpConfigs(
+                                AgentSpec.McpConfigs.builder()
+                                    .addConnection(
+                                        McpConnection.builder()
+                                            .authorizationToken("authorization_token")
+                                            .headers(
+                                                McpConnection.Headers.builder()
+                                                    .putAdditionalProperty(
+                                                        "foo",
+                                                        JsonValue.from("string"),
+                                                    )
+                                                    .build()
+                                            )
+                                            .timeout(0L)
+                                            .toolConfigurations(
+                                                McpConnection.ToolConfigurations.builder()
+                                                    .putAdditionalProperty(
+                                                        "foo",
+                                                        JsonValue.from("bar"),
+                                                    )
+                                                    .build()
+                                            )
+                                            .transport("transport")
+                                            .type("type")
+                                            .url("url")
+                                            .build()
+                                    )
+                                    .build()
+                            )
                             .mcpUrl("mcp_url")
                             .modelName("model_name")
+                            .reasoningEffort("reasoning_effort")
+                            .reasoningEnabled(true)
                             .role("role")
                             .streamingOn(true)
                             .systemPrompt("system_prompt")
                             .temperature(0.0)
+                            .thinkingTokens(0L)
+                            .toolCallSummary(true)
                             .addToolsListDictionary(
                                 AgentSpec.ToolsListDictionary.builder()
                                     .putAdditionalProperty("foo", JsonValue.from("bar"))
@@ -37,6 +94,9 @@ internal class SwarmRunParamsTest {
                             .build()
                     )
                     .description("description")
+                    .heavySwarmLoopsPerAgent(0L)
+                    .heavySwarmQuestionAgentModelName("heavy_swarm_question_agent_model_name")
+                    .heavySwarmWorkerModelName("heavy_swarm_worker_model_name")
                     .img("img")
                     .maxLoops(0L)
                     .messagesOfUnnamedSchemaWithArrayParent1s(
@@ -48,7 +108,6 @@ internal class SwarmRunParamsTest {
                     )
                     .name("name")
                     .rearrangeFlow("rearrange_flow")
-                    .returnHistory(true)
                     .rules("rules")
                     .serviceTier("service_tier")
                     .stream(true)
@@ -60,7 +119,6 @@ internal class SwarmRunParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =
@@ -72,14 +130,75 @@ internal class SwarmRunParamsTest {
                                 .agentName("agent_name")
                                 .autoGeneratePrompt(true)
                                 .description("description")
+                                .dynamicTemperatureEnabled(true)
+                                .llmArgs(
+                                    AgentSpec.LlmArgs.builder()
+                                        .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                        .build()
+                                )
                                 .maxLoops(0L)
                                 .maxTokens(0L)
+                                .mcpConfig(
+                                    McpConnection.builder()
+                                        .authorizationToken("authorization_token")
+                                        .headers(
+                                            McpConnection.Headers.builder()
+                                                .putAdditionalProperty(
+                                                    "foo",
+                                                    JsonValue.from("string"),
+                                                )
+                                                .build()
+                                        )
+                                        .timeout(0L)
+                                        .toolConfigurations(
+                                            McpConnection.ToolConfigurations.builder()
+                                                .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                                .build()
+                                        )
+                                        .transport("transport")
+                                        .type("type")
+                                        .url("url")
+                                        .build()
+                                )
+                                .mcpConfigs(
+                                    AgentSpec.McpConfigs.builder()
+                                        .addConnection(
+                                            McpConnection.builder()
+                                                .authorizationToken("authorization_token")
+                                                .headers(
+                                                    McpConnection.Headers.builder()
+                                                        .putAdditionalProperty(
+                                                            "foo",
+                                                            JsonValue.from("string"),
+                                                        )
+                                                        .build()
+                                                )
+                                                .timeout(0L)
+                                                .toolConfigurations(
+                                                    McpConnection.ToolConfigurations.builder()
+                                                        .putAdditionalProperty(
+                                                            "foo",
+                                                            JsonValue.from("bar"),
+                                                        )
+                                                        .build()
+                                                )
+                                                .transport("transport")
+                                                .type("type")
+                                                .url("url")
+                                                .build()
+                                        )
+                                        .build()
+                                )
                                 .mcpUrl("mcp_url")
                                 .modelName("model_name")
+                                .reasoningEffort("reasoning_effort")
+                                .reasoningEnabled(true)
                                 .role("role")
                                 .streamingOn(true)
                                 .systemPrompt("system_prompt")
                                 .temperature(0.0)
+                                .thinkingTokens(0L)
+                                .toolCallSummary(true)
                                 .addToolsListDictionary(
                                     AgentSpec.ToolsListDictionary.builder()
                                         .putAdditionalProperty("foo", JsonValue.from("bar"))
@@ -88,6 +207,9 @@ internal class SwarmRunParamsTest {
                                 .build()
                         )
                         .description("description")
+                        .heavySwarmLoopsPerAgent(0L)
+                        .heavySwarmQuestionAgentModelName("heavy_swarm_question_agent_model_name")
+                        .heavySwarmWorkerModelName("heavy_swarm_worker_model_name")
                         .img("img")
                         .maxLoops(0L)
                         .messagesOfUnnamedSchemaWithArrayParent1s(
@@ -99,7 +221,6 @@ internal class SwarmRunParamsTest {
                         )
                         .name("name")
                         .rearrangeFlow("rearrange_flow")
-                        .returnHistory(true)
                         .rules("rules")
                         .serviceTier("service_tier")
                         .stream(true)
@@ -120,14 +241,72 @@ internal class SwarmRunParamsTest {
                             .agentName("agent_name")
                             .autoGeneratePrompt(true)
                             .description("description")
+                            .dynamicTemperatureEnabled(true)
+                            .llmArgs(
+                                AgentSpec.LlmArgs.builder()
+                                    .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                    .build()
+                            )
                             .maxLoops(0L)
                             .maxTokens(0L)
+                            .mcpConfig(
+                                McpConnection.builder()
+                                    .authorizationToken("authorization_token")
+                                    .headers(
+                                        McpConnection.Headers.builder()
+                                            .putAdditionalProperty("foo", JsonValue.from("string"))
+                                            .build()
+                                    )
+                                    .timeout(0L)
+                                    .toolConfigurations(
+                                        McpConnection.ToolConfigurations.builder()
+                                            .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                            .build()
+                                    )
+                                    .transport("transport")
+                                    .type("type")
+                                    .url("url")
+                                    .build()
+                            )
+                            .mcpConfigs(
+                                AgentSpec.McpConfigs.builder()
+                                    .addConnection(
+                                        McpConnection.builder()
+                                            .authorizationToken("authorization_token")
+                                            .headers(
+                                                McpConnection.Headers.builder()
+                                                    .putAdditionalProperty(
+                                                        "foo",
+                                                        JsonValue.from("string"),
+                                                    )
+                                                    .build()
+                                            )
+                                            .timeout(0L)
+                                            .toolConfigurations(
+                                                McpConnection.ToolConfigurations.builder()
+                                                    .putAdditionalProperty(
+                                                        "foo",
+                                                        JsonValue.from("bar"),
+                                                    )
+                                                    .build()
+                                            )
+                                            .transport("transport")
+                                            .type("type")
+                                            .url("url")
+                                            .build()
+                                    )
+                                    .build()
+                            )
                             .mcpUrl("mcp_url")
                             .modelName("model_name")
+                            .reasoningEffort("reasoning_effort")
+                            .reasoningEnabled(true)
                             .role("role")
                             .streamingOn(true)
                             .systemPrompt("system_prompt")
                             .temperature(0.0)
+                            .thinkingTokens(0L)
+                            .toolCallSummary(true)
                             .addToolsListDictionary(
                                 AgentSpec.ToolsListDictionary.builder()
                                     .putAdditionalProperty("foo", JsonValue.from("bar"))
@@ -136,6 +315,9 @@ internal class SwarmRunParamsTest {
                             .build()
                     )
                     .description("description")
+                    .heavySwarmLoopsPerAgent(0L)
+                    .heavySwarmQuestionAgentModelName("heavy_swarm_question_agent_model_name")
+                    .heavySwarmWorkerModelName("heavy_swarm_worker_model_name")
                     .img("img")
                     .maxLoops(0L)
                     .messagesOfUnnamedSchemaWithArrayParent1s(
@@ -147,7 +329,6 @@ internal class SwarmRunParamsTest {
                     )
                     .name("name")
                     .rearrangeFlow("rearrange_flow")
-                    .returnHistory(true)
                     .rules("rules")
                     .serviceTier("service_tier")
                     .stream(true)
@@ -158,7 +339,6 @@ internal class SwarmRunParamsTest {
             )
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun bodyWithoutOptionalFields() {
         val params = SwarmRunParams.builder().swarmSpec(SwarmSpec.builder().build()).build()

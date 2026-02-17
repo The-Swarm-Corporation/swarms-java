@@ -27,18 +27,18 @@ interface HealthServiceAsync {
     /** Health */
     fun check(): CompletableFuture<HealthCheckResponse> = check(HealthCheckParams.none())
 
-    /** @see [check] */
+    /** @see check */
     fun check(
         params: HealthCheckParams = HealthCheckParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<HealthCheckResponse>
 
-    /** @see [check] */
+    /** @see check */
     fun check(
         params: HealthCheckParams = HealthCheckParams.none()
     ): CompletableFuture<HealthCheckResponse> = check(params, RequestOptions.none())
 
-    /** @see [check] */
+    /** @see check */
     fun check(requestOptions: RequestOptions): CompletableFuture<HealthCheckResponse> =
         check(HealthCheckParams.none(), requestOptions)
 
@@ -63,19 +63,19 @@ interface HealthServiceAsync {
         fun check(): CompletableFuture<HttpResponseFor<HealthCheckResponse>> =
             check(HealthCheckParams.none())
 
-        /** @see [check] */
+        /** @see check */
         fun check(
             params: HealthCheckParams = HealthCheckParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<HealthCheckResponse>>
 
-        /** @see [check] */
+        /** @see check */
         fun check(
             params: HealthCheckParams = HealthCheckParams.none()
         ): CompletableFuture<HttpResponseFor<HealthCheckResponse>> =
             check(params, RequestOptions.none())
 
-        /** @see [check] */
+        /** @see check */
         fun check(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<HealthCheckResponse>> =

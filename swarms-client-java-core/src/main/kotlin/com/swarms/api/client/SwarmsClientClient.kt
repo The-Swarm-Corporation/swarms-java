@@ -12,6 +12,7 @@ import com.swarms.api.services.blocking.AgentService
 import com.swarms.api.services.blocking.ClientService
 import com.swarms.api.services.blocking.HealthService
 import com.swarms.api.services.blocking.ModelService
+import com.swarms.api.services.blocking.ReasoningAgentService
 import com.swarms.api.services.blocking.SwarmService
 import java.util.function.Consumer
 
@@ -59,22 +60,24 @@ interface SwarmsClientClient {
 
     fun swarms(): SwarmService
 
+    fun reasoningAgents(): ReasoningAgentService
+
     fun client(): ClientService
 
     /** Root */
     fun getRoot(): ClientGetRootResponse = getRoot(ClientGetRootParams.none())
 
-    /** @see [getRoot] */
+    /** @see getRoot */
     fun getRoot(
         params: ClientGetRootParams = ClientGetRootParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ClientGetRootResponse
 
-    /** @see [getRoot] */
+    /** @see getRoot */
     fun getRoot(params: ClientGetRootParams = ClientGetRootParams.none()): ClientGetRootResponse =
         getRoot(params, RequestOptions.none())
 
-    /** @see [getRoot] */
+    /** @see getRoot */
     fun getRoot(requestOptions: RequestOptions): ClientGetRootResponse =
         getRoot(ClientGetRootParams.none(), requestOptions)
 
@@ -113,6 +116,8 @@ interface SwarmsClientClient {
 
         fun swarms(): SwarmService.WithRawResponse
 
+        fun reasoningAgents(): ReasoningAgentService.WithRawResponse
+
         fun client(): ClientService.WithRawResponse
 
         /**
@@ -122,20 +127,20 @@ interface SwarmsClientClient {
         @MustBeClosed
         fun getRoot(): HttpResponseFor<ClientGetRootResponse> = getRoot(ClientGetRootParams.none())
 
-        /** @see [getRoot] */
+        /** @see getRoot */
         @MustBeClosed
         fun getRoot(
             params: ClientGetRootParams = ClientGetRootParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ClientGetRootResponse>
 
-        /** @see [getRoot] */
+        /** @see getRoot */
         @MustBeClosed
         fun getRoot(
             params: ClientGetRootParams = ClientGetRootParams.none()
         ): HttpResponseFor<ClientGetRootResponse> = getRoot(params, RequestOptions.none())
 
-        /** @see [getRoot] */
+        /** @see getRoot */
         @MustBeClosed
         fun getRoot(requestOptions: RequestOptions): HttpResponseFor<ClientGetRootResponse> =
             getRoot(ClientGetRootParams.none(), requestOptions)

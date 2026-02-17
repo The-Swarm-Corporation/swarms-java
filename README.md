@@ -1,20 +1,39 @@
 # Swarms Client Java API Library
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.swarms.api/swarms-client-java)](https://central.sonatype.com/artifact/com.swarms.api/swarms-client-java/0.0.1-alpha.0)
-[![javadoc](https://javadoc.io/badge2/com.swarms.api/swarms-client-java/0.0.1-alpha.0/javadoc.svg)](https://javadoc.io/doc/com.swarms.api/swarms-client-java/0.0.1-alpha.0)
+<!-- x-release-please-start-version -->
 
-The Swarms Client Java SDK provides convenient access to the [Swarms Client REST API](https://docs.swarms.world/en/latest/) from applications written in Java.
+[![Maven Central](https://img.shields.io/maven-central/v/com.swarms.api/swarms-client-java)](https://central.sonatype.com/artifact/com.swarms.api/swarms-client-java/0.1.0-alpha.1)
+[![javadoc](https://javadoc.io/badge2/com.swarms.api/swarms-client-java/0.1.0-alpha.1/javadoc.svg)](https://javadoc.io/doc/com.swarms.api/swarms-client-java/0.1.0-alpha.1)
+
+<!-- x-release-please-end -->
+
+The Swarms Client Java SDK provides convenient access to the [Swarms Client REST API](https://docs.swarms.ai) from applications written in Java.
 
 It is generated with [Stainless](https://www.stainless.com/).
 
-The REST API documentation can be found on [docs.swarms.world](https://docs.swarms.world/en/latest/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.swarms.api/swarms-client-java/0.0.1-alpha.0).
+## MCP Server
+
+Use the Swarms Client MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.
+
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=swarms-ts-mcp&config=eyJuYW1lIjoic3dhcm1zLXRzLW1jcCIsInRyYW5zcG9ydCI6Imh0dHAiLCJ1cmwiOiJodHRwczovL3N3YXJtcy5zdGxtY3AuY29tIiwiaGVhZGVycyI6eyJ4LWFwaS1rZXkiOiJNeSBBUEkgS2V5In19)
+[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22swarms-ts-mcp%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fswarms.stlmcp.com%22%2C%22headers%22%3A%7B%22x-api-key%22%3A%22My%20API%20Key%22%7D%7D)
+
+> Note: You may need to set environment variables in your MCP client.
+
+<!-- x-release-please-start-version -->
+
+The REST API documentation can be found on [docs.swarms.ai](https://docs.swarms.ai). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.swarms.api/swarms-client-java/0.1.0-alpha.1).
+
+<!-- x-release-please-end -->
 
 ## Installation
+
+<!-- x-release-please-start-version -->
 
 ### Gradle
 
 ```kotlin
-implementation("com.swarms.api:swarms-client-java:0.0.1-alpha.0")
+implementation("com.swarms.api:swarms-client-java:0.1.0-alpha.1")
 ```
 
 ### Maven
@@ -23,9 +42,11 @@ implementation("com.swarms.api:swarms-client-java:0.0.1-alpha.0")
 <dependency>
   <groupId>com.swarms.api</groupId>
   <artifactId>swarms-client-java</artifactId>
-  <version>0.0.1-alpha.0</version>
+  <version>0.1.0-alpha.1</version>
 </dependency>
 ```
+
+<!-- x-release-please-end -->
 
 ## Requirements
 
@@ -39,7 +60,8 @@ import com.swarms.api.client.okhttp.SwarmsClientOkHttpClient;
 import com.swarms.api.models.ClientGetRootParams;
 import com.swarms.api.models.ClientGetRootResponse;
 
-// Configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
+// Configures using the `swarmsclient.swarmsApiKey` and `swarmsclient.baseUrl` system properties
+// Or configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
 SwarmsClientClient client = SwarmsClientOkHttpClient.fromEnv();
 
 ClientGetRootResponse response = client.getRoot();
@@ -47,13 +69,14 @@ ClientGetRootResponse response = client.getRoot();
 
 ## Client configuration
 
-Configure the client using environment variables:
+Configure the client using system properties or environment variables:
 
 ```java
 import com.swarms.api.client.SwarmsClientClient;
 import com.swarms.api.client.okhttp.SwarmsClientOkHttpClient;
 
-// Configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
+// Configures using the `swarmsclient.swarmsApiKey` and `swarmsclient.baseUrl` system properties
+// Or configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
 SwarmsClientClient client = SwarmsClientOkHttpClient.fromEnv();
 ```
 
@@ -75,7 +98,8 @@ import com.swarms.api.client.SwarmsClientClient;
 import com.swarms.api.client.okhttp.SwarmsClientOkHttpClient;
 
 SwarmsClientClient client = SwarmsClientOkHttpClient.builder()
-    // Configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
+    // Configures using the `swarmsclient.swarmsApiKey` and `swarmsclient.baseUrl` system properties
+    // Or configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
     .fromEnv()
     .apiKey("My API Key")
     .build();
@@ -83,10 +107,12 @@ SwarmsClientClient client = SwarmsClientOkHttpClient.builder()
 
 See this table for the available options:
 
-| Setter    | Environment variable     | Required | Default value                                        |
-| --------- | ------------------------ | -------- | ---------------------------------------------------- |
-| `apiKey`  | `SWARMS_API_KEY`         | false    | -                                                    |
-| `baseUrl` | `SWARMS_CLIENT_BASE_URL` | true     | `"https://swarms-api-285321057562.us-east1.run.app"` |
+| Setter    | System property             | Environment variable     | Required | Default value                |
+| --------- | --------------------------- | ------------------------ | -------- | ---------------------------- |
+| `apiKey`  | `swarmsclient.swarmsApiKey` | `SWARMS_API_KEY`         | false    | -                            |
+| `baseUrl` | `swarmsclient.baseUrl`      | `SWARMS_CLIENT_BASE_URL` | true     | `"https://api.swarms.world"` |
+
+System properties take precedence over environment variables.
 
 > [!TIP]
 > Don't create more than one client in the same application. Each client has a connection pool and
@@ -132,7 +158,8 @@ import com.swarms.api.models.ClientGetRootParams;
 import com.swarms.api.models.ClientGetRootResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
+// Configures using the `swarmsclient.swarmsApiKey` and `swarmsclient.baseUrl` system properties
+// Or configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
 SwarmsClientClient client = SwarmsClientOkHttpClient.fromEnv();
 
 CompletableFuture<ClientGetRootResponse> response = client.async().getRoot();
@@ -147,7 +174,8 @@ import com.swarms.api.models.ClientGetRootParams;
 import com.swarms.api.models.ClientGetRootResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
+// Configures using the `swarmsclient.swarmsApiKey` and `swarmsclient.baseUrl` system properties
+// Or configures using the `SWARMS_API_KEY` and `SWARMS_CLIENT_BASE_URL` environment variables
 SwarmsClientClientAsync client = SwarmsClientOkHttpClientAsync.fromEnv();
 
 CompletableFuture<ClientGetRootResponse> response = client.getRoot();
@@ -200,6 +228,8 @@ The SDK throws custom unchecked exception types:
 
 - [`SwarmsClientIoException`](swarms-client-java-core/src/main/kotlin/com/swarms/api/errors/SwarmsClientIoException.kt): I/O networking errors.
 
+- [`SwarmsClientRetryableException`](swarms-client-java-core/src/main/kotlin/com/swarms/api/errors/SwarmsClientRetryableException.kt): Generic error indicating a failure that could be retried by the client.
+
 - [`SwarmsClientInvalidDataException`](swarms-client-java-core/src/main/kotlin/com/swarms/api/errors/SwarmsClientInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
 
 - [`SwarmsClientException`](swarms-client-java-core/src/main/kotlin/com/swarms/api/errors/SwarmsClientException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
@@ -211,14 +241,20 @@ The SDK uses the standard [OkHttp logging interceptor](https://github.com/square
 Enable logging by setting the `SWARMS_CLIENT_LOG` environment variable to `info`:
 
 ```sh
-$ export SWARMS_CLIENT_LOG=info
+export SWARMS_CLIENT_LOG=info
 ```
 
 Or to `debug` for more verbose logging:
 
 ```sh
-$ export SWARMS_CLIENT_LOG=debug
+export SWARMS_CLIENT_LOG=debug
 ```
+
+## ProGuard and R8
+
+Although the SDK uses reflection, it is still usable with [ProGuard](https://github.com/Guardsquare/proguard) and [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because `swarms-client-java-core` is published with a [configuration file](swarms-client-java-core/src/main/resources/META-INF/proguard/swarms-client-java-core.pro) containing [keep rules](https://www.guardsquare.com/manual/configuration/usage).
+
+ProGuard and R8 should automatically detect and use the published rules, but you can also manually copy the keep rules if necessary.
 
 ## Jackson
 
@@ -231,11 +267,13 @@ If the SDK threw an exception, but you're _certain_ the version is compatible, t
 > [!CAUTION]
 > We make no guarantee that the SDK works correctly when the Jackson version check is disabled.
 
+Also note that there are bugs in older Jackson versions that can affect the SDK. We don't work around all Jackson bugs ([example](https://github.com/FasterXML/jackson-databind/issues/3240)) and expect users to upgrade Jackson for those instead.
+
 ## Network options
 
 ### Retries
 
-The SDK automatically retries 2 times by default, with a short exponential backoff.
+The SDK automatically retries 2 times by default, with a short exponential backoff between requests.
 
 Only the following error types are retried:
 
@@ -245,7 +283,7 @@ Only the following error types are retried:
 - 429 Rate Limit
 - 5xx Internal
 
-The API may also explicitly instruct the SDK to retry or not retry a response.
+The API may also explicitly instruct the SDK to retry or not retry a request.
 
 To set a custom number of retries, configure the client using the `maxRetries` method:
 
@@ -301,6 +339,27 @@ SwarmsClientClient client = SwarmsClientOkHttpClient.builder()
         "https://example.com", 8080
       )
     ))
+    .build();
+```
+
+### HTTPS
+
+> [!NOTE]
+> Most applications should not call these methods, and instead use the system defaults. The defaults include
+> special optimizations that can be lost if the implementations are modified.
+
+To configure how HTTPS connections are secured, configure the client using the `sslSocketFactory`, `trustManager`, and `hostnameVerifier` methods:
+
+```java
+import com.swarms.api.client.SwarmsClientClient;
+import com.swarms.api.client.okhttp.SwarmsClientOkHttpClient;
+
+SwarmsClientClient client = SwarmsClientOkHttpClient.builder()
+    .fromEnv()
+    // If `sslSocketFactory` is set, then `trustManager` must be set, and vice versa.
+    .sslSocketFactory(yourSSLSocketFactory)
+    .trustManager(yourTrustManager)
+    .hostnameVerifier(yourHostnameVerifier)
     .build();
 ```
 
@@ -408,6 +467,21 @@ JsonValue complexValue = JsonValue.from(Map.of(
 ));
 ```
 
+Normally a `Builder` class's `build` method will throw [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html) if any required parameter or property is unset.
+
+To forcibly omit a required parameter or property, pass [`JsonMissing`](swarms-client-java-core/src/main/kotlin/com/swarms/api/core/Values.kt):
+
+```java
+import com.swarms.api.core.JsonMissing;
+import com.swarms.api.models.ClientGetRootParams;
+import com.swarms.api.models.client.advancedresearch.AdvancedResearchCreateCompletionParams;
+
+ClientGetRootParams params = AdvancedResearchCreateCompletionParams.builder()
+    .task("task")
+    .config(JsonMissing.of())
+    .build();
+```
+
 ### Response properties
 
 To access undocumented response properties, call the `_additionalProperties()` method:
@@ -416,7 +490,7 @@ To access undocumented response properties, call the `_additionalProperties()` m
 import com.swarms.api.core.JsonValue;
 import java.util.Map;
 
-Map<String, JsonValue> additionalProperties = client.getRoot(params)._additionalProperties();
+Map<String, JsonValue> additionalProperties = client.health().check(params)._additionalProperties();
 JsonValue secretPropertyValue = additionalProperties.get("secretProperty");
 
 String result = secretPropertyValue.accept(new JsonValue.Visitor<>() {
@@ -446,7 +520,7 @@ To access a property's raw JSON value, which may be undocumented, call its `_` p
 import com.swarms.api.core.JsonField;
 import java.util.Optional;
 
-JsonField<Object> field = client.getRoot(params)._field();
+JsonField<Object> field = client.health().check(params)._field();
 
 if (field.isMissing()) {
   // The property is absent from the JSON response
@@ -471,9 +545,9 @@ By default, the SDK will not throw an exception in this case. It will throw [`Sw
 If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 
 ```java
-import com.swarms.api.models.ClientGetRootResponse;
+import com.swarms.api.models.health.HealthCheckResponse;
 
-ClientGetRootResponse response = client.getRoot(params).validate();
+HealthCheckResponse response = client.health().check(params).validate();
 ```
 
 Or configure the method call to validate the response using the `responseValidation` method:
@@ -534,4 +608,4 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/swarms-java/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/The-Swarm-Corporation/swarms-java/issues) with questions, bugs, or suggestions.

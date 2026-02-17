@@ -3,14 +3,14 @@
 package com.swarms.api.client
 
 import com.swarms.api.core.ClientOptions
-import com.swarms.api.core.JsonValue
 import com.swarms.api.core.RequestOptions
 import com.swarms.api.core.getPackageVersion
+import com.swarms.api.core.handlers.errorBodyHandler
 import com.swarms.api.core.handlers.errorHandler
 import com.swarms.api.core.handlers.jsonHandler
-import com.swarms.api.core.handlers.withErrorHandler
 import com.swarms.api.core.http.HttpMethod
 import com.swarms.api.core.http.HttpRequest
+import com.swarms.api.core.http.HttpResponse
 import com.swarms.api.core.http.HttpResponse.Handler
 import com.swarms.api.core.http.HttpResponseFor
 import com.swarms.api.core.http.parseable
@@ -25,6 +25,8 @@ import com.swarms.api.services.blocking.HealthService
 import com.swarms.api.services.blocking.HealthServiceImpl
 import com.swarms.api.services.blocking.ModelService
 import com.swarms.api.services.blocking.ModelServiceImpl
+import com.swarms.api.services.blocking.ReasoningAgentService
+import com.swarms.api.services.blocking.ReasoningAgentServiceImpl
 import com.swarms.api.services.blocking.SwarmService
 import com.swarms.api.services.blocking.SwarmServiceImpl
 import java.util.function.Consumer
@@ -56,6 +58,10 @@ class SwarmsClientClientImpl(private val clientOptions: ClientOptions) : SwarmsC
 
     private val swarms: SwarmService by lazy { SwarmServiceImpl(clientOptionsWithUserAgent) }
 
+    private val reasoningAgents: ReasoningAgentService by lazy {
+        ReasoningAgentServiceImpl(clientOptionsWithUserAgent)
+    }
+
     private val client: ClientService by lazy { ClientServiceImpl(clientOptionsWithUserAgent) }
 
     override fun async(): SwarmsClientClientAsync = async
@@ -73,6 +79,8 @@ class SwarmsClientClientImpl(private val clientOptions: ClientOptions) : SwarmsC
 
     override fun swarms(): SwarmService = swarms
 
+    override fun reasoningAgents(): ReasoningAgentService = reasoningAgents
+
     override fun client(): ClientService = client
 
     override fun getRoot(
@@ -82,12 +90,13 @@ class SwarmsClientClientImpl(private val clientOptions: ClientOptions) : SwarmsC
         // get /
         withRawResponse().getRoot(params, requestOptions).parse()
 
-    override fun close() = clientOptions.httpClient.close()
+    override fun close() = clientOptions.close()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         SwarmsClientClient.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val health: HealthService.WithRawResponse by lazy {
             HealthServiceImpl.WithRawResponseImpl(clientOptions)
@@ -103,6 +112,10 @@ class SwarmsClientClientImpl(private val clientOptions: ClientOptions) : SwarmsC
 
         private val swarms: SwarmService.WithRawResponse by lazy {
             SwarmServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val reasoningAgents: ReasoningAgentService.WithRawResponse by lazy {
+            ReasoningAgentServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
         private val client: ClientService.WithRawResponse by lazy {
@@ -124,11 +137,12 @@ class SwarmsClientClientImpl(private val clientOptions: ClientOptions) : SwarmsC
 
         override fun swarms(): SwarmService.WithRawResponse = swarms
 
+        override fun reasoningAgents(): ReasoningAgentService.WithRawResponse = reasoningAgents
+
         override fun client(): ClientService.WithRawResponse = client
 
         private val getRootHandler: Handler<ClientGetRootResponse> =
             jsonHandler<ClientGetRootResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun getRoot(
             params: ClientGetRootParams,
@@ -143,7 +157,7 @@ class SwarmsClientClientImpl(private val clientOptions: ClientOptions) : SwarmsC
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { getRootHandler.handle(it) }
                     .also {

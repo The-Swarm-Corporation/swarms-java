@@ -6,8 +6,8 @@ import com.swarms.api.TestServerExtension
 import com.swarms.api.client.okhttp.SwarmsClientOkHttpClientAsync
 import com.swarms.api.core.JsonValue
 import com.swarms.api.models.agent.AgentCompletion
-import com.swarms.api.models.agent.AgentRunParams
 import com.swarms.api.models.agent.AgentSpec
+import com.swarms.api.models.agent.McpConnection
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -15,7 +15,23 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(TestServerExtension::class)
 internal class AgentServiceAsyncTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
+    @Test
+    fun list() {
+        val client =
+            SwarmsClientOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val agentServiceAsync = client.agent()
+
+        val agentsFuture = agentServiceAsync.list()
+
+        val agents = agentsFuture.get()
+        agents.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
     @Test
     fun run() {
         val client =
@@ -27,39 +43,94 @@ internal class AgentServiceAsyncTest {
 
         val responseFuture =
             agentServiceAsync.run(
-                AgentRunParams.builder()
-                    .agentCompletion(
-                        AgentCompletion.builder()
-                            .agentConfig(
-                                AgentSpec.builder()
-                                    .agentName("agent_name")
-                                    .autoGeneratePrompt(true)
-                                    .description("description")
-                                    .maxLoops(0L)
-                                    .maxTokens(0L)
-                                    .mcpUrl("mcp_url")
-                                    .modelName("model_name")
-                                    .role("role")
-                                    .streamingOn(true)
-                                    .systemPrompt("system_prompt")
-                                    .temperature(0.0)
-                                    .addToolsListDictionary(
-                                        AgentSpec.ToolsListDictionary.builder()
+                AgentCompletion.builder()
+                    .agentConfig(
+                        AgentSpec.builder()
+                            .agentName("agent_name")
+                            .autoGeneratePrompt(true)
+                            .description("description")
+                            .dynamicTemperatureEnabled(true)
+                            .llmArgs(
+                                AgentSpec.LlmArgs.builder()
+                                    .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                    .build()
+                            )
+                            .maxLoops(0L)
+                            .maxTokens(0L)
+                            .mcpConfig(
+                                McpConnection.builder()
+                                    .authorizationToken("authorization_token")
+                                    .headers(
+                                        McpConnection.Headers.builder()
+                                            .putAdditionalProperty("foo", JsonValue.from("string"))
+                                            .build()
+                                    )
+                                    .timeout(0L)
+                                    .toolConfigurations(
+                                        McpConnection.ToolConfigurations.builder()
                                             .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                            .build()
+                                    )
+                                    .transport("transport")
+                                    .type("type")
+                                    .url("url")
+                                    .build()
+                            )
+                            .mcpConfigs(
+                                AgentSpec.McpConfigs.builder()
+                                    .addConnection(
+                                        McpConnection.builder()
+                                            .authorizationToken("authorization_token")
+                                            .headers(
+                                                McpConnection.Headers.builder()
+                                                    .putAdditionalProperty(
+                                                        "foo",
+                                                        JsonValue.from("string"),
+                                                    )
+                                                    .build()
+                                            )
+                                            .timeout(0L)
+                                            .toolConfigurations(
+                                                McpConnection.ToolConfigurations.builder()
+                                                    .putAdditionalProperty(
+                                                        "foo",
+                                                        JsonValue.from("bar"),
+                                                    )
+                                                    .build()
+                                            )
+                                            .transport("transport")
+                                            .type("type")
+                                            .url("url")
                                             .build()
                                     )
                                     .build()
                             )
-                            .history(
-                                AgentCompletion.History.UnionMember0.builder()
+                            .mcpUrl("mcp_url")
+                            .modelName("model_name")
+                            .reasoningEffort("reasoning_effort")
+                            .reasoningEnabled(true)
+                            .role("role")
+                            .streamingOn(true)
+                            .systemPrompt("system_prompt")
+                            .temperature(0.0)
+                            .thinkingTokens(0L)
+                            .toolCallSummary(true)
+                            .addToolsListDictionary(
+                                AgentSpec.ToolsListDictionary.builder()
                                     .putAdditionalProperty("foo", JsonValue.from("bar"))
                                     .build()
                             )
-                            .img("img")
-                            .addImg("string")
-                            .task("task")
                             .build()
                     )
+                    .history(
+                        AgentCompletion.History.UnionMember0.builder()
+                            .putAdditionalProperty("foo", JsonValue.from("bar"))
+                            .build()
+                    )
+                    .img("img")
+                    .addImg("string")
+                    .task("task")
+                    .addToolsEnabled("string")
                     .build()
             )
 

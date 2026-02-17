@@ -27,7 +27,7 @@ interface BatchService {
     /** Run a batch of swarms with the specified tasks using a thread pool. */
     fun run(params: BatchRunParams): List<BatchRunResponse> = run(params, RequestOptions.none())
 
-    /** @see [run] */
+    /** @see run */
     fun run(
         params: BatchRunParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -51,7 +51,7 @@ interface BatchService {
         fun run(params: BatchRunParams): HttpResponseFor<List<BatchRunResponse>> =
             run(params, RequestOptions.none())
 
-        /** @see [run] */
+        /** @see run */
         @MustBeClosed
         fun run(
             params: BatchRunParams,

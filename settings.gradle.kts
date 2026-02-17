@@ -1,6 +1,14 @@
 rootProject.name = "swarms-client-java-root"
 
-include("swarms-client-java")
-include("swarms-client-java-client-okhttp")
-include("swarms-client-java-core")
-include("swarms-client-java-example")
+val projectNames = rootDir.listFiles()
+    ?.asSequence()
+    .orEmpty()
+    .filter { file ->
+        file.isDirectory &&
+        file.name.startsWith("swarms-client-java") &&
+        file.listFiles()?.asSequence().orEmpty().any { it.name == "build.gradle.kts" }
+    }
+    .map { it.name }
+    .toList()
+println("projects: $projectNames")
+projectNames.forEach { include(it) }

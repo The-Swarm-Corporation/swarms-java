@@ -4,12 +4,10 @@ package com.swarms.api.models.agent
 
 import com.swarms.api.core.JsonValue
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class AgentRunParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         AgentRunParams.builder()
@@ -20,14 +18,72 @@ internal class AgentRunParamsTest {
                             .agentName("agent_name")
                             .autoGeneratePrompt(true)
                             .description("description")
+                            .dynamicTemperatureEnabled(true)
+                            .llmArgs(
+                                AgentSpec.LlmArgs.builder()
+                                    .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                    .build()
+                            )
                             .maxLoops(0L)
                             .maxTokens(0L)
+                            .mcpConfig(
+                                McpConnection.builder()
+                                    .authorizationToken("authorization_token")
+                                    .headers(
+                                        McpConnection.Headers.builder()
+                                            .putAdditionalProperty("foo", JsonValue.from("string"))
+                                            .build()
+                                    )
+                                    .timeout(0L)
+                                    .toolConfigurations(
+                                        McpConnection.ToolConfigurations.builder()
+                                            .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                            .build()
+                                    )
+                                    .transport("transport")
+                                    .type("type")
+                                    .url("url")
+                                    .build()
+                            )
+                            .mcpConfigs(
+                                AgentSpec.McpConfigs.builder()
+                                    .addConnection(
+                                        McpConnection.builder()
+                                            .authorizationToken("authorization_token")
+                                            .headers(
+                                                McpConnection.Headers.builder()
+                                                    .putAdditionalProperty(
+                                                        "foo",
+                                                        JsonValue.from("string"),
+                                                    )
+                                                    .build()
+                                            )
+                                            .timeout(0L)
+                                            .toolConfigurations(
+                                                McpConnection.ToolConfigurations.builder()
+                                                    .putAdditionalProperty(
+                                                        "foo",
+                                                        JsonValue.from("bar"),
+                                                    )
+                                                    .build()
+                                            )
+                                            .transport("transport")
+                                            .type("type")
+                                            .url("url")
+                                            .build()
+                                    )
+                                    .build()
+                            )
                             .mcpUrl("mcp_url")
                             .modelName("model_name")
+                            .reasoningEffort("reasoning_effort")
+                            .reasoningEnabled(true)
                             .role("role")
                             .streamingOn(true)
                             .systemPrompt("system_prompt")
                             .temperature(0.0)
+                            .thinkingTokens(0L)
+                            .toolCallSummary(true)
                             .addToolsListDictionary(
                                 AgentSpec.ToolsListDictionary.builder()
                                     .putAdditionalProperty("foo", JsonValue.from("bar"))
@@ -43,12 +99,12 @@ internal class AgentRunParamsTest {
                     .img("img")
                     .addImg("string")
                     .task("task")
+                    .addToolsEnabled("string")
                     .build()
             )
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =
@@ -60,14 +116,75 @@ internal class AgentRunParamsTest {
                                 .agentName("agent_name")
                                 .autoGeneratePrompt(true)
                                 .description("description")
+                                .dynamicTemperatureEnabled(true)
+                                .llmArgs(
+                                    AgentSpec.LlmArgs.builder()
+                                        .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                        .build()
+                                )
                                 .maxLoops(0L)
                                 .maxTokens(0L)
+                                .mcpConfig(
+                                    McpConnection.builder()
+                                        .authorizationToken("authorization_token")
+                                        .headers(
+                                            McpConnection.Headers.builder()
+                                                .putAdditionalProperty(
+                                                    "foo",
+                                                    JsonValue.from("string"),
+                                                )
+                                                .build()
+                                        )
+                                        .timeout(0L)
+                                        .toolConfigurations(
+                                            McpConnection.ToolConfigurations.builder()
+                                                .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                                .build()
+                                        )
+                                        .transport("transport")
+                                        .type("type")
+                                        .url("url")
+                                        .build()
+                                )
+                                .mcpConfigs(
+                                    AgentSpec.McpConfigs.builder()
+                                        .addConnection(
+                                            McpConnection.builder()
+                                                .authorizationToken("authorization_token")
+                                                .headers(
+                                                    McpConnection.Headers.builder()
+                                                        .putAdditionalProperty(
+                                                            "foo",
+                                                            JsonValue.from("string"),
+                                                        )
+                                                        .build()
+                                                )
+                                                .timeout(0L)
+                                                .toolConfigurations(
+                                                    McpConnection.ToolConfigurations.builder()
+                                                        .putAdditionalProperty(
+                                                            "foo",
+                                                            JsonValue.from("bar"),
+                                                        )
+                                                        .build()
+                                                )
+                                                .transport("transport")
+                                                .type("type")
+                                                .url("url")
+                                                .build()
+                                        )
+                                        .build()
+                                )
                                 .mcpUrl("mcp_url")
                                 .modelName("model_name")
+                                .reasoningEffort("reasoning_effort")
+                                .reasoningEnabled(true)
                                 .role("role")
                                 .streamingOn(true)
                                 .systemPrompt("system_prompt")
                                 .temperature(0.0)
+                                .thinkingTokens(0L)
+                                .toolCallSummary(true)
                                 .addToolsListDictionary(
                                     AgentSpec.ToolsListDictionary.builder()
                                         .putAdditionalProperty("foo", JsonValue.from("bar"))
@@ -83,6 +200,7 @@ internal class AgentRunParamsTest {
                         .img("img")
                         .addImg("string")
                         .task("task")
+                        .addToolsEnabled("string")
                         .build()
                 )
                 .build()
@@ -97,14 +215,72 @@ internal class AgentRunParamsTest {
                             .agentName("agent_name")
                             .autoGeneratePrompt(true)
                             .description("description")
+                            .dynamicTemperatureEnabled(true)
+                            .llmArgs(
+                                AgentSpec.LlmArgs.builder()
+                                    .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                    .build()
+                            )
                             .maxLoops(0L)
                             .maxTokens(0L)
+                            .mcpConfig(
+                                McpConnection.builder()
+                                    .authorizationToken("authorization_token")
+                                    .headers(
+                                        McpConnection.Headers.builder()
+                                            .putAdditionalProperty("foo", JsonValue.from("string"))
+                                            .build()
+                                    )
+                                    .timeout(0L)
+                                    .toolConfigurations(
+                                        McpConnection.ToolConfigurations.builder()
+                                            .putAdditionalProperty("foo", JsonValue.from("bar"))
+                                            .build()
+                                    )
+                                    .transport("transport")
+                                    .type("type")
+                                    .url("url")
+                                    .build()
+                            )
+                            .mcpConfigs(
+                                AgentSpec.McpConfigs.builder()
+                                    .addConnection(
+                                        McpConnection.builder()
+                                            .authorizationToken("authorization_token")
+                                            .headers(
+                                                McpConnection.Headers.builder()
+                                                    .putAdditionalProperty(
+                                                        "foo",
+                                                        JsonValue.from("string"),
+                                                    )
+                                                    .build()
+                                            )
+                                            .timeout(0L)
+                                            .toolConfigurations(
+                                                McpConnection.ToolConfigurations.builder()
+                                                    .putAdditionalProperty(
+                                                        "foo",
+                                                        JsonValue.from("bar"),
+                                                    )
+                                                    .build()
+                                            )
+                                            .transport("transport")
+                                            .type("type")
+                                            .url("url")
+                                            .build()
+                                    )
+                                    .build()
+                            )
                             .mcpUrl("mcp_url")
                             .modelName("model_name")
+                            .reasoningEffort("reasoning_effort")
+                            .reasoningEnabled(true)
                             .role("role")
                             .streamingOn(true)
                             .systemPrompt("system_prompt")
                             .temperature(0.0)
+                            .thinkingTokens(0L)
+                            .toolCallSummary(true)
                             .addToolsListDictionary(
                                 AgentSpec.ToolsListDictionary.builder()
                                     .putAdditionalProperty("foo", JsonValue.from("bar"))
@@ -120,11 +296,11 @@ internal class AgentRunParamsTest {
                     .img("img")
                     .addImg("string")
                     .task("task")
+                    .addToolsEnabled("string")
                     .build()
             )
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun bodyWithoutOptionalFields() {
         val params =

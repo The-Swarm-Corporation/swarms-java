@@ -12,6 +12,7 @@ import com.swarms.api.models.swarms.SwarmGetLogsParams
 import com.swarms.api.models.swarms.SwarmGetLogsResponse
 import com.swarms.api.models.swarms.SwarmRunParams
 import com.swarms.api.models.swarms.SwarmRunResponse
+import com.swarms.api.models.swarms.SwarmSpec
 import com.swarms.api.services.blocking.swarms.BatchService
 import java.util.function.Consumer
 
@@ -35,49 +36,58 @@ interface SwarmService {
     fun checkAvailable(): SwarmCheckAvailableResponse =
         checkAvailable(SwarmCheckAvailableParams.none())
 
-    /** @see [checkAvailable] */
+    /** @see checkAvailable */
     fun checkAvailable(
         params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): SwarmCheckAvailableResponse
 
-    /** @see [checkAvailable] */
+    /** @see checkAvailable */
     fun checkAvailable(
         params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none()
     ): SwarmCheckAvailableResponse = checkAvailable(params, RequestOptions.none())
 
-    /** @see [checkAvailable] */
+    /** @see checkAvailable */
     fun checkAvailable(requestOptions: RequestOptions): SwarmCheckAvailableResponse =
         checkAvailable(SwarmCheckAvailableParams.none(), requestOptions)
 
     /**
-     * Get all API request logs for the user associated with the provided API key, excluding any
-     * logs that contain a client_ip field in their data.
+     * Get all API request logs for all API keys associated with the user identified by the provided
+     * API key, excluding any logs that contain a client_ip field in their data.
      */
     fun getLogs(): SwarmGetLogsResponse = getLogs(SwarmGetLogsParams.none())
 
-    /** @see [getLogs] */
+    /** @see getLogs */
     fun getLogs(
         params: SwarmGetLogsParams = SwarmGetLogsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): SwarmGetLogsResponse
 
-    /** @see [getLogs] */
+    /** @see getLogs */
     fun getLogs(params: SwarmGetLogsParams = SwarmGetLogsParams.none()): SwarmGetLogsResponse =
         getLogs(params, RequestOptions.none())
 
-    /** @see [getLogs] */
+    /** @see getLogs */
     fun getLogs(requestOptions: RequestOptions): SwarmGetLogsResponse =
         getLogs(SwarmGetLogsParams.none(), requestOptions)
 
-    /** Run a swarm with the specified task. */
+    /** Run a swarm with the specified task. Supports streaming when stream=True. */
     fun run(params: SwarmRunParams): SwarmRunResponse = run(params, RequestOptions.none())
 
-    /** @see [run] */
+    /** @see run */
     fun run(
         params: SwarmRunParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): SwarmRunResponse
+
+    /** @see run */
+    fun run(
+        swarmSpec: SwarmSpec,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): SwarmRunResponse = run(SwarmRunParams.builder().swarmSpec(swarmSpec).build(), requestOptions)
+
+    /** @see run */
+    fun run(swarmSpec: SwarmSpec): SwarmRunResponse = run(swarmSpec, RequestOptions.none())
 
     /** A view of [SwarmService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -99,21 +109,21 @@ interface SwarmService {
         fun checkAvailable(): HttpResponseFor<SwarmCheckAvailableResponse> =
             checkAvailable(SwarmCheckAvailableParams.none())
 
-        /** @see [checkAvailable] */
+        /** @see checkAvailable */
         @MustBeClosed
         fun checkAvailable(
             params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<SwarmCheckAvailableResponse>
 
-        /** @see [checkAvailable] */
+        /** @see checkAvailable */
         @MustBeClosed
         fun checkAvailable(
             params: SwarmCheckAvailableParams = SwarmCheckAvailableParams.none()
         ): HttpResponseFor<SwarmCheckAvailableResponse> =
             checkAvailable(params, RequestOptions.none())
 
-        /** @see [checkAvailable] */
+        /** @see checkAvailable */
         @MustBeClosed
         fun checkAvailable(
             requestOptions: RequestOptions
@@ -127,20 +137,20 @@ interface SwarmService {
         @MustBeClosed
         fun getLogs(): HttpResponseFor<SwarmGetLogsResponse> = getLogs(SwarmGetLogsParams.none())
 
-        /** @see [getLogs] */
+        /** @see getLogs */
         @MustBeClosed
         fun getLogs(
             params: SwarmGetLogsParams = SwarmGetLogsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<SwarmGetLogsResponse>
 
-        /** @see [getLogs] */
+        /** @see getLogs */
         @MustBeClosed
         fun getLogs(
             params: SwarmGetLogsParams = SwarmGetLogsParams.none()
         ): HttpResponseFor<SwarmGetLogsResponse> = getLogs(params, RequestOptions.none())
 
-        /** @see [getLogs] */
+        /** @see getLogs */
         @MustBeClosed
         fun getLogs(requestOptions: RequestOptions): HttpResponseFor<SwarmGetLogsResponse> =
             getLogs(SwarmGetLogsParams.none(), requestOptions)
@@ -153,11 +163,24 @@ interface SwarmService {
         fun run(params: SwarmRunParams): HttpResponseFor<SwarmRunResponse> =
             run(params, RequestOptions.none())
 
-        /** @see [run] */
+        /** @see run */
         @MustBeClosed
         fun run(
             params: SwarmRunParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<SwarmRunResponse>
+
+        /** @see run */
+        @MustBeClosed
+        fun run(
+            swarmSpec: SwarmSpec,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<SwarmRunResponse> =
+            run(SwarmRunParams.builder().swarmSpec(swarmSpec).build(), requestOptions)
+
+        /** @see run */
+        @MustBeClosed
+        fun run(swarmSpec: SwarmSpec): HttpResponseFor<SwarmRunResponse> =
+            run(swarmSpec, RequestOptions.none())
     }
 }

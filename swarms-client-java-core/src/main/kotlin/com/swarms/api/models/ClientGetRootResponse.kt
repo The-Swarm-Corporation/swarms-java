@@ -12,6 +12,7 @@ import java.util.Collections
 import java.util.Objects
 
 class ClientGetRootResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(private val additionalProperties: MutableMap<String, JsonValue>) {
 
     @JsonCreator private constructor() : this(mutableMapOf())
@@ -102,12 +103,10 @@ private constructor(private val additionalProperties: MutableMap<String, JsonVal
             return true
         }
 
-        return /* spotless:off */ other is ClientGetRootResponse && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is ClientGetRootResponse && additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
     private val hashCode: Int by lazy { Objects.hash(additionalProperties) }
-    /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 

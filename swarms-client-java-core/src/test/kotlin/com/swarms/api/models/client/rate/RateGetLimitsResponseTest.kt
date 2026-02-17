@@ -3,30 +3,153 @@
 package com.swarms.api.models.client.rate
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import com.swarms.api.core.JsonValue
 import com.swarms.api.core.jsonMapper
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class RateGetLimitsResponseTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         val rateGetLimitsResponse =
             RateGetLimitsResponse.builder()
-                .putAdditionalProperty("foo", JsonValue.from("bar"))
+                .limits(
+                    RateGetLimitsResponse.Limits.builder()
+                        .maximumRequestsPerDay(0L)
+                        .maximumRequestsPerHour(0L)
+                        .maximumRequestsPerMinute(0L)
+                        .tokensPerAgent(0L)
+                        .build()
+                )
+                .rateLimits(
+                    RateGetLimitsResponse.RateLimits.builder()
+                        .day(
+                            RateLimitWindow.builder()
+                                .count(0L)
+                                .exceeded(true)
+                                .limit(0L)
+                                .remaining(0L)
+                                .resetTime("reset_time")
+                                .build()
+                        )
+                        .hour(
+                            RateLimitWindow.builder()
+                                .count(0L)
+                                .exceeded(true)
+                                .limit(0L)
+                                .remaining(0L)
+                                .resetTime("reset_time")
+                                .build()
+                        )
+                        .minute(
+                            RateLimitWindow.builder()
+                                .count(0L)
+                                .exceeded(true)
+                                .limit(0L)
+                                .remaining(0L)
+                                .resetTime("reset_time")
+                                .build()
+                        )
+                        .build()
+                )
+                .tier("tier")
+                .timestamp("timestamp")
+                .success(true)
                 .build()
+
+        assertThat(rateGetLimitsResponse.limits())
+            .contains(
+                RateGetLimitsResponse.Limits.builder()
+                    .maximumRequestsPerDay(0L)
+                    .maximumRequestsPerHour(0L)
+                    .maximumRequestsPerMinute(0L)
+                    .tokensPerAgent(0L)
+                    .build()
+            )
+        assertThat(rateGetLimitsResponse.rateLimits())
+            .contains(
+                RateGetLimitsResponse.RateLimits.builder()
+                    .day(
+                        RateLimitWindow.builder()
+                            .count(0L)
+                            .exceeded(true)
+                            .limit(0L)
+                            .remaining(0L)
+                            .resetTime("reset_time")
+                            .build()
+                    )
+                    .hour(
+                        RateLimitWindow.builder()
+                            .count(0L)
+                            .exceeded(true)
+                            .limit(0L)
+                            .remaining(0L)
+                            .resetTime("reset_time")
+                            .build()
+                    )
+                    .minute(
+                        RateLimitWindow.builder()
+                            .count(0L)
+                            .exceeded(true)
+                            .limit(0L)
+                            .remaining(0L)
+                            .resetTime("reset_time")
+                            .build()
+                    )
+                    .build()
+            )
+        assertThat(rateGetLimitsResponse.tier()).contains("tier")
+        assertThat(rateGetLimitsResponse.timestamp()).contains("timestamp")
+        assertThat(rateGetLimitsResponse.success()).contains(true)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
         val rateGetLimitsResponse =
             RateGetLimitsResponse.builder()
-                .putAdditionalProperty("foo", JsonValue.from("bar"))
+                .limits(
+                    RateGetLimitsResponse.Limits.builder()
+                        .maximumRequestsPerDay(0L)
+                        .maximumRequestsPerHour(0L)
+                        .maximumRequestsPerMinute(0L)
+                        .tokensPerAgent(0L)
+                        .build()
+                )
+                .rateLimits(
+                    RateGetLimitsResponse.RateLimits.builder()
+                        .day(
+                            RateLimitWindow.builder()
+                                .count(0L)
+                                .exceeded(true)
+                                .limit(0L)
+                                .remaining(0L)
+                                .resetTime("reset_time")
+                                .build()
+                        )
+                        .hour(
+                            RateLimitWindow.builder()
+                                .count(0L)
+                                .exceeded(true)
+                                .limit(0L)
+                                .remaining(0L)
+                                .resetTime("reset_time")
+                                .build()
+                        )
+                        .minute(
+                            RateLimitWindow.builder()
+                                .count(0L)
+                                .exceeded(true)
+                                .limit(0L)
+                                .remaining(0L)
+                                .resetTime("reset_time")
+                                .build()
+                        )
+                        .build()
+                )
+                .tier("tier")
+                .timestamp("timestamp")
+                .success(true)
                 .build()
 
         val roundtrippedRateGetLimitsResponse =

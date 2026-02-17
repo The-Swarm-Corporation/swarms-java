@@ -11,6 +11,7 @@ import com.swarms.api.services.async.AgentServiceAsync
 import com.swarms.api.services.async.ClientServiceAsync
 import com.swarms.api.services.async.HealthServiceAsync
 import com.swarms.api.services.async.ModelServiceAsync
+import com.swarms.api.services.async.ReasoningAgentServiceAsync
 import com.swarms.api.services.async.SwarmServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -59,23 +60,25 @@ interface SwarmsClientClientAsync {
 
     fun swarms(): SwarmServiceAsync
 
+    fun reasoningAgents(): ReasoningAgentServiceAsync
+
     fun client(): ClientServiceAsync
 
     /** Root */
     fun getRoot(): CompletableFuture<ClientGetRootResponse> = getRoot(ClientGetRootParams.none())
 
-    /** @see [getRoot] */
+    /** @see getRoot */
     fun getRoot(
         params: ClientGetRootParams = ClientGetRootParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<ClientGetRootResponse>
 
-    /** @see [getRoot] */
+    /** @see getRoot */
     fun getRoot(
         params: ClientGetRootParams = ClientGetRootParams.none()
     ): CompletableFuture<ClientGetRootResponse> = getRoot(params, RequestOptions.none())
 
-    /** @see [getRoot] */
+    /** @see getRoot */
     fun getRoot(requestOptions: RequestOptions): CompletableFuture<ClientGetRootResponse> =
         getRoot(ClientGetRootParams.none(), requestOptions)
 
@@ -115,6 +118,8 @@ interface SwarmsClientClientAsync {
 
         fun swarms(): SwarmServiceAsync.WithRawResponse
 
+        fun reasoningAgents(): ReasoningAgentServiceAsync.WithRawResponse
+
         fun client(): ClientServiceAsync.WithRawResponse
 
         /**
@@ -124,19 +129,19 @@ interface SwarmsClientClientAsync {
         fun getRoot(): CompletableFuture<HttpResponseFor<ClientGetRootResponse>> =
             getRoot(ClientGetRootParams.none())
 
-        /** @see [getRoot] */
+        /** @see getRoot */
         fun getRoot(
             params: ClientGetRootParams = ClientGetRootParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<ClientGetRootResponse>>
 
-        /** @see [getRoot] */
+        /** @see getRoot */
         fun getRoot(
             params: ClientGetRootParams = ClientGetRootParams.none()
         ): CompletableFuture<HttpResponseFor<ClientGetRootResponse>> =
             getRoot(params, RequestOptions.none())
 
-        /** @see [getRoot] */
+        /** @see getRoot */
         fun getRoot(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<ClientGetRootResponse>> =

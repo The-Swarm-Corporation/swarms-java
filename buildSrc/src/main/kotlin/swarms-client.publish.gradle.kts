@@ -10,8 +10,8 @@ configure<PublishingExtension> {
 
             pom {
                 name.set("Swarms API")
-                description.set("The Swarms API is a RESTful API that allows you to interact with the Swarms\nplatform. It provides endpoints for managing and executing swarms, agents, and\nother resources. Get your API Key here: https://swarms.world and check out the\ndocs at https://docs.swarms.world")
-                url.set("https://docs.swarms.world/en/latest/")
+                description.set("The Swarms API delivers a high-performance, enterprise-grade platform for\norchestrating advanced multi-agent systems. Built on a Rust-powered agent\nruntime, it enables scalable, robust, and secure agent collaboration, supporting\ncomplex workflows and dynamic agent communication. The API exposes a\ncomprehensive suite of RESTful endpoints for the management, execution, and\nmonitoring of agents, swarms, and related resources, empowering organizations to\nautomate and optimize mission-critical processes. To access the API, obtain your\nAPI key from the [Swarms API Keys page](https://swarms.world/platform/api-keys).\nFor detailed integration guides, best practices, and reference material, consult\nthe [Swarms API Documentation](https://docs.swarms.ai).")
+                url.set("https://docs.swarms.ai")
 
                 licenses {
                     license {
@@ -27,9 +27,9 @@ configure<PublishingExtension> {
                 }
 
                 scm {
-                    connection.set("scm:git:git://github.com/stainless-sdks/swarms-java.git")
-                    developerConnection.set("scm:git:git://github.com/stainless-sdks/swarms-java.git")
-                    url.set("https://github.com/stainless-sdks/swarms-java")
+                    connection.set("scm:git:git://github.com/The-Swarm-Corporation/swarms-java.git")
+                    developerConnection.set("scm:git:git://github.com/The-Swarm-Corporation/swarms-java.git")
+                    url.set("https://github.com/The-Swarm-Corporation/swarms-java")
                 }
 
                 versionMapping {
@@ -37,6 +37,14 @@ configure<PublishingExtension> {
                         fromResolutionResult()
                     }
                 }
+            }
+        }
+    }
+    repositories {
+        if (project.hasProperty("publishLocal")) {
+            maven {
+                name = "LocalFileSystem"
+                url = uri("${rootProject.layout.buildDirectory.get()}/local-maven-repo")
             }
         }
     }
